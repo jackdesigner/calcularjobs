@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextForge — Formatador de Texto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --text: #e8e4dc;
+      --muted: #6b6560;
+      --accent: #d4a853;
+      --accent-dim: #8a6b30;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    /* ── Main horizontal layout ── */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      height: calc(100vh - 53px);
+    }
+
+    /* ── Left panel ── */
+    .left-panel {
+      width: 360px;
+      min-width: 300px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .output-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .output-col:last-child { border-right: none; }
+
+    .output-col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .output-col-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--surface2);
+    }
+
+    .output-col-body.empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    .tagline {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .main-textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      padding: 16px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      min-height: 140px;
+    }
+
+    .main-textarea:focus {
+      border-color: var(--accent-dim);
+    }
+
+    .main-textarea::placeholder { color: var(--muted); }
+
+    .image-drop {
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-drop:hover, .image-drop.drag-over {
+      border-color: var(--accent-dim);
+      background: rgba(212,168,83,0.04);
+    }
+
+    .image-drop input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+
+    .image-preview {
+      max-width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      border-radius: 3px;
+      display: none;
+    }
+
+    .btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0e0e;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover { background: #e8ba6a; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover { color: var(--accent); border-color: var(--accent-dim); }
+    .btn-copy.copied { color: #6fcf8a; border-color: #3a6b4a; }
+
+    .output-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 80px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .output-box.empty { color: var(--muted); font-style: italic; }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .format-badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+
+    .badge-string { background: #1e2a1e; color: #6fcf8a; }
+    .badge-unicode { background: #1a1f2e; color: #79b4f7; }
+    .badge-numbered { background: #2a1e1e; color: #f78a79; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .loading-dot {
+      display: inline-block;
+      animation: blink 1s step-start infinite;
+    }
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--surface2);
+      border: 1px solid var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 10px 20px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .ocr-status {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 7px 12px;
+      border-radius: 3px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tab.active {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Transformation toggles ── */
+    .transform-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 34px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 9px;
+      transition: background 0.2s;
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 12px; height: 12px;
+      background: var(--muted);
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .toggle-switch input:checked ~ .toggle-track { background: var(--accent-dim); }
+    .toggle-switch input:checked ~ .toggle-thumb { transform: translateX(16px); background: var(--accent); }
+
+    .toggle-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .toggle-wrap:has(input:checked) .toggle-label { color: var(--text); }
+
+    .char-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 12px;
+    }
+
+    .char-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .char-chip.active {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+      background: rgba(212,168,83,0.06);
+    }
+
+    .char-chip:hover { border-color: var(--muted); }
+
+    .caps-group {
+      display: flex;
+      gap: 3px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px;
+    }
+
+    .caps-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 3px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .caps-btn.active {
+      background: var(--surface);
+      color: var(--accent);
+      border: 1px solid var(--accent-dim);
+    }
+
+    .caps-btn:not(.active):hover { color: var(--text); }
+
+    .separator-line {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .custom-char-input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      width: 80px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-char-input:focus { border-color: var(--accent-dim); }
+    .custom-char-input::placeholder { color: var(--muted); }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 14px;
+    }
+
+    .section-divider span {
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .section-divider::before, .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="logo">Text<span>Forge</span></div>
+    <div class="tagline">/ formatador universal</div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="app-layout">
+
+    <!-- LEFT: Input + Transformations -->
+    <div class="left-panel">
+
+      <!-- Input Card -->
+      <div class="card" style="padding:18px;">
+        <p class="section-label">Entrada</p>
+
+        <div class="tab-bar" id="tabBar">
+          <button class="tab active" onclick="switchTab('text')">Texto</button>
+          <button class="tab" onclick="switchTab('image')">Imagem / OCR</button>
+        </div>
+
+        <!-- Text panel -->
+        <div id="panelText">
+          <textarea
+            class="main-textarea"
+            id="inputText"
+            placeholder="Cole ou escreva o texto aqui..."
+            oninput="formatAll()"
+            style="min-height:180px;"
+          ></textarea>
+        </div>
+
+        <!-- Image panel -->
+        <div id="panelImage" style="display:none;">
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+              <span style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">Anthropic API Key</span>
+              <span style="font-size:0.6rem;color:var(--accent-dim);">Salva no browser</span>
+            </div>
+            <input type="password" id="apiKeyInput" class="main-textarea"
+              placeholder="sk-ant-..."
+              style="min-height:unset;padding:10px 14px;font-size:0.8rem;resize:none;"
+              oninput="saveApiKey()" />
+          </div>
+          <div class="image-drop" id="imageDrop"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+            ondrop="handleDrop(event)">
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileInput(event)" />
+            <img id="imagePreview" class="image-preview" alt="preview" />
+            <div id="dropText">
+              <div style="font-size:1.2rem;margin-bottom:6px;color:var(--muted);">⌘ V</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Cole, arraste ou clique para selecionar</div>
+            </div>
+          </div>
+          <div class="ocr-status" id="ocrStatus"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="btn btn-primary" id="btnOcr" onclick="runOcr()" disabled>Transcrever com IA</button>
+            <button class="btn btn-ghost" onclick="clearImage()">Limpar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transformations Card -->
+      <div class="card" style="padding:16px 18px;">
+        <p class="section-label">Transformações</p>
+
+        <div class="transform-row" style="flex-wrap:wrap;gap:10px;">
+          <label class="toggle-wrap">
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleInvert" onchange="formatAll()" />
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Inverter ordem</span>
+          </label>
+
+          <label class="toggle-wrap">
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleQuotes" onchange="formatAll()" />
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Adicionar aspas " "</span>
+          </label>
+
+          <label class="toggle-wrap">
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleComma" onchange="formatAll()" />
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Adicionar vírgula ,</span>
+          </label>
+
+          <label class="toggle-wrap">
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggleRemoveChars" onchange="toggleCharPanel()" />
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Remover especiais</span>
+          </label>
+        </div>
+
+        <!-- Caps -->
+        <div style="margin-top:12px;">
+          <div class="section-divider"><span>Capitalização</span></div>
+          <div class="caps-group">
+            <button class="caps-btn active" id="capsNone"  onclick="setCaps('none')">aa</button>
+            <button class="caps-btn"        id="capsAll"   onclick="setCaps('upper')">AA</button>
+            <button class="caps-btn"        id="capsFirst" onclick="setCaps('first')">Aa</button>
+            <button class="caps-btn"        id="capsWords" onclick="setCaps('words')">Aa Bb</button>
+          </div>
+        </div>
+
+        <!-- Char panel -->
+        <div id="charPanel" style="display:none;margin-top:12px;">
+          <div class="section-divider"><span>Selecione o que remover</span></div>
+          <div class="char-chips" id="charChips"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+            <span style="font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;">Custom</span>
+            <input type="text" class="custom-char-input" id="customChars" placeholder="ex: @%&" oninput="formatAll()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Clear -->
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="clearAll()">Limpar tudo</button>
+      </div>
+
+      <div style="margin-top:auto;padding-top:12px;font-size:0.55rem;color:var(--muted);letter-spacing:0.1em;">
+        TEXTFORGE · OCR VIA CLAUDE API
+      </div>
+
+    </div><!-- /left-panel -->
+
+    <!-- RIGHT: 3 output columns -->
+    <div class="right-panel">
+
+      <!-- Col 1: Plain Text -->
+      <div class="output-col">
+        <div class="output-col-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="format-badge badge-unicode">Plain Text</span>
+            <span class="section-label" style="margin:0;">sem aspas</span>
+          </div>
+          <button class="btn-copy" id="copyUni" onclick="copyOutput('outputUni','copyUni')">Copiar</button>
+        </div>
+        <div class="output-col-body empty" id="outputUni">Aguardando entrada...</div>
+      </div>
+
+      <!-- Col 3: Numerado -->
+      <div class="output-col">
+        <div class="output-col-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="format-badge badge-numbered">Numerado</span>
+            <span class="section-label" style="margin:0;">1. 2. 3.</span>
+          </div>
+          <button class="btn-copy" id="copyNum" onclick="copyOutput('outputNum','copyNum')">Copiar</button>
+        </div>
+        <div class="output-col-body empty" id="outputNum">Aguardando entrada...</div>
+      </div>
+
+    </div><!-- /right-panel -->
+
+  </div><!-- /app-layout -->
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ─── State ────────────────────────────────────────────────────────────────
+    let currentImage = null;
+    let currentImageType = 'image/jpeg';
+    let currentTab = 'text';
+    let capsMode = 'none'; // 'none' | 'upper' | 'first' | 'words'
+
+    // ─── Caps mode ────────────────────────────────────────────────────────────
+    function setCaps(mode) {
+      capsMode = mode;
+      ['capsNone','capsAll','capsFirst','capsWords'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+      const map = { none:'capsNone', upper:'capsAll', first:'capsFirst', words:'capsWords' };
+      document.getElementById(map[mode]).classList.add('active');
+      formatAll();
+    }
+
+    function applyCase(text) {
+      if (capsMode === 'upper') return text.toUpperCase();
+      if (capsMode === 'first') return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      if (capsMode === 'words') return text.replace(/\S+/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+      return text;
+    }
+
+    // ─── Char chip definitions ────────────────────────────────────────────────
+    const CHAR_PRESETS = [
+      { label: ', vírgula',   chars: ',' },
+      { label: '" aspas',     chars: '"""' },
+      { label: "' apóstrofo", chars: "'" },
+      { label: '- hífen',     chars: '-' },
+      { label: '. ponto',     chars: '.' },
+      { label: ': dois-pontos', chars: ':' },
+      { label: '; ponto-vírgula', chars: ';' },
+      { label: '! exclamação', chars: '!' },
+      { label: '? interrogação', chars: '?' },
+      { label: '( ) parênteses', chars: '()' },
+      { label: '[ ] colchetes', chars: '[]' },
+      { label: '/ barra',     chars: '/' },
+    ];
+
+    const activeChips = new Set();
+
+    function buildChips() {
+      const container = document.getElementById('charChips');
+      container.innerHTML = '';
+      CHAR_PRESETS.forEach((p, i) => {
+        const chip = document.createElement('button');
+        chip.className = 'char-chip';
+        chip.textContent = p.label;
+        chip.dataset.index = i;
+        chip.onclick = () => {
+          if (activeChips.has(i)) activeChips.delete(i);
+          else activeChips.add(i);
+          chip.classList.toggle('active', activeChips.has(i));
+          formatAll();
+        };
+        container.appendChild(chip);
+      });
+    }
+
+    function toggleCharPanel() {
+      const on = document.getElementById('toggleRemoveChars').checked;
+      document.getElementById('charPanel').style.display = on ? '' : 'none';
+      formatAll();
+    }
+
+    function getCharsToRemove() {
+      if (!document.getElementById('toggleRemoveChars').checked) return '';
+      let chars = '';
+      activeChips.forEach(i => { chars += CHAR_PRESETS[i].chars; });
+      chars += document.getElementById('customChars').value;
+      return chars;
+    }
+
+    function removeSpecialChars(text, chars) {
+      if (!chars) return text;
+      // Escape for use inside a character class regex
+      const escaped = chars.replace(/[\]\\^-]/g, '\\$&');
+      return text.replace(new RegExp(`[${escaped}]`, 'g'), '');
+    }
+
+    // ─── Tab switching ────────────────────────────────────────────────────────
+    function switchTab(tab) {
+      currentTab = tab;
+      const tabs = document.querySelectorAll('.tab');
+      tabs[0].classList.toggle('active', tab === 'text');
+      tabs[1].classList.toggle('active', tab === 'image');
+      document.getElementById('panelText').style.display = tab === 'text' ? '' : 'none';
+      document.getElementById('panelImage').style.display = tab === 'image' ? '' : 'none';
+    }
+
+    // ─── Format functions ─────────────────────────────────────────────────────
+    function toPlainString(text) {
+      return text
+        .replace(/<[^>]+>/g, '')
+        .replace(/[*_~`#>|\\]/g, '')
+        .replace(/\r\n/g, '\n')
+        .trim();
+    }
+
+    function getLines(plain) {
+      let lines = plain.split(/\n+/).map(l => l.trim()).filter(Boolean);
+      if (document.getElementById('toggleInvert').checked) lines = lines.reverse();
+      return lines;
+    }
+
+    function formatAll() {
+      const raw = document.getElementById('inputText').value;
+      if (!raw.trim()) { resetOutputs(); return; }
+
+      const charsToRemove = getCharsToRemove();
+      const withQuotes = document.getElementById('toggleQuotes').checked;
+      const withComma  = document.getElementById('toggleComma').checked;
+
+      let plain = toPlainString(raw);
+      plain = removeSpecialChars(plain, charsToRemove);
+
+      const lines = getLines(plain);
+      const linesCase = lines.map(applyCase);
+
+      const wrap    = (s) => withQuotes ? `"${s}"` : s;
+      const comma   = (s, i) => withComma && i < linesCase.length - 1 ? `${s},` : s;
+
+      const joinedPlain = linesCase.map((l, i) => comma(wrap(l), i)).join('\n');
+      const numbered    = linesCase.map((l, i) => {
+        const line = `${i + 1}. ${l}`;
+        const quoted = withQuotes ? `"${line}"` : line;
+        return withComma && i < linesCase.length - 1 ? `${quoted},` : quoted;
+      }).join('\n');
+
+      setOutput('outputUni', joinedPlain, false);
+      setOutput('outputNum', numbered, false);
+    }
+
+    function setOutput(id, text, empty) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.classList.toggle('empty', empty);
+    }
+
+    function resetOutputs() {
+      ['outputUni','outputNum'].forEach(id => {
+        setOutput(id, 'Aguardando entrada...', true);
+      });
+    }
+
+    function clearAll() {
+      document.getElementById('inputText').value = '';
+      resetOutputs();
+    }
+
+    // ─── Copy to clipboard (com fallback para arquivo local) ──────────────────
+    async function copyOutput(outputId, btnId) {
+      const el = document.getElementById(outputId);
+      if (!el || el.classList.contains('empty')) return;
+      const text = el.textContent;
+
+      const markCopied = () => {
+        const btn = document.getElementById(btnId);
+        btn.textContent = 'Copiado ✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      };
+
+      // Tenta API moderna primeiro
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          markCopied(); return;
+        } catch {}
+      }
+
+      // Fallback: textarea temporário
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        markCopied();
+      } catch {
+        showToast('Falha ao copiar. Selecione e copie manualmente.');
+      }
+    }
+
+    // ─── Toast ────────────────────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ─── Image handling ───────────────────────────────────────────────────────
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('imageDrop').classList.add('drag-over');
+    }
+
+    function handleDragLeave() {
+      document.getElementById('imageDrop').classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('imageDrop').classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) loadImageFile(file);
+    }
+
+    function handleFileInput(e) {
+      const file = e.target.files[0];
+      if (file) loadImageFile(file);
+    }
+
+    function loadImageFile(file) {
+      currentImageType = file.type || 'image/jpeg';
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target.result;
+        currentImage = dataUrl.split(',')[1];
+        showImagePreview(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showImagePreview(src) {
+      const preview = document.getElementById('imagePreview');
+      const dropText = document.getElementById('dropText');
+      preview.src = src;
+      preview.style.display = 'block';
+      dropText.style.display = 'none';
+      document.getElementById('btnOcr').disabled = false;
+      document.getElementById('ocrStatus').textContent = 'Imagem carregada. Clique em "Transcrever com IA".';
+    }
+
+    function clearImage() {
+      currentImage = null;
+      const preview = document.getElementById('imagePreview');
+      preview.src = '';
+      preview.style.display = 'none';
+      document.getElementById('dropText').style.display = '';
+      document.getElementById('fileInput').value = '';
+      document.getElementById('btnOcr').disabled = true;
+      document.getElementById('ocrStatus').textContent = '';
+    }
+
+    document.addEventListener('paste', async (e) => {
+      if (currentTab !== 'image') return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const item of items) {
+        if (item.type.startsWith('image/')) {
+          e.preventDefault();
+          const file = item.getAsFile();
+          loadImageFile(file);
+          return;
+        }
+      }
+    });
+
+    // ─── API Key ──────────────────────────────────────────────────────────────
+    function saveApiKey() {
+      const key = document.getElementById('apiKeyInput').value.trim();
+      if (key) localStorage.setItem('tf_api_key', key);
+      else localStorage.removeItem('tf_api_key');
+    }
+
+    function loadApiKey() {
+      const saved = localStorage.getItem('tf_api_key');
+      if (saved) document.getElementById('apiKeyInput').value = saved;
+    }
+
+    // ─── OCR via Anthropic API ────────────────────────────────────────────────
+    async function runOcr() {
+      if (!currentImage) return;
+      const apiKey = document.getElementById('apiKeyInput').value.trim();
+      if (!apiKey) {
+        showToast('Insira sua Anthropic API Key acima.');
+        document.getElementById('ocrStatus').textContent = 'API Key necessária para usar o OCR.';
+        return;
+      }
+
+      const btn = document.getElementById('btnOcr');
+      const status = document.getElementById('ocrStatus');
+      btn.disabled = true;
+      btn.innerHTML = 'Transcrevendo<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>';
+      status.textContent = 'Enviando para o Claude...';
+
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            messages: [{
+              role: 'user',
+              content: [
+                { type: 'image', source: { type: 'base64', media_type: currentImageType, data: currentImage } },
+                { type: 'text', text: 'Transcreva todo o texto visível nesta imagem. Retorne apenas o texto transcrito, sem comentários adicionais, sem markdown, exatamente como aparece na imagem. Se houver múltiplas linhas, preserve-as com quebras de linha.' }
+              ]
+            }]
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const transcribed = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+        document.getElementById('inputText').value = transcribed;
+        switchTab('text');
+        formatAll();
+        showToast('Texto transcrito com sucesso!');
+        status.textContent = '';
+      } catch (err) {
+        status.textContent = `Erro: ${err.message}`;
+        showToast('Erro na transcrição. Veja o status abaixo.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Transcrever com IA';
+      }
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+    buildChips();
+    loadApiKey();
+  </script>
+</body>
+</html>
