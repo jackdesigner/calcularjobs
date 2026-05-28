@@ -1,690 +1,757 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Jobs</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Jobs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  :root {
-    --blue: #0560E1;
-    --blue-dark: #0348BE;
-    --blue-light: #E8F0FD;
-    --black: #050E21;
-    --gray-md: #9EA6B2;
-    --gray-lt: #CBD0D8;
-    --gray-bg: #F2F4F7;
-    --white: #FFFFFF;
+    :root {
+      --blue: #0560E1;
+      --blue-dark: #0348BE;
+      --blue-light: #E8F0FD;
+      --black: #050E21;
+      --gray-md: #9EA6B2;
+      --gray-lt: #CBD0D8;
+      --gray-bg: #F2F4F7;
+      --white: #FFFFFF;
 
-    --band-9: #1D9E75;  /* 160%+ */
-    --band-8: #639922;  /* 120-159% */
-    --band-7: #97C459;  /* 100-119% */
-    --band-6: #378ADD;  /* 91-99% */
-    --band-5: #7F77DD;  /* 81-90% */
-    --band-4: #BA7517;  /* 71-80% */
-    --band-3: #D85A30;  /* 56-70% */
-    --band-2: #D4537E;  /* 41-55% */
-    --band-1: #888780;  /* 0-40% */
-  }
+      --band-9: #1D9E75;
+      /* 160%+ */
+      --band-8: #639922;
+      /* 120-159% */
+      --band-7: #97C459;
+      /* 100-119% */
+      --band-6: #378ADD;
+      /* 91-99% */
+      --band-5: #7F77DD;
+      /* 81-90% */
+      --band-4: #BA7517;
+      /* 71-80% */
+      --band-3: #D85A30;
+      /* 56-70% */
+      --band-2: #D4537E;
+      /* 41-55% */
+      --band-1: #888780;
+      /* 0-40% */
+    }
 
-  body {
-    font-family: 'Sora', sans-serif;
-    background: var(--gray-bg);
-    color: var(--black);
-    min-height: 100vh;
-    padding: 0;
-  }
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--gray-bg);
+      color: var(--black);
+      min-height: 100vh;
+      padding: 0;
+    }
 
-  /* HEADER */
-  header {
-    background: var(--black);
-    padding: 0 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    border-bottom: 2px solid var(--blue);
-  }
+    /* HEADER */
+    header {
+      background: var(--black);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      border-bottom: 2px solid var(--blue);
+    }
 
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .logo-mark {
-    width: 32px;
-    height: 32px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .logo-mark svg {
-    fill: var(--blue);
-    width: 28px;
-    height: 28px;
-  }
+    .logo-mark svg {
+      fill: var(--blue);
+      width: 28px;
+      height: 28px;
+    }
 
-  .header-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
+    .header-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-  .header-sub {
-    font-size: 11px;
-    font-weight: 300;
-    color: var(--gray-md);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+    .header-sub {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-md);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
-  /* MAIN */
-  main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 40px 24px 60px;
-  }
+    /* MAIN */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
 
-  /* SECTION LABEL */
-  .section-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 10px;
-  }
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
 
-  /* INPUTS GRID */
-  .inputs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
+    /* INPUTS GRID */
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-  .input-card {
-    background: var(--white);
-    border: 0.5px solid var(--gray-lt);
-    border-radius: 4px;
-    padding: 18px 20px 16px;
-    position: relative;
-  }
+    .input-card {
+      background: var(--white);
+      border: 0.5px solid var(--gray-lt);
+      border-radius: 4px;
+      padding: 18px 20px 16px;
+      position: relative;
+    }
 
-  .input-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--blue);
-    border-radius: 4px 0 0 4px;
-  }
+    .input-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 4px 0 0 4px;
+    }
 
-  .input-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray-md);
-    display: block;
-    margin-bottom: 8px;
-  }
+    .input-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-md);
+      display: block;
+      margin-bottom: 8px;
+    }
 
-  .input-card input {
-    width: 100%;
-    border: none;
-    outline: none;
-    font-family: 'Sora', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--black);
-    background: transparent;
-    line-height: 1;
-    transition: color 0.15s, font-size 0.1s;
-  }
+    .input-card input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-family: 'Sora', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--black);
+      background: transparent;
+      line-height: 1;
+      transition: color 0.15s, font-size 0.1s;
+    }
 
-  .input-card input:focus { color: var(--blue); }
-  .input-card input.is-expr { color: var(--blue); font-size: 20px; letter-spacing: -0.01em; }
-  .input-card input.is-error { color: #D85A30; font-size: 20px; }
+    .input-card input:focus {
+      color: var(--blue);
+    }
 
-  .input-hint {
-    margin-top: 7px;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: transparent;
-    min-height: 13px;
-    transition: color 0.15s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .input-hint.hint-active { color: var(--blue); }
-  .input-hint.hint-error  { color: #D85A30; }
+    .input-card input.is-expr {
+      color: var(--blue);
+      font-size: 20px;
+      letter-spacing: -0.01em;
+    }
 
-  /* STATUS CARD */
-  .status-card {
-    background: var(--black);
-    border-radius: 4px;
-    padding: 28px 28px 24px;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-  }
+    .input-card input.is-error {
+      color: #D85A30;
+      font-size: 20px;
+    }
 
-  .status-card::after {
-    content: '';
-    position: absolute;
-    right: -40px; top: -40px;
-    width: 180px; height: 180px;
-    border: 32px solid rgba(5, 96, 225, 0.12);
-    border-radius: 50%;
-    pointer-events: none;
-  }
+    .input-hint {
+      margin-top: 7px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: transparent;
+      min-height: 13px;
+      transition: color 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-  .status-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
+    .input-hint.hint-active {
+      color: var(--blue);
+    }
 
-  .status-left {}
+    .input-hint.hint-error {
+      color: #D85A30;
+    }
 
-  .status-sub {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gray-md);
-    margin-bottom: 6px;
-  }
+    /* STATUS CARD */
+    .status-card {
+      background: var(--black);
+      border-radius: 4px;
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  #janela-nome {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.1;
-  }
+    .status-card::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 180px;
+      height: 180px;
+      border: 32px solid rgba(5, 96, 225, 0.12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
 
-  .status-right {
-    text-align: right;
-  }
+    .status-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
 
-  .pct-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gray-md);
-    margin-bottom: 4px;
-  }
 
-  #pct-display {
-    font-size: 52px;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--blue);
-    letter-spacing: -0.02em;
-  }
 
-  /* PROGRESS BAR */
-  .progress-wrap {
-    margin-bottom: 10px;
-  }
+    .status-sub {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-md);
+      margin-bottom: 6px;
+    }
 
-  .progress-track {
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    height: 6px;
-    overflow: hidden;
-    margin-bottom: 6px;
-  }
+    #janela-nome {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+    }
 
-  .progress-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: var(--blue);
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+    .status-right {
+      text-align: right;
+    }
 
-  .tick-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.3);
-  }
+    .pct-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-md);
+      margin-bottom: 4px;
+    }
 
-  #faltam-txt {
-    margin-top: 16px;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.5);
-    padding-top: 16px;
-    border-top: 0.5px solid rgba(255,255,255,0.08);
-  }
+    #pct-display {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--blue);
+      letter-spacing: -0.02em;
+    }
 
-  #faltam-txt strong {
-    color: var(--white);
-    font-weight: 600;
-  }
+    /* PROGRESS BAR */
+    .progress-wrap {
+      margin-bottom: 10px;
+    }
 
-  /* BANDS TABLE */
-  .bands-card {
-    background: var(--white);
-    border: 0.5px solid var(--gray-lt);
-    border-radius: 4px;
-    overflow: hidden;
-  }
+    .progress-track {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
 
-  .bands-header {
-    display: grid;
-    grid-template-columns: 2fr 1.2fr 1.2fr 0.8fr 0.8fr;
-    gap: 0;
-    background: var(--black);
-    padding: 10px 20px;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray-md);
-  }
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--blue);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-  .band-row {
-    display: grid;
-    grid-template-columns: 2fr 1.2fr 1.2fr 0.8fr 0.8fr;
-    gap: 0;
-    padding: 12px 20px;
-    font-size: 13px;
-    align-items: center;
-    border-bottom: 0.5px solid var(--gray-lt);
-    transition: background 0.2s;
-  }
+    .tick-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.3);
+    }
 
-  .band-row:last-child {
-    border-bottom: none;
-  }
+    #faltam-txt {
+      margin-top: 16px;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      padding-top: 16px;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    }
 
-  .band-row.active {
-    background: var(--blue-light);
-  }
+    #faltam-txt strong {
+      color: var(--white);
+      font-weight: 600;
+    }
 
-  .band-row.done:not(.active) {
-    background: #fafafa;
-  }
+    /* BANDS TABLE */
+    .bands-card {
+      background: var(--white);
+      border: 0.5px solid var(--gray-lt);
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-  .band-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+    .bands-header {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1.2fr 0.8fr 0.8fr;
+      gap: 0;
+      background: var(--black);
+      padding: 10px 20px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-md);
+    }
 
-  .band-name-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+    .band-row {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1.2fr 0.8fr 0.8fr;
+      gap: 0;
+      padding: 12px 20px;
+      font-size: 13px;
+      align-items: center;
+      border-bottom: 0.5px solid var(--gray-lt);
+      transition: background 0.2s;
+    }
 
-  .band-name {
-    font-weight: 500;
-    color: var(--black);
-    font-size: 13px;
-  }
+    .band-row:last-child {
+      border-bottom: none;
+    }
 
-  .active .band-name {
-    font-weight: 700;
-  }
+    .band-row.active {
+      background: var(--blue-light);
+    }
 
-  .you-badge {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 2px;
-    background: var(--blue);
-    color: var(--white);
-    white-space: nowrap;
-  }
+    .band-row.done:not(.active) {
+      background: #fafafa;
+    }
 
-  .band-pts {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--black);
-  }
+    .band-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
 
-  .band-bonus {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--black);
-  }
+    .band-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  .band-check {
-    font-size: 13px;
-    color: var(--gray-md);
-  }
+    .band-name {
+      font-weight: 500;
+      color: var(--black);
+      font-size: 13px;
+    }
 
-  .band-row.done .band-check { color: #1D9E75; }
-  .band-row.active .band-check { color: var(--blue); }
+    .active .band-name {
+      font-weight: 700;
+    }
 
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 24px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--gray-md);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+    .you-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      background: var(--blue);
+      color: var(--white);
+      white-space: nowrap;
+    }
 
-  @media (max-width: 600px) {
-    header { padding: 0 20px; }
-    main { padding: 24px 16px 48px; }
-    .inputs-grid { grid-template-columns: 1fr; }
-    #pct-display { font-size: 40px; }
-    .bands-header, .band-row { grid-template-columns: 2fr 1fr 1fr 0.7fr; }
-    .band-row > *:nth-child(4) { display: none; }
-    .bands-header > *:nth-child(4) { display: none; }
-  }
-</style>
+    .band-pts {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    .band-bonus {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .band-check {
+      font-size: 13px;
+      color: var(--gray-md);
+    }
+
+    .band-row.done .band-check {
+      color: #1D9E75;
+    }
+
+    .band-row.active .band-check {
+      color: var(--blue);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-md);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 0 20px;
+      }
+
+      main {
+        padding: 24px 16px 48px;
+      }
+
+      .inputs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #pct-display {
+        font-size: 40px;
+      }
+
+      .bands-header,
+      .band-row {
+        grid-template-columns: 2fr 1fr 1fr 0.7fr;
+      }
+
+      .band-row>*:nth-child(4) {
+        display: none;
+      }
+
+      .bands-header>*:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <line x1="12" y1="2" x2="12" y2="22" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="2" y1="12" x2="22" y2="12" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round"/>
-      </svg>
+  <header>
+    <div class="header-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <line x1="12" y1="2" x2="12" y2="22" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="2" y1="12" x2="22" y2="12" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div>
+        <div class="header-title">Calculadora de Jobs</div>
+        <div class="header-sub">Score & Metas</div>
+      </div>
     </div>
-    <div>
-      <div class="header-title">Calculadora de Jobs</div>
-      <div class="header-sub">Score & Metas</div>
+    <div style="font-size:11px;font-weight:600;color:var(--gray-md);letter-spacing:0.08em;text-transform:uppercase;"
+      id="ciclo-label">Ciclo Ativo</div>
+  </header>
+
+  <main>
+
+    <div class="section-label" style="margin-bottom:14px;">01 — Entradas</div>
+
+    <div class="inputs-grid">
+      <div class="input-card">
+        <label class="input-label" for="meta">Meta do ciclo (pts)</label>
+        <input type="text" id="meta" value="1280" placeholder="0" autocomplete="off" inputmode="decimal">
+        <div class="input-hint" id="meta-hint"></div>
+      </div>
+      <div class="input-card">
+        <label class="input-label" for="pontos">Pontos feitos</label>
+        <input type="text" id="pontos" placeholder="0" autocomplete="off" inputmode="decimal">
+        <div class="input-hint" id="pontos-hint"></div>
+      </div>
     </div>
-  </div>
-  <div style="font-size:11px;font-weight:600;color:var(--gray-md);letter-spacing:0.08em;text-transform:uppercase;" id="ciclo-label">Ciclo Ativo</div>
-</header>
 
-<main>
+    <div class="section-label" style="margin-bottom:14px;">02 — Status atual</div>
 
-  <div class="section-label" style="margin-bottom:14px;">01 — Entradas</div>
-
-  <div class="inputs-grid">
-    <div class="input-card">
-      <label class="input-label" for="meta">Meta do ciclo (pts)</label>
-      <input type="text" id="meta" value="1280" placeholder="0" autocomplete="off" inputmode="decimal">
-      <div class="input-hint" id="meta-hint"></div>
-    </div>
-    <div class="input-card">
-      <label class="input-label" for="pontos">Pontos feitos</label>
-      <input type="text" id="pontos" placeholder="0" autocomplete="off" inputmode="decimal">
-      <div class="input-hint" id="pontos-hint"></div>
-    </div>
-  </div>
-
-  <div class="section-label" style="margin-bottom:14px;">02 — Status atual</div>
-
-  <div class="status-card">
-    <div class="status-top">
-      <div class="status-left">
-        <div class="status-sub">Janela atual</div>
-        <div id="janela-nome">—</div>
-        <div style="margin-top:8px;font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--gray-md);text-transform:uppercase;">
-          Bônus: <span id="bonus-atual" style="color:var(--white);">—</span>
+    <div class="status-card">
+      <div class="status-top">
+        <div class="status-left">
+          <div class="status-sub">Janela atual</div>
+          <div id="janela-nome">—</div>
+          <div
+            style="margin-top:8px;font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--gray-md);text-transform:uppercase;">
+            Bônus: <span id="bonus-atual" style="color:var(--white);">—</span>
+          </div>
+        </div>
+        <div class="status-right">
+          <div class="pct-label">% da meta</div>
+          <div id="pct-display">0,0%</div>
         </div>
       </div>
-      <div class="status-right">
-        <div class="pct-label">% da meta</div>
-        <div id="pct-display">0,0%</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+        </div>
+        <div class="tick-row">
+          <span>0%</span><span>40%</span><span>70%</span><span>100%</span><span>120%</span><span>160%+</span>
+        </div>
       </div>
+      <div id="faltam-txt">Insira os pontos feitos para ver seu status.</div>
     </div>
-    <div class="progress-wrap">
-      <div class="progress-track">
-        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+
+    <div class="section-label" style="margin-bottom:14px;">03 — Mapa de janelas</div>
+
+    <div class="bands-card">
+      <div class="bands-header">
+        <span>Janela</span>
+        <span>Pts mínimos</span>
+        <span>Pts máximos</span>
+        <span>Bônus</span>
+        <span>Status</span>
       </div>
-      <div class="tick-row">
-        <span>0%</span><span>40%</span><span>70%</span><span>100%</span><span>120%</span><span>160%+</span>
-      </div>
+      <div id="bands-list"></div>
     </div>
-    <div id="faltam-txt">Insira os pontos feitos para ver seu status.</div>
-  </div>
 
-  <div class="section-label" style="margin-bottom:14px;">03 — Mapa de janelas</div>
+  </main>
 
-  <div class="bands-card">
-    <div class="bands-header">
-      <span>Janela</span>
-      <span>Pts mínimos</span>
-      <span>Pts máximos</span>
-      <span>Bônus</span>
-      <span>Status</span>
-    </div>
-    <div id="bands-list"></div>
-  </div>
+  <footer>Calculadora de Jobs &nbsp;·&nbsp; Score do Ciclo</footer>
 
-</main>
+  <script>
+    // ─── Math expression engine ──────────────────────────────────────────────────
 
-<footer>Calculadora de Jobs &nbsp;·&nbsp; Score do Ciclo</footer>
+    /**
+     * Parses and evaluates a math expression string against a current value.
+     *
+     * Rules:
+     *  - Plain number            → that number              ("920"     → 920)
+     *  - Starts with + - * /     → apply op to currentVal   ("+100"    → cur+100)
+     *  - Full expression         → evaluate directly        ("920-500" → 420)
+     *
+     * Returns { ok: true, value } or { ok: false, msg }.
+     */
+    function evalExpr(raw, currentVal) {
+      const s = raw.trim().replace(/,/g, '.'); // accept comma decimals
+      if (s === '' || s === '-') return { ok: false, msg: '' };
 
-<script>
-// ─── Math expression engine ──────────────────────────────────────────────────
+      // Shorthand: starts with an operator → prepend currentVal
+      const shorthand = /^([+\-*/])(.*)$/.exec(s);
+      let expr;
+      if (shorthand) {
+        expr = String(currentVal) + shorthand[1] + (shorthand[2] || '0');
+      } else {
+        expr = s;
+      }
 
-/**
- * Parses and evaluates a math expression string against a current value.
- *
- * Rules:
- *  - Plain number            → that number              ("920"     → 920)
- *  - Starts with + - * /     → apply op to currentVal   ("+100"    → cur+100)
- *  - Full expression         → evaluate directly        ("920-500" → 420)
- *
- * Returns { ok: true, value } or { ok: false, msg }.
- */
-function evalExpr(raw, currentVal) {
-  const s = raw.trim().replace(/,/g, '.'); // accept comma decimals
-  if (s === '' || s === '-') return { ok: false, msg: '' };
+      // Safety: only allow digits, operators, dots, spaces, parentheses
+      if (!/^[\d\s\+\-\*\/\.\(\)]+$/.test(expr)) {
+        return { ok: false, msg: 'expressão inválida' };
+      }
 
-  // Shorthand: starts with an operator → prepend currentVal
-  const shorthand = /^([+\-*/])(.*)$/.exec(s);
-  let expr;
-  if (shorthand) {
-    expr = String(currentVal) + shorthand[1] + (shorthand[2] || '0');
-  } else {
-    expr = s;
-  }
-
-  // Safety: only allow digits, operators, dots, spaces, parentheses
-  if (!/^[\d\s\+\-\*\/\.\(\)]+$/.test(expr)) {
-    return { ok: false, msg: 'expressão inválida' };
-  }
-
-  try {
-    // eslint-disable-next-line no-new-func
-    const result = Function('"use strict"; return (' + expr + ')')();
-    if (!isFinite(result) || isNaN(result)) return { ok: false, msg: 'resultado inválido' };
-    return { ok: true, value: Math.max(0, result) };
-  } catch {
-    return { ok: false, msg: 'expressão inválida' };
-  }
-}
-
-// Detects if a string "looks like" an expression (not a plain number)
-function isExpression(raw) {
-  const s = raw.trim().replace(/,/g, '.');
-  // Shorthand operator prefix OR contains operator after first char
-  return /^[+\-*/]/.test(s) || /[+\-*/]/.test(s.slice(1));
-}
-
-// ─── Persistência local ───────────────────────────────────────────────────────
-
-const STORAGE_KEYS = { meta: 'calc_metaCiclo', pontos: 'calc_pontosFeitos' };
-const DEFAULTS      = { meta: 1280, pontos: 0 };
-
-function loadFromStorage(id) {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEYS[id]);
-    if (raw === null) return DEFAULTS[id];
-    const n = Number(raw);
-    return isFinite(n) ? n : DEFAULTS[id];
-  } catch { return DEFAULTS[id]; }
-}
-
-function saveToStorage(id, value) {
-  try { localStorage.setItem(STORAGE_KEYS[id], String(value)); } catch {}
-}
-
-// ─── Input state ─────────────────────────────────────────────────────────────
-
-// Committed numeric values — iniciados do localStorage (ou padrão)
-const state = { meta: loadFromStorage('meta'), pontos: loadFromStorage('pontos') };
-
-function getInput(id)    { return document.getElementById(id); }
-function getHint(id)     { return document.getElementById(id + '-hint'); }
-
-/**
- * Live feedback while typing: mark expression vs plain, preview result in hint.
- */
-function onInputLive(id) {
-  const el   = getInput(id);
-  const hint = getHint(id);
-  const raw  = el.value;
-
-  if (!isExpression(raw)) {
-    el.classList.remove('is-expr', 'is-error');
-    hint.textContent = '';
-    hint.className = 'input-hint';
-    return;
-  }
-
-  const res = evalExpr(raw, state[id]);
-  if (res.ok) {
-    el.classList.add('is-expr');
-    el.classList.remove('is-error');
-    hint.textContent = '= ' + fmt(Math.round(res.value));
-    hint.className = 'input-hint hint-active';
-  } else {
-    el.classList.add('is-error');
-    el.classList.remove('is-expr');
-    hint.textContent = res.msg || '';
-    hint.className = 'input-hint' + (res.msg ? ' hint-error' : '');
-  }
-}
-
-/**
- * Commit: evaluate expression, update state, set input to clean number.
- */
-function commitInput(id) {
-  const el   = getInput(id);
-  const hint = getHint(id);
-  const raw  = el.value;
-
-  if (raw.trim() === '') {
-    if (id === 'pontos') {
-      state[id] = 0;
-      saveToStorage(id, 0);
+      try {
+        // eslint-disable-next-line no-new-func
+        const result = Function('"use strict"; return (' + expr + ')')();
+        if (!isFinite(result) || isNaN(result)) return { ok: false, msg: 'resultado inválido' };
+        return { ok: true, value: Math.max(0, result) };
+      } catch {
+        return { ok: false, msg: 'expressão inválida' };
+      }
     }
-    el.value = state[id] === 0 ? '' : String(state[id]);
-    el.classList.remove('is-expr', 'is-error');
-    hint.textContent = '';
-    hint.className = 'input-hint';
-    update();
-    return;
-  }
 
-  const res = evalExpr(raw, state[id]);
-  if (res.ok) {
-    const rounded = Math.round(res.value);
-    state[id] = rounded;
-    el.value  = rounded === 0 ? '' : String(rounded);
-    el.classList.remove('is-expr', 'is-error');
-    hint.textContent = '';
-    hint.className = 'input-hint';
-    saveToStorage(id, rounded); // ← persiste automaticamente
-  } else {
-    // Revert to last committed value on error
-    el.value = state[id] === 0 ? '' : String(state[id]);
-    el.classList.remove('is-expr', 'is-error');
-    hint.textContent = '';
-    hint.className = 'input-hint';
-  }
-
-  update();
-}
-
-// ─── Bands & dashboard ───────────────────────────────────────────────────────
-
-const bands = [
-  { label: "Maior 160%",   minPct: 160, maxPct: Infinity, bonus: "150%", color: "#1D9E75" },
-  { label: "120% a 159%",  minPct: 120, maxPct: 160,      bonus: "120%", color: "#639922" },
-  { label: "100% a 119%",  minPct: 100, maxPct: 120,      bonus: "100%", color: "#97C459" },
-  { label: "91% a 99%",    minPct: 91,  maxPct: 100,      bonus: "90%",  color: "#378ADD" },
-  { label: "81% a 90%",    minPct: 81,  maxPct: 91,       bonus: "80%",  color: "#7F77DD" },
-  { label: "71% a 80%",    minPct: 71,  maxPct: 81,       bonus: "70%",  color: "#BA7517" },
-  { label: "56% a 70%",    minPct: 56,  maxPct: 71,       bonus: "60%",  color: "#D85A30" },
-  { label: "41% a 55%",    minPct: 41,  maxPct: 56,       bonus: "40%",  color: "#D4537E" },
-  { label: "0% a 40%",     minPct: 0,   maxPct: 41,       bonus: "0%",   color: "#9EA6B2" },
-];
-
-function fmt(n) { return n.toLocaleString('pt-BR'); }
-
-function update() {
-  const meta   = state.meta;
-  const pontos = state.pontos;
-
-  if (meta <= 0) return;
-
-  const pct     = (pontos / meta) * 100;
-  const current = bands.find(b => pct >= b.minPct && pct < b.maxPct) || bands[bands.length - 1];
-
-  document.getElementById('pct-display').textContent       = pct.toFixed(1).replace('.', ',') + '%';
-  document.getElementById('pct-display').style.color       = pct === 0 ? 'var(--gray-md)' : current.color;
-  document.getElementById('janela-nome').textContent       = pct === 0 ? '—' : current.label;
-  document.getElementById('bonus-atual').textContent       = pct === 0 ? '—' : current.bonus;
-
-  const progPct = Math.min((pct / 160) * 100, 100);
-  const fill    = document.getElementById('prog-fill');
-  fill.style.width      = progPct + '%';
-  fill.style.background = pct === 0 ? 'var(--gray-lt)' : current.color;
-
-  const faltamEl = document.getElementById('faltam-txt');
-  if (pct === 0) {
-    faltamEl.innerHTML = 'Insira os pontos feitos para ver seu status.';
-  } else {
-    const idx  = bands.indexOf(current);
-    const next = bands[idx - 1];
-    if (next) {
-      const falta = Math.max(0, Math.ceil((next.minPct / 100) * meta) - pontos);
-      faltamEl.innerHTML = falta > 0
-        ? `Faltam <strong>${fmt(falta)} pontos</strong> para entrar na janela <strong>${next.label}</strong>`
-        : `Você está na janela <strong>${current.label}</strong>`;
-    } else {
-      faltamEl.innerHTML = `Você está na <strong>janela máxima</strong> — parabéns!`;
+    // Detects if a string "looks like" an expression (not a plain number)
+    function isExpression(raw) {
+      const s = raw.trim().replace(/,/g, '.');
+      // Shorthand operator prefix OR contains operator after first char
+      return /^[+\-*/]/.test(s) || /[+\-*/]/.test(s.slice(1));
     }
-  }
 
-  const list = document.getElementById('bands-list');
-  list.innerHTML = '';
-  bands.forEach(b => {
-    const isActive = b === current && pct > 0;
-    const done     = pct >= b.minPct && pct > 0;
-    const minPts   = Math.ceil((b.minPct / 100) * meta);
-    const maxPts   = b.maxPct === Infinity ? '∞' : fmt(Math.ceil((b.maxPct / 100) * meta) - 1);
+    // ─── Persistência local ───────────────────────────────────────────────────────
 
-    const row = document.createElement('div');
-    row.className = 'band-row' + (isActive ? ' active' : '') + (done && !isActive ? ' done' : '');
-    row.innerHTML = `
+    const STORAGE_KEYS = { meta: 'calc_metaCiclo', pontos: 'calc_pontosFeitos' };
+    const DEFAULTS = { meta: 1280, pontos: 0 };
+
+    function loadFromStorage(id) {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS[id]);
+        if (raw === null) return DEFAULTS[id];
+        const n = Number(raw);
+        return isFinite(n) ? n : DEFAULTS[id];
+      } catch { return DEFAULTS[id]; }
+    }
+
+    function saveToStorage(id, value) {
+      try { localStorage.setItem(STORAGE_KEYS[id], String(value)); } catch { }
+    }
+
+    // ─── Input state ─────────────────────────────────────────────────────────────
+
+    // Committed numeric values — iniciados do localStorage (ou padrão)
+    const state = { meta: loadFromStorage('meta'), pontos: loadFromStorage('pontos') };
+
+    function getInput(id) { return document.getElementById(id); }
+    function getHint(id) { return document.getElementById(id + '-hint'); }
+
+    /**
+     * Live feedback while typing: mark expression vs plain, preview result in hint.
+     */
+    function onInputLive(id) {
+      const el = getInput(id);
+      const hint = getHint(id);
+      const raw = el.value;
+
+      if (!isExpression(raw)) {
+        el.classList.remove('is-expr', 'is-error');
+        hint.textContent = '';
+        hint.className = 'input-hint';
+        return;
+      }
+
+      const res = evalExpr(raw, state[id]);
+      if (res.ok) {
+        el.classList.add('is-expr');
+        el.classList.remove('is-error');
+        hint.textContent = '= ' + fmt(Math.round(res.value));
+        hint.className = 'input-hint hint-active';
+      } else {
+        el.classList.add('is-error');
+        el.classList.remove('is-expr');
+        hint.textContent = res.msg || '';
+        hint.className = 'input-hint' + (res.msg ? ' hint-error' : '');
+      }
+    }
+
+    /**
+     * Commit: evaluate expression, update state, set input to clean number.
+     */
+    function commitInput(id) {
+      const el = getInput(id);
+      const hint = getHint(id);
+      const raw = el.value;
+
+      if (raw.trim() === '') {
+        if (id === 'pontos') {
+          state[id] = 0;
+          saveToStorage(id, 0);
+        }
+        el.value = state[id] === 0 ? '' : String(state[id]);
+        el.classList.remove('is-expr', 'is-error');
+        hint.textContent = '';
+        hint.className = 'input-hint';
+        update();
+        return;
+      }
+
+      const res = evalExpr(raw, state[id]);
+      if (res.ok) {
+        const rounded = Math.round(res.value);
+        state[id] = rounded;
+        el.value = rounded === 0 ? '' : String(rounded);
+        el.classList.remove('is-expr', 'is-error');
+        hint.textContent = '';
+        hint.className = 'input-hint';
+        saveToStorage(id, rounded); // ← persiste automaticamente
+      } else {
+        // Revert to last committed value on error
+        el.value = state[id] === 0 ? '' : String(state[id]);
+        el.classList.remove('is-expr', 'is-error');
+        hint.textContent = '';
+        hint.className = 'input-hint';
+      }
+
+      update();
+    }
+
+    // ─── Bands & dashboard ───────────────────────────────────────────────────────
+
+    const bands = [
+      { label: "Maior 160%", minPct: 160, maxPct: Infinity, bonus: "150%", color: "#1D9E75" },
+      { label: "120% a 159%", minPct: 120, maxPct: 160, bonus: "120%", color: "#639922" },
+      { label: "100% a 119%", minPct: 100, maxPct: 120, bonus: "100%", color: "#97C459" },
+      { label: "91% a 99%", minPct: 91, maxPct: 100, bonus: "90%", color: "#378ADD" },
+      { label: "81% a 90%", minPct: 81, maxPct: 91, bonus: "80%", color: "#7F77DD" },
+      { label: "71% a 80%", minPct: 71, maxPct: 81, bonus: "70%", color: "#BA7517" },
+      { label: "56% a 70%", minPct: 56, maxPct: 71, bonus: "60%", color: "#D85A30" },
+      { label: "41% a 55%", minPct: 41, maxPct: 56, bonus: "40%", color: "#D4537E" },
+      { label: "0% a 40%", minPct: 0, maxPct: 41, bonus: "0%", color: "#9EA6B2" },
+    ];
+
+    function fmt(n) { return n.toLocaleString('pt-BR'); }
+
+    function update() {
+      const meta = state.meta;
+      const pontos = state.pontos;
+
+      if (meta <= 0) return;
+
+      const pct = (pontos / meta) * 100;
+      const current = bands.find(b => pct >= b.minPct && pct < b.maxPct) || bands[bands.length - 1];
+
+      document.getElementById('pct-display').textContent = pct.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('pct-display').style.color = pct === 0 ? 'var(--gray-md)' : current.color;
+      document.getElementById('janela-nome').textContent = pct === 0 ? '—' : current.label;
+      document.getElementById('bonus-atual').textContent = pct === 0 ? '—' : current.bonus;
+
+      const progPct = Math.min((pct / 160) * 100, 100);
+      const fill = document.getElementById('prog-fill');
+      fill.style.width = progPct + '%';
+      fill.style.background = pct === 0 ? 'var(--gray-lt)' : current.color;
+
+      const faltamEl = document.getElementById('faltam-txt');
+      if (pct === 0) {
+        faltamEl.innerHTML = 'Insira os pontos feitos para ver seu status.';
+      } else {
+        const idx = bands.indexOf(current);
+        const next = bands[idx - 1];
+        if (next) {
+          const falta = Math.max(0, Math.ceil((next.minPct / 100) * meta) - pontos);
+          faltamEl.innerHTML = falta > 0
+            ? `Faltam <strong>${fmt(falta)} pontos</strong> para entrar na janela <strong>${next.label}</strong>`
+            : `Você está na janela <strong>${current.label}</strong>`;
+        } else {
+          faltamEl.innerHTML = `Você está na <strong>janela máxima</strong> — parabéns!`;
+        }
+      }
+
+      const list = document.getElementById('bands-list');
+      list.innerHTML = '';
+      bands.forEach(b => {
+        const isActive = b === current && pct > 0;
+        const done = pct >= b.minPct && pct > 0;
+        const minPts = Math.ceil((b.minPct / 100) * meta);
+        const maxPts = b.maxPct === Infinity ? '∞' : fmt(Math.ceil((b.maxPct / 100) * meta) - 1);
+
+        const row = document.createElement('div');
+        row.className = 'band-row' + (isActive ? ' active' : '') + (done && !isActive ? ' done' : '');
+        row.innerHTML = `
       <div class="band-name-wrap">
         <span class="band-dot" style="background:${b.color};"></span>
         <span class="band-name">${b.label}</span>
@@ -695,36 +762,37 @@ function update() {
       <span class="band-bonus">${b.bonus}</span>
       <span class="band-check">${done ? '✓' : '·'}</span>
     `;
-    list.appendChild(row);
-  });
-}
+        list.appendChild(row);
+      });
+    }
 
-// ─── Event wiring ────────────────────────────────────────────────────────────
+    // ─── Event wiring ────────────────────────────────────────────────────────────
 
-['meta', 'pontos'].forEach(id => {
-  const el = getInput(id);
+    ['meta', 'pontos'].forEach(id => {
+      const el = getInput(id);
 
-  // Live preview while typing
-  el.addEventListener('input', () => onInputLive(id));
+      // Live preview while typing
+      el.addEventListener('input', () => onInputLive(id));
 
-  // Commit on Enter
-  el.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); commitInput(id); el.blur(); }
-  });
+      // Commit on Enter
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); commitInput(id); el.blur(); }
+      });
 
-  // Commit on blur (lose focus)
-  el.addEventListener('blur', () => commitInput(id));
-});
+      // Commit on blur (lose focus)
+      el.addEventListener('blur', () => commitInput(id));
+    });
 
-// ─── Restaurar inputs com valores salvos ──────────────────────────────────────
+    // ─── Restaurar inputs com valores salvos ──────────────────────────────────────
 
-['meta', 'pontos'].forEach(id => {
-  const val = state[id];
-  getInput(id).value = val === 0 ? '' : String(val);
-});
+    ['meta', 'pontos'].forEach(id => {
+      const val = state[id];
+      getInput(id).value = val === 0 ? '' : String(val);
+    });
 
-// ─── Render inicial ───────────────────────────────────────────────────────────
-update();
-</script>
+    // ─── Render inicial ───────────────────────────────────────────────────────────
+    update();
+  </script>
 </body>
+
 </html>
