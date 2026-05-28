@@ -430,7 +430,7 @@
     </div>
     <div class="input-card">
       <label class="input-label" for="pontos">Pontos feitos</label>
-      <input type="text" id="pontos" value="0" placeholder="0" autocomplete="off" inputmode="decimal">
+      <input type="text" id="pontos" placeholder="0" autocomplete="off" inputmode="decimal">
       <div class="input-hint" id="pontos-hint"></div>
     </div>
   </div>
@@ -591,10 +591,15 @@ function commitInput(id) {
   const raw  = el.value;
 
   if (raw.trim() === '') {
-    el.value = String(state[id]);
+    if (id === 'pontos') {
+      state[id] = 0;
+      saveToStorage(id, 0);
+    }
+    el.value = state[id] === 0 ? '' : String(state[id]);
     el.classList.remove('is-expr', 'is-error');
     hint.textContent = '';
     hint.className = 'input-hint';
+    update();
     return;
   }
 
@@ -602,14 +607,14 @@ function commitInput(id) {
   if (res.ok) {
     const rounded = Math.round(res.value);
     state[id] = rounded;
-    el.value  = String(rounded);
+    el.value  = rounded === 0 ? '' : String(rounded);
     el.classList.remove('is-expr', 'is-error');
     hint.textContent = '';
     hint.className = 'input-hint';
     saveToStorage(id, rounded); // ← persiste automaticamente
   } else {
     // Revert to last committed value on error
-    el.value = String(state[id]);
+    el.value = state[id] === 0 ? '' : String(state[id]);
     el.classList.remove('is-expr', 'is-error');
     hint.textContent = '';
     hint.className = 'input-hint';
@@ -714,7 +719,8 @@ function update() {
 // ─── Restaurar inputs com valores salvos ──────────────────────────────────────
 
 ['meta', 'pontos'].forEach(id => {
-  getInput(id).value = String(state[id]);
+  const val = state[id];
+  getInput(id).value = val === 0 ? '' : String(val);
 });
 
 // ─── Render inicial ───────────────────────────────────────────────────────────
