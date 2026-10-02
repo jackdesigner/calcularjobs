@@ -460,7 +460,134 @@
         display: none;
       }
     }
+
+    /* ── PLANEJAMENTO DIÁRIO / SEMANAL ── */
+    .plan-controls { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; margin-bottom:14px; }
+    .ctl { background:var(--white); border:0.5px solid var(--gray-lt); border-radius:4px; padding:12px 16px; min-width:200px; }
+    .ctl input, .ctl select { font-family:'Sora',sans-serif; font-size:15px; font-weight:600; color:var(--black); border:none; outline:none; background:transparent; width:100%; }
+    .chk { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--black); padding:12px 4px; cursor:pointer; }
+    .plan-info { background:var(--blue-light); border-left:3px solid var(--blue); border-radius:4px; padding:12px 16px; font-size:12px; line-height:1.7; margin-bottom:14px; }
+    .plan-info .warn { color:#BA7517; font-weight:600; }
+    .plan-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+    .plan-card { background:var(--white); border:0.5px solid var(--gray-lt); border-radius:4px; padding:16px 18px; }
+    .plan-card .k { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-md); margin-bottom:8px; }
+    .plan-card .v { font-size:26px; font-weight:800; line-height:1; letter-spacing:-0.01em; }
+    .plan-card .s { font-size:11px; color:var(--gray-md); margin-top:6px; font-weight:500; }
+    .plan-card.hl { background:var(--black); border-color:var(--black); }
+    .plan-card.hl .v { color:var(--white); }
+    .plan-card.hl .s, .plan-card.hl .k { color:var(--gray-md); }
+    .pos { color:#1D9E75 !important; font-weight:700; }
+    .neg { color:#D85A30 !important; font-weight:700; }
+    .tbl-card { background:var(--white); border:0.5px solid var(--gray-lt); border-radius:4px; overflow-x:auto; margin-bottom:14px; }
+    .wk-table { width:100%; border-collapse:collapse; font-size:12px; min-width:640px; }
+    .wk-table th { text-align:left; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-md); padding:12px 14px; border-bottom:1px solid var(--gray-lt); white-space:nowrap; }
+    .wk-table td { padding:11px 14px; border-bottom:0.5px solid var(--gray-bg); font-weight:500; white-space:nowrap; }
+    .wk-table td b { font-weight:700; }
+    .wk-table tr.cur td { background:var(--blue-light); }
+    .wk-table tr.past td { color:var(--gray-md); }
+    .tag { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 7px; border-radius:2px; background:var(--gray-bg); color:var(--gray-md); }
+    .tag.cur { background:var(--blue); color:var(--white); }
+    details.days { background:var(--white); border:0.5px solid var(--gray-lt); border-radius:4px; padding:12px 16px; margin-bottom:14px; }
+    details.days summary { font-size:12px; font-weight:700; cursor:pointer; color:var(--blue); }
+    .day-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-top:12px; }
+    .day-chip { background:var(--gray-bg); border-radius:3px; padding:8px 10px; font-size:11px; font-weight:500; }
+    .day-chip b { display:block; font-size:13px; }
+    .day-chip.today { outline:2px solid var(--blue); }
+    .day-chip.past { opacity:.5; }
+    .cal-card { padding:18px 20px; overflow:visible; }
+    .cal-card h4 { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-md); margin:0 0 8px; }
+    .opt-row { display:flex; flex-wrap:wrap; gap:6px 18px; margin-bottom:16px; }
+    .add-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .add-row input { font-family:'Sora',sans-serif; font-size:12px; padding:9px 10px; border:0.5px solid var(--gray-lt); border-radius:3px; }
+    .add-row input[type=text] { flex:1; min-width:180px; }
+    .add-row button { font-family:'Sora',sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:var(--blue); color:#fff; border:none; border-radius:3px; padding:9px 16px; cursor:pointer; }
+    .add-row button:hover { background:var(--blue-dark); }
+    .hol-list { list-style:none; font-size:12px; line-height:1.9; margin-bottom:14px; }
+    .hol-list li span { color:var(--gray-md); }
+    .hol-list .x { background:none; border:none; color:#D85A30; cursor:pointer; font-weight:700; margin-left:6px; }
+    .note { font-size:11px; color:var(--gray-md); line-height:1.6; }
+    @media (max-width:640px) { .plan-grid { grid-template-columns:1fr 1fr; } .ctl { min-width:100%; } }
+
+    /* ══ SELETOR DE TEMAS ══ */
+    .hdr-right { display:flex; align-items:center; gap:18px; }
+    .theme-wrap { position:relative; }
+    #theme-btn { font:600 11px 'Sora',sans-serif; letter-spacing:.08em; text-transform:uppercase; background:transparent; color:var(--gray-md); border:1px solid var(--gray-md); border-radius:999px; padding:7px 14px; cursor:pointer; display:flex; gap:8px; align-items:center; }
+    #theme-btn:hover { color:#fff; border-color:var(--blue); }
+    #theme-menu { position:absolute; right:0; top:calc(100% + 10px); background:#fff; border:1px solid #CBD0D8; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.2); padding:6px; min-width:200px; display:none; z-index:50; }
+    .theme-wrap.open #theme-menu { display:block; }
+    .theme-opt { display:flex; align-items:center; gap:10px; width:100%; background:none; border:none; padding:9px 10px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; color:#050E21; text-align:left; text-transform:none; letter-spacing:0; }
+    .theme-opt:hover { background:#F2F4F7; }
+    .theme-opt.on { background:#E8F0FD; }
+    .sw { width:20px; height:20px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1px #CBD0D8; flex:none; }
+    @media (max-width:640px) { header { padding:0 16px; } #theme-btn .lbl { display:none; } .hdr-right { gap:10px; } }
+
+    /* ══ TEMA: ROSA GAMER FOFO ══ */
+    [data-theme="rosa"] { --blue:#EE8FA5; --blue-dark:#D96F89; --blue-light:#FDE8EE; --black:#8A3552; --gray-md:#C9899B; --gray-lt:#F3BCCB; --gray-bg:#FFF6F8; --white:#FFFFFF; }
+    [data-theme="rosa"] * { font-family:'Quicksand',sans-serif !important; }
+    [data-theme="rosa"] body { background-color:#FFF6F8; background-image:linear-gradient(rgba(243,188,203,.38) 1px,transparent 1px),linear-gradient(90deg,rgba(243,188,203,.38) 1px,transparent 1px); background-size:24px 24px; }
+    [data-theme="rosa"] header { background:#FDE8EE; border-bottom:3px solid #F3BCCB; }
+    [data-theme="rosa"] .header-title { color:var(--black); }
+    [data-theme="rosa"] .logo-mark svg line { stroke:#EE8FA5; }
+    [data-theme="rosa"] #theme-btn { color:var(--black); background:#fff; border:2px solid #F3BCCB; }
+    [data-theme="rosa"] #theme-btn:hover { color:var(--blue-dark); border-color:var(--blue); }
+    [data-theme="rosa"] .input-card, [data-theme="rosa"] .plan-card, [data-theme="rosa"] .ctl, [data-theme="rosa"] .tbl-card,
+    [data-theme="rosa"] .bands-card, [data-theme="rosa"] details.days, [data-theme="rosa"] .plan-info {
+      border:2px solid var(--gray-lt); border-radius:14px; box-shadow:4px 4px 0 var(--gray-lt); background-color:#fff; }
+    [data-theme="rosa"] .plan-info { background:var(--blue-light); border-left:2px solid var(--gray-lt); }
+    [data-theme="rosa"] .input-card::before { display:none; }
+    [data-theme="rosa"] .status-card { background:#FDE8EE; border:2px solid #F3BCCB; border-radius:14px; box-shadow:5px 5px 0 #F3BCCB; }
+    [data-theme="rosa"] .status-card::after { border-color:rgba(238,143,165,.2); }
+    [data-theme="rosa"] #janela-nome, [data-theme="rosa"] #faltam-txt, [data-theme="rosa"] #bonus-atual { color:var(--black) !important; }
+    [data-theme="rosa"] .progress-track { background:#fff; border:2px solid #F3BCCB; height:12px; border-radius:99px; }
+    [data-theme="rosa"] .progress-fill { border-radius:99px; }
+    [data-theme="rosa"] .plan-card.hl { background:var(--blue-light); }
+    [data-theme="rosa"] .plan-card.hl .v { color:var(--black); }
+    [data-theme="rosa"] .section-label::before { content:'✿ '; }
+    [data-theme="rosa"] .add-row button, [data-theme="rosa"] .tag { border-radius:99px; }
+
+    /* ══ TEMA: VEGAN GREEN (floresta) ══ */
+    [data-theme="vegan"] { --blue:#5F8F2A; --blue-dark:#477019; --blue-light:#E4EDC8; --black:#1F4E5A; --gray-md:#7D8765; --gray-lt:#BDB88F; --gray-bg:#F1E9C9; --white:#FCF6E2; }
+    [data-theme="vegan"] * { font-family:'Nunito',sans-serif !important; }
+    [data-theme="vegan"] body { background-color:#DCE7A8; background-attachment:fixed; background-image:
+      radial-gradient(circle at 12% 18%, rgba(255,243,150,.65) 0 70px, transparent 71px),
+      radial-gradient(circle at 85% 12%, rgba(255,255,255,.5) 0 55px, transparent 56px),
+      radial-gradient(circle at 78% 70%, rgba(255,236,140,.5) 0 90px, transparent 91px),
+      radial-gradient(circle at 20% 82%, rgba(150,200,110,.45) 0 80px, transparent 81px),
+      linear-gradient(160deg,#EEF0BE,#CFE0A0 55%,#B9D58C); }
+    [data-theme="vegan"] header { background:#1F5C69; border-bottom:4px solid #D9A441; }
+    [data-theme="vegan"] .header-title { color:#FCF6E2; font-size:16px; letter-spacing:.06em; }
+    [data-theme="vegan"] .logo-mark svg line { stroke:#9BC25A; }
+    [data-theme="vegan"] #ciclo-label { color:#E9DFB5 !important; }
+    [data-theme="vegan"] #theme-btn { color:#FCF6E2; border-color:rgba(252,246,226,.55); }
+    [data-theme="vegan"] #theme-btn:hover { color:#fff; border-color:#D9A441; }
+    [data-theme="vegan"] .input-card, [data-theme="vegan"] .plan-card, [data-theme="vegan"] .ctl, [data-theme="vegan"] .tbl-card,
+    [data-theme="vegan"] .bands-card, [data-theme="vegan"] details.days {
+      border:1.5px dashed #9C9A74; border-radius:14px; background-color:#FCF6E2; box-shadow:0 2px 6px rgba(60,80,30,.12); }
+    [data-theme="vegan"] .plan-info { background:#EFF3D2; border-left:4px solid #5F8F2A; border-radius:10px; }
+    [data-theme="vegan"] .input-card::before { background:#D9A441; border-radius:14px 0 0 14px; }
+    [data-theme="vegan"] .status-card { background:#1F5C69; border:2px dashed rgba(252,246,226,.5); border-radius:16px; box-shadow:0 4px 10px rgba(30,70,60,.25); }
+    [data-theme="vegan"] .status-card::after { border-color:rgba(217,164,65,.14); }
+    [data-theme="vegan"] .section-label { display:inline-block; background:#1F5C69; color:#FCF6E2; padding:7px 16px; border-radius:8px; letter-spacing:.14em; }
+    [data-theme="vegan"] .section-label::before { content:'♪ '; color:#D9A441; }
+    [data-theme="vegan"] .plan-card.hl { background:#1F5C69; border-style:dashed; border-color:rgba(252,246,226,.5); }
+    [data-theme="vegan"] .add-row button { background:#D9A441; color:#1F4E5A; border-radius:99px; }
+    [data-theme="vegan"] .add-row button:hover { background:#C28E2F; }
+    [data-theme="vegan"] .wk-table tr.cur td { background:#EFF3D2; }
+
+    /* ── ajustes de contraste ── */
+    [data-theme="rosa"] #pct-display { color:var(--black) !important; }
+    [data-theme="rosa"] .tick-row { color:var(--gray-md); }
+    [data-theme="rosa"] #faltam-txt { border-top:2px dashed #F3BCCB; }
+    [data-theme="rosa"] #faltam-txt strong { color:var(--blue-dark); }
+    [data-theme="rosa"] .bands-header { background:#FDE8EE; color:var(--black); border-bottom:2px solid #F3BCCB; }
+    [data-theme="rosa"] .band-row { border-bottom:1px dashed #F3BCCB; }
+    [data-theme="rosa"] .band-row.done:not(.active) { background:#FFF9FA; }
+    [data-theme="vegan"] .bands-header { color:#F3E9BE; }
+    [data-theme="vegan"] .tick-row { color:rgba(252,246,226,.55); }
+    [data-theme="vegan"] #faltam-txt { color:rgba(252,246,226,.8); }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try { document.documentElement.dataset.theme = localStorage.getItem('calc_tema') || 'skyline'; } catch (e) { }</script>
 </head>
 
 <body>
@@ -480,8 +607,18 @@
         <div class="header-sub">Score & Metas</div>
       </div>
     </div>
-    <div style="font-size:11px;font-weight:600;color:var(--gray-md);letter-spacing:0.08em;text-transform:uppercase;"
+    <div class="hdr-right">
+      <div style="font-size:11px;font-weight:600;color:var(--gray-md);letter-spacing:0.08em;text-transform:uppercase;"
       id="ciclo-label">Ciclo Ativo</div>
+      <div class="theme-wrap" id="theme-wrap">
+        <button type="button" id="theme-btn" aria-haspopup="true">🎨 <span class="lbl">Tema</span></button>
+        <div id="theme-menu">
+          <button type="button" class="theme-opt" data-t="skyline"><span class="sw" style="background:#0560E1"></span>Azul Skyline</button>
+          <button type="button" class="theme-opt" data-t="rosa"><span class="sw" style="background:#F6A9BC"></span>Rosa Gamer Fofo</button>
+          <button type="button" class="theme-opt" data-t="vegan"><span class="sw" style="background:#5F8F2A"></span>Vegan Green</button>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -540,6 +677,51 @@
         <span>Status</span>
       </div>
       <div id="bands-list"></div>
+    </div>
+
+
+    <div class="section-label" style="margin:36px 0 14px;">04 — Metas por dia e por semana</div>
+
+    <div class="plan-controls">
+      <label class="ctl"><span class="input-label">Fechamento do ciclo (mês)</span><input type="month" id="ciclo-mes"></label>
+      <label class="ctl"><span class="input-label">Faixa que quero atingir</span><select id="alvo-pct"></select></label>
+      <label class="chk"><input type="checkbox" id="conta-hoje"> Hoje ainda conta como dia a cumprir</label>
+    </div>
+
+    <div class="plan-info" id="plan-info"></div>
+    <div class="plan-grid" id="plan-cards"></div>
+
+    <div class="tbl-card">
+      <table class="wk-table">
+        <thead><tr>
+          <th>Semana</th><th>Período</th><th>Dias úteis</th><th>Meta da semana</th><th>Por dia</th><th>Acumulado</th><th>Ritmo ajustado</th><th></th>
+        </tr></thead>
+        <tbody id="wk-body"></tbody>
+      </table>
+    </div>
+
+    <details class="days"><summary>Ver dia a dia (meta acumulada)</summary><div class="day-grid" id="day-grid"></div></details>
+
+    <div class="section-label" style="margin:36px 0 14px;">05 — Calendário do Brasil</div>
+    <div class="tbl-card cal-card">
+      <h4>Feriados que caem em dia útil neste ciclo</h4>
+      <ul class="hol-list" id="hol-cycle"></ul>
+
+      <h4>Ponto facultativo (marque se sua empresa dá folga)</h4>
+      <div class="opt-row">
+        <label class="chk" style="padding:4px 0"><input type="checkbox" id="opt-carnaval"> Carnaval (segunda e terça)</label>
+        <label class="chk" style="padding:4px 0"><input type="checkbox" id="opt-corpus"> Corpus Christi</label>
+      </div>
+
+      <h4>Feriado estadual, municipal ou folga extra</h4>
+      <div class="add-row">
+        <input type="date" id="hol-date">
+        <input type="text" id="hol-name" placeholder="Nome (opcional)">
+        <button type="button" onclick="addExtra()">Adicionar</button>
+      </div>
+      <ul class="hol-list" id="hol-extras"></ul>
+
+      <p class="note">Feriados nacionais são calculados automaticamente para qualquer ano (inclui os móveis, a partir da Páscoa). Sábados e domingos nunca contam. Se o dia 27 não for útil, o ciclo fecha no dia útil anterior, e o ciclo seguinte começa no dia depois desse fechamento.</p>
     </div>
 
   </main>
@@ -711,6 +893,7 @@
       const pontos = state.pontos;
 
       if (meta <= 0) return;
+      renderPlan();
 
       const pct = (pontos / meta) * 100;
       const current = bands.find(b => pct >= b.minPct && pct < b.maxPct) || bands[bands.length - 1];
@@ -789,6 +972,217 @@
       const val = state[id];
       getInput(id).value = val === 0 ? '' : String(val);
     });
+
+    // ─── Calendário BR + janela 27 → 27 ───────────────────────────────────────────
+
+    const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+    const pad = n => String(n).padStart(2, '0');
+    const dkey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+    const fmtD = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+    const fmt1 = n => n.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+    const hoje0 = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); };
+
+    let PREFS = { opc: { carnaval: false, corpus: false }, extras: [], alvo: 100, hoje: true };
+    try {
+      const r = JSON.parse(localStorage.getItem('calc_plano') || 'null');
+      if (r) PREFS = { ...PREFS, ...r, opc: { ...PREFS.opc, ...(r.opc || {}) } };
+    } catch { }
+    function savePrefs() { try { localStorage.setItem('calc_plano', JSON.stringify(PREFS)); } catch { } }
+
+    function easter(y) {
+      const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4,
+        f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30,
+        i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7,
+        m = Math.floor((a + 11 * h + 22 * l) / 451), t = h + l - 7 * m + 114;
+      return new Date(y, Math.floor(t / 31) - 1, (t % 31) + 1);
+    }
+
+    function holidayMap(year) {
+      const m = {};
+      [year - 1, year, year + 1].forEach(y => {
+        const add = (d, name, opt) => { if (opt && !PREFS.opc[opt]) return; m[dkey(d)] = { name, opt: !!opt }; };
+        add(new Date(y, 0, 1), 'Confraternização Universal');
+        add(new Date(y, 3, 21), 'Tiradentes');
+        add(new Date(y, 4, 1), 'Dia do Trabalho');
+        add(new Date(y, 8, 7), 'Independência do Brasil');
+        add(new Date(y, 9, 12), 'Nossa Senhora Aparecida');
+        add(new Date(y, 10, 2), 'Finados');
+        add(new Date(y, 10, 15), 'Proclamação da República');
+        if (y >= 2024) add(new Date(y, 10, 20), 'Consciência Negra');
+        add(new Date(y, 11, 25), 'Natal');
+        const p = easter(y);
+        add(addDays(p, -2), 'Sexta-feira Santa');
+        add(addDays(p, -48), 'Carnaval (segunda)', 'carnaval');
+        add(addDays(p, -47), 'Carnaval (terça)', 'carnaval');
+        add(addDays(p, 60), 'Corpus Christi', 'corpus');
+      });
+      PREFS.extras.forEach(e => { m[e.date] = { name: e.name || 'Folga', extra: true }; });
+      return m;
+    }
+
+    const isBusiness = (d, hm) => d.getDay() !== 0 && d.getDay() !== 6 && !hm[dkey(d)];
+
+    function closeDate(y, m, hm) {           // dia 27; se não for útil, volta até achar um dia útil
+      let d = new Date(y, m, 27);
+      while (!isBusiness(d, hm)) d = addDays(d, -1);
+      return d;
+    }
+
+    function getCycle(sel) {
+      const [y, mo] = sel.split('-').map(Number);
+      const hm = holidayMap(y);
+      const end = closeDate(y, mo - 1, hm);
+      const prev = closeDate(y, mo - 2, hm);
+      return { hm, end, prev, start: addDays(prev, 1), raw: new Date(y, mo - 1, 27), rawPrev: new Date(y, mo - 2, 27) };
+    }
+
+    function defaultCiclo() {
+      const t = hoje0(), hm = holidayMap(t.getFullYear());
+      for (let o = 0; o <= 1; o++) {
+        const d = new Date(t.getFullYear(), t.getMonth() + o, 1);
+        if (closeDate(d.getFullYear(), d.getMonth(), hm) >= t) return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
+      }
+    }
+    let cicloSel = defaultCiclo();
+
+    const fmtLong = d => `${DIAS[d.getDay()]} ${fmtD(d)}`;
+    const shiftNote = (raw, real, hm) => {
+      if (dkey(raw) === dkey(real)) return '';
+      const h = hm[dkey(raw)];
+      return ` <span class="warn">(dia 27 cai em ${h ? h.name.toLowerCase() : DIAS[raw.getDay()] === 'sáb' ? 'sábado' : 'domingo'} → fecha em ${fmtLong(real)})</span>`;
+    };
+
+    function renderPlan() {
+      const cyc = getCycle(cicloSel), hm = cyc.hm;
+      const days = [];
+      for (let d = cyc.start; d <= cyc.end; d = addDays(d, 1)) if (isBusiness(d, hm)) days.push(d);
+      const total = days.length;
+      document.getElementById('ciclo-label').textContent = `Ciclo ${fmtD(cyc.start)} → ${fmtD(cyc.end)}`;
+
+      const T = hoje0(), tk = dkey(T);
+      const elapsed = d => d < T || (!PREFS.hoje && dkey(d) === tk);
+      const remDays = days.filter(d => !elapsed(d));
+      const rem = remDays.length, done = total - rem;
+
+      const alvoPts = Math.ceil(state.meta * PREFS.alvo / 100);
+      const falta = Math.max(0, alvoPts - state.pontos);
+      const ideal = total ? Math.round(alvoPts * done / total) : 0;
+      const diff = state.pontos - ideal;
+
+      document.getElementById('plan-info').innerHTML =
+        `<b>Janela:</b> ${fmtLong(days[0])} → ${fmtLong(cyc.end)} &nbsp;·&nbsp; <b>${total} dias úteis</b> (${rem} restantes)<br>` +
+        `Fechamento anterior: <b>${fmtLong(cyc.prev)}</b>${shiftNote(cyc.rawPrev, cyc.prev, hm)}<br>` +
+        `Fechamento deste ciclo: <b>${fmtLong(cyc.end)}</b>${shiftNote(cyc.raw, cyc.end, hm)}`;
+
+      const perDay = rem > 0 ? Math.ceil(falta / rem) : null;
+      const diffTxt = diff >= 0 ? `<span class="pos">+${fmt(diff)} pts adiantado</span>` : `<span class="neg">${fmt(diff)} pts atrasado</span>`;
+      document.getElementById('plan-cards').innerHTML = `
+        <div class="plan-card"><div class="k">Meta alvo</div><div class="v">${fmt(alvoPts)}</div><div class="s">${PREFS.alvo}% de ${fmt(state.meta)} pts</div></div>
+        <div class="plan-card"><div class="k">Falta fazer</div><div class="v">${fmt(falta)}</div><div class="s">${falta === 0 ? 'Alvo atingido 🎯' : 'de ' + fmt(alvoPts) + ' pts'}</div></div>
+        <div class="plan-card"><div class="k">Dias úteis restantes</div><div class="v">${rem}</div><div class="s">de ${total} no ciclo</div></div>
+        <div class="plan-card hl"><div class="k">Por dia (daqui pra frente)</div><div class="v">${perDay === null ? (falta > 0 ? 'Prazo encerrado' : '—') : fmt(perDay)}</div><div class="s">${perDay === null ? '' : 'pts por dia útil'}</div></div>
+        <div class="plan-card"><div class="k">Plano original por dia</div><div class="v">${total ? fmt1(alvoPts / total) : '—'}</div><div class="s">meta alvo ÷ ${total} dias úteis</div></div>
+        <div class="plan-card"><div class="k">Ideal até agora</div><div class="v">${fmt(ideal)}</div><div class="s">${diffTxt}</div></div>`;
+
+      // semanas (segunda a sexta)
+      const weeks = [];
+      days.forEach(d => {
+        const mon = dkey(addDays(d, -((d.getDay() + 6) % 7)));
+        let w = weeks[weeks.length - 1];
+        if (!w || w.mon !== mon) { w = { mon, days: [] }; weeks.push(w); }
+        w.days.push(d);
+      });
+
+      let cumDays = 0, cumRem = 0, prevCum = 0, prevAdj = 0;
+      const rows = weeks.map((w, i) => {
+        const n = w.days.length;
+        cumDays += n;
+        const cum = Math.round(alvoPts * cumDays / total);
+        const wkPts = cum - prevCum; prevCum = cum;
+        const r = w.days.filter(d => !elapsed(d)).length;
+        let adj = '—';
+        if (r > 0) {
+          cumRem += r;
+          const c = Math.round(falta * cumRem / rem);
+          adj = `<b>${fmt(c - prevAdj)}</b> /sem · ${fmt(Math.ceil((c - prevAdj) / r))} /dia`;
+          prevAdj = c;
+        }
+        const monD = new Date(w.mon + 'T00:00:00'), isCur = T >= monD && T <= addDays(monD, 6);
+        const cls = r === 0 ? 'past' : isCur ? 'cur' : '';
+        const tag = r === 0 ? '<span class="tag">Fechada</span>' : isCur ? '<span class="tag cur">Atual</span>' : '';
+        return `<tr class="${cls}"><td>Semana ${i + 1}</td><td>${fmtD(w.days[0])} – ${fmtD(w.days[n - 1])}</td><td>${n}</td>
+          <td><b>${fmt(wkPts)}</b></td><td>${fmt1(wkPts / n)}</td><td>${fmt(cum)}</td><td>${adj}</td><td>${tag}</td></tr>`;
+      });
+      document.getElementById('wk-body').innerHTML = rows.join('');
+
+      // dia a dia
+      document.getElementById('day-grid').innerHTML = days.map((d, i) => {
+        const cls = (dkey(d) === tk ? ' today' : '') + (elapsed(d) && dkey(d) !== tk ? ' past' : '');
+        const c = Math.round(alvoPts * (i + 1) / total);
+        const prev = Math.round(alvoPts * i / total);
+        return `<div class="day-chip${cls}">${DIAS[d.getDay()]} ${fmtD(d)}<b>${fmt(c)} acum.</b>+${fmt(c - prev)} no dia</div>`;
+      }).join('');
+
+      // feriados no ciclo
+      const hl = [];
+      for (let d = cyc.start; d <= cyc.end; d = addDays(d, 1)) {
+        const h = hm[dkey(d)];
+        if (h && d.getDay() !== 0 && d.getDay() !== 6) hl.push(`<li><b>${fmtLong(d)}</b> — ${h.name} <span>${h.extra ? '(adicionado por você)' : h.opt ? '(ponto facultativo)' : ''}</span></li>`);
+      }
+      document.getElementById('hol-cycle').innerHTML = hl.length ? hl.join('') : '<li><span>Nenhum feriado em dia útil neste ciclo.</span></li>';
+
+      document.getElementById('hol-extras').innerHTML = PREFS.extras.length
+        ? PREFS.extras.map((e, i) => `<li>${e.date.split('-').reverse().join('/')} — ${e.name || 'Folga'}<button class="x" onclick="removeExtra(${i})" title="Remover">✕</button></li>`).join('')
+        : '<li><span>Nenhum feriado extra cadastrado.</span></li>';
+    }
+
+    function addExtra() {
+      const date = document.getElementById('hol-date').value;
+      if (!date) return;
+      const name = document.getElementById('hol-name').value.trim();
+      PREFS.extras = PREFS.extras.filter(e => e.date !== date).concat({ date, name }).sort((a, b) => a.date.localeCompare(b.date));
+      document.getElementById('hol-date').value = ''; document.getElementById('hol-name').value = '';
+      savePrefs(); renderPlan();
+    }
+    function removeExtra(i) { PREFS.extras.splice(i, 1); savePrefs(); renderPlan(); }
+
+    (function wirePlan() {
+      const mes = document.getElementById('ciclo-mes'); mes.value = cicloSel;
+      mes.addEventListener('change', () => { if (mes.value) { cicloSel = mes.value; renderPlan(); } });
+
+      const sel = document.getElementById('alvo-pct');
+      sel.innerHTML = bands.filter(b => b.minPct > 0).slice().reverse()
+        .map(b => `<option value="${b.minPct}">${b.minPct}% da meta — bônus ${b.bonus}</option>`).join('');
+      sel.value = String(PREFS.alvo);
+      if (sel.value !== String(PREFS.alvo)) { PREFS.alvo = 100; sel.value = '100'; }
+      sel.addEventListener('change', () => { PREFS.alvo = Number(sel.value); savePrefs(); renderPlan(); });
+
+      const hoje = document.getElementById('conta-hoje'); hoje.checked = PREFS.hoje;
+      hoje.addEventListener('change', () => { PREFS.hoje = hoje.checked; savePrefs(); renderPlan(); });
+
+      [['opt-carnaval', 'carnaval'], ['opt-corpus', 'corpus']].forEach(([id, k]) => {
+        const el = document.getElementById(id); el.checked = PREFS.opc[k];
+        el.addEventListener('change', () => { PREFS.opc[k] = el.checked; savePrefs(); cicloSel = mes.value || cicloSel; renderPlan(); });
+      });
+    })();
+
+    // ─── Temas ────────────────────────────────────────────────────────────────────
+    const THEMES = { skyline: 'Azul Skyline', rosa: 'Rosa Gamer', vegan: 'Vegan Green' };
+    function setTheme(t) {
+      if (!THEMES[t]) t = 'skyline';
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('calc_tema', t); } catch { }
+      document.querySelector('#theme-btn .lbl').textContent = THEMES[t];
+      document.querySelectorAll('.theme-opt').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+    }
+    (function wireTheme() {
+      const wrap = document.getElementById('theme-wrap');
+      document.getElementById('theme-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+      document.querySelectorAll('.theme-opt').forEach(b => b.addEventListener('click', () => { setTheme(b.dataset.t); wrap.classList.remove('open'); }));
+      document.addEventListener('click', () => wrap.classList.remove('open'));
+      setTheme(document.documentElement.dataset.theme);
+    })();
 
     // ─── Render inicial ───────────────────────────────────────────────────────────
     update();
