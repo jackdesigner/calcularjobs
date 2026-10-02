@@ -511,8 +511,8 @@
     /* ══ SELETOR DE TEMAS ══ */
     .hdr-right { display:flex; align-items:center; gap:18px; }
     .theme-wrap { position:relative; }
-    #theme-btn { font:600 11px 'Sora',sans-serif; letter-spacing:.08em; text-transform:uppercase; background:transparent; color:var(--gray-md); border:1px solid var(--gray-md); border-radius:999px; padding:7px 14px; cursor:pointer; display:flex; gap:8px; align-items:center; }
-    #theme-btn:hover { color:#fff; border-color:var(--blue); }
+    #theme-btn, #confetti-btn, #som-btn, #story-btn { font:600 11px 'Sora',sans-serif; letter-spacing:.08em; text-transform:uppercase; background:transparent; color:var(--gray-md); border:1px solid var(--gray-md); border-radius:999px; padding:7px 14px; cursor:pointer; display:flex; gap:8px; align-items:center; }
+    #theme-btn:hover, #confetti-btn:hover, #som-btn:hover, #story-btn:hover { color:#fff; border-color:var(--blue); }
     #theme-menu { position:absolute; right:0; top:calc(100% + 10px); background:#fff; border:1px solid #CBD0D8; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.2); padding:6px; min-width:200px; display:none; z-index:50; }
     .theme-wrap.open #theme-menu { display:block; }
     .theme-opt { display:flex; align-items:center; gap:10px; width:100%; background:none; border:none; padding:9px 10px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; color:#050E21; text-align:left; text-transform:none; letter-spacing:0; }
@@ -528,8 +528,8 @@
     [data-theme="rosa"] header { background:#FDE8EE; border-bottom:3px solid #F3BCCB; }
     [data-theme="rosa"] .header-title { color:var(--black); }
     [data-theme="rosa"] .logo-mark svg line { stroke:#EE8FA5; }
-    [data-theme="rosa"] #theme-btn { color:var(--black); background:#fff; border:2px solid #F3BCCB; }
-    [data-theme="rosa"] #theme-btn:hover { color:var(--blue-dark); border-color:var(--blue); }
+    [data-theme="rosa"] #theme-btn, [data-theme="rosa"] #confetti-btn, [data-theme="rosa"] #som-btn, [data-theme="rosa"] #story-btn { color:var(--black); background:#fff; border:2px solid #F3BCCB; }
+    [data-theme="rosa"] #theme-btn:hover, [data-theme="rosa"] #confetti-btn:hover, [data-theme="rosa"] #som-btn:hover, [data-theme="rosa"] #story-btn:hover { color:var(--blue-dark); border-color:var(--blue); }
     [data-theme="rosa"] .input-card, [data-theme="rosa"] .plan-card, [data-theme="rosa"] .ctl, [data-theme="rosa"] .tbl-card,
     [data-theme="rosa"] .bands-card, [data-theme="rosa"] details.days, [data-theme="rosa"] .plan-info {
       border:2px solid var(--gray-lt); border-radius:14px; box-shadow:4px 4px 0 var(--gray-lt); background-color:#fff; }
@@ -558,8 +558,8 @@
     [data-theme="vegan"] .header-title { color:#FCF6E2; font-size:16px; letter-spacing:.06em; }
     [data-theme="vegan"] .logo-mark svg line { stroke:#9BC25A; }
     [data-theme="vegan"] #ciclo-label { color:#E9DFB5 !important; }
-    [data-theme="vegan"] #theme-btn { color:#FCF6E2; border-color:rgba(252,246,226,.55); }
-    [data-theme="vegan"] #theme-btn:hover { color:#fff; border-color:#D9A441; }
+    [data-theme="vegan"] #theme-btn, [data-theme="vegan"] #confetti-btn, [data-theme="vegan"] #som-btn, [data-theme="vegan"] #story-btn { color:#FCF6E2; border-color:rgba(252,246,226,.55); }
+    [data-theme="vegan"] #theme-btn:hover, [data-theme="vegan"] #confetti-btn:hover, [data-theme="vegan"] #som-btn:hover, [data-theme="vegan"] #story-btn:hover { color:#fff; border-color:#D9A441; }
     [data-theme="vegan"] .input-card, [data-theme="vegan"] .plan-card, [data-theme="vegan"] .ctl, [data-theme="vegan"] .tbl-card,
     [data-theme="vegan"] .bands-card, [data-theme="vegan"] details.days {
       border:1.5px dashed #9C9A74; border-radius:14px; background-color:#FCF6E2; box-shadow:0 2px 6px rgba(60,80,30,.12); }
@@ -585,43 +585,290 @@
     [data-theme="vegan"] .bands-header { color:#F3E9BE; }
     [data-theme="vegan"] .tick-row { color:rgba(252,246,226,.55); }
     [data-theme="vegan"] #faltam-txt { color:rgba(252,246,226,.8); }
+
+    /* ══ NOVOS TEMAS ══ */
+    #confetti-btn, #som-btn, #story-btn { font:600 11px 'Sora',sans-serif; letter-spacing:.08em; text-transform:uppercase; background:transparent; color:var(--gray-md); border:1px solid var(--gray-md); border-radius:999px; padding:7px 14px; cursor:pointer; display:flex; gap:8px; align-items:center; }
+    #confetti-btn:hover, #som-btn:hover, #story-btn:hover { color:#fff; border-color:var(--blue); }
+    @media (max-width:640px) { #confetti-btn .lbl { display:none; } }
+
+    /* ── VEGAN 2 (maçã, folhas e frutas) ── */
+    [data-theme="vegan2"] { --blue:#6E8B3D; --blue-dark:#4F6B3A; --blue-light:#EDEFC4; --black:#3F5B2A; --gray-md:#7F8B5A; --gray-lt:#B9B070; --gray-bg:#DDEBC0; --white:#FFF8E6;
+      --leaf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M5 27C4 12 14 4 28 4c0 14-8 24-23 23z' fill='%237FA650' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M6 26C12 18 18 12 24 8' fill='none' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E"); --apple:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 10c-4-3-11-1-11 8 0 6 4 11 8 11 1.5 0 2-.8 3-.8s1.5.8 3 .8c4 0 8-5 8-11 0-9-7-11-11-8z' fill='%23D4604A' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M16 10c0-3 1-5 3-7' fill='none' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M18 7c2-3 6-3 8-2-1 3-5 4-8 2z' fill='%237FA650' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E"); --straw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 29C8 24 4 16 6 12c3-3 7-2 10-1 3-1 7-2 10 1 2 4-2 12-10 17z' fill='%23E5586B' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M10 10l6-5 6 5-6 3z' fill='%237FA650' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='17' r='1' fill='%23FCF3D6'/%3E%3Ccircle cx='18' cy='20' r='1' fill='%23FCF3D6'/%3E%3Ccircle cx='20' cy='15' r='1' fill='%23FCF3D6'/%3E%3C/svg%3E"); --pear:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 9c3 0 4 3 4 5 5 3 6 8 4 12-2 3-6 4-8 4s-6-1-8-4c-2-4-1-9 4-12 0-2 1-5 4-5z' fill='%23C9D96A' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M16 9c0-2 1-4 2-5' fill='none' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M18 6c2-2 5-2 7-1-1 3-4 3-7 1z' fill='%237FA650' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E"); --tile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg opacity='.45'%3E%3Cpath d='M14 40C14 24 26 14 44 14c0 18-10 28-30 26z' fill='%237FA650' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M96 96c-3-6-10-4-10 4 0 6 4 10 7 10 1 0 2-1 4-1s3 1 4 1c3 0 7-5 7-10 0-8-7-10-12-4z' fill='%23D4604A' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M110 20c10-4 18 2 20 12-10 4-18-2-20-12z' fill='%239DBB6A' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M24 110c4-6 12-6 16 0-4 8-12 8-16 0z' fill='%23C9D96A' stroke='%233F5B2A' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"); }
+    [data-theme="vegan2"] * { font-family:'Gaegu',cursive !important; font-weight:700 !important; }
+    [data-theme="vegan2"] body { background-color:#BFD99A; background-image:var(--tile),repeating-linear-gradient(0deg,rgba(255,255,255,.3) 0 22px,transparent 22px 44px),repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 22px,transparent 22px 44px); background-size:170px 170px,auto,auto; background-attachment:fixed; }
+    [data-theme="vegan2"] header { background:#94B26B; border-bottom:4px solid #4F6B3A; }
+    [data-theme="vegan2"] .header-title { color:#2F4A1F; font-size:19px; letter-spacing:.04em; }
+    [data-theme="vegan2"] .header-sub { color:#4F6B3A; }
+    [data-theme="vegan2"] #ciclo-label { color:#2F4A1F !important; }
+    [data-theme="vegan2"] .logo-mark svg { display:none; }
+    [data-theme="vegan2"] .logo-mark { background:var(--apple) center/contain no-repeat; width:36px; height:36px; }
+    [data-theme="vegan2"] #theme-btn, [data-theme="vegan2"] #confetti-btn, [data-theme="vegan2"] #som-btn, [data-theme="vegan2"] #story-btn { color:#2F4A1F; background:#FFF8E6; border:3px solid #4F6B3A; font-size:12px; }
+    [data-theme="vegan2"] #theme-btn:hover, [data-theme="vegan2"] #confetti-btn:hover, [data-theme="vegan2"] #som-btn:hover, [data-theme="vegan2"] #story-btn:hover { color:#C4513F; border-color:#4F6B3A; }
+    [data-theme="vegan2"] .input-card, [data-theme="vegan2"] .plan-card, [data-theme="vegan2"] .ctl, [data-theme="vegan2"] .tbl-card,
+    [data-theme="vegan2"] .bands-card, [data-theme="vegan2"] details.days, [data-theme="vegan2"] .plan-info {
+      border:3px solid #4F6B3A; border-radius:18px; background-color:#FFF8E6; box-shadow:0 4px 0 rgba(79,107,58,.35); position:relative; }
+    [data-theme="vegan2"] .plan-info { background:#F6EFC8; border-left:3px solid #4F6B3A; }
+    [data-theme="vegan2"] .input-card::before { content:''; left:auto; right:12px; top:10px; width:30px; height:30px; background:var(--apple) center/contain no-repeat; border-radius:0; }
+    [data-theme="vegan2"] .input-card:nth-child(2)::before { background-image:var(--straw); }
+    [data-theme="vegan2"] .plan-card::after { content:''; position:absolute; right:10px; top:10px; width:24px; height:24px; background:var(--leaf) center/contain no-repeat; }
+    [data-theme="vegan2"] .plan-card:nth-child(4n+2)::after { background-image:var(--apple); }
+    [data-theme="vegan2"] .plan-card:nth-child(4n+3)::after { background-image:var(--straw); }
+    [data-theme="vegan2"] .plan-card:nth-child(4n+4)::after { background-image:var(--pear); }
+    [data-theme="vegan2"] .section-label { display:inline-block; background:#F6EFC8; color:#5E7D2F; border:3px solid #B9B070; padding:4px 16px 4px 12px; border-radius:8px; font-size:15px; letter-spacing:.06em; }
+    [data-theme="vegan2"] .section-label::before { content:''; display:inline-block; width:22px; height:22px; margin-right:8px; vertical-align:-6px; background:var(--leaf) center/contain no-repeat; }
+    [data-theme="vegan2"] .status-card { background:linear-gradient(100deg,#B7CF8A,#F3EAA6 70%); border:3px solid #4F6B3A; border-radius:18px; box-shadow:0 4px 0 rgba(79,107,58,.35); }
+    [data-theme="vegan2"] .status-card::after { right:-6px; top:auto; bottom:-10px; width:120px; height:120px; border:none; border-radius:0; background:var(--apple) center/contain no-repeat; opacity:.9; }
+    [data-theme="vegan2"] #janela-nome, [data-theme="vegan2"] #faltam-txt, [data-theme="vegan2"] #bonus-atual { color:#2F4A1F !important; }
+    [data-theme="vegan2"] #pct-display { color:#2F4A1F !important; }
+    [data-theme="vegan2"] #faltam-txt { border-top:2px dashed #4F6B3A; }
+    [data-theme="vegan2"] #faltam-txt strong { color:#B3402F; }
+    [data-theme="vegan2"] .tick-row { color:#4F6B3A; }
+    [data-theme="vegan2"] .progress-track { background:#FFF8E6; border:3px solid #4F6B3A; height:14px; border-radius:99px; }
+    [data-theme="vegan2"] .progress-fill { border-radius:99px; }
+    [data-theme="vegan2"] .plan-card.hl { background:#F6EFC8; }
+    [data-theme="vegan2"] .plan-card.hl .v { color:#2F4A1F; }
+    [data-theme="vegan2"] .bands-header { background:#B7CF8A; color:#2F4A1F; border-bottom:3px solid #4F6B3A; }
+    [data-theme="vegan2"] .band-row { border-bottom:2px dashed #B9B070; }
+    [data-theme="vegan2"] .band-row.done:not(.active) { background:#FFFBEF; }
+    [data-theme="vegan2"] .band-dot { width:13px; height:13px; border-radius:0 100% 0 100%; border:1.5px solid #3F5B2A; }
+    [data-theme="vegan2"] .add-row button { background:#D4604A; color:#FFF8E6; border:3px solid #4F6B3A; border-radius:99px; }
+    [data-theme="vegan2"] .tag { border-radius:99px; }
+    [data-theme="vegan2"] .day-chip { background:#F6EFC8; }
+    [data-theme="vegan2"] footer { color:#4F6B3A; }
+
+    /* ── BATMAN (UI preta) ── */
+    [data-theme="batman"] { --blue:#F5C518; --blue-dark:#D9AB0A; --blue-light:#2A2610; --black:#ECECEC; --gray-md:#8C8C8C; --gray-lt:#2B2B2B; --gray-bg:#0B0B0B; --white:#161616; color-scheme:dark; }
+    [data-theme="batman"] body { background:radial-gradient(ellipse at 50% -10%,rgba(245,197,24,.14),transparent 55%),#0B0B0B; }
+    [data-theme="batman"] header { background:#070707; border-bottom:1px solid #2B2B2B; }
+    [data-theme="batman"] .header-title { color:#fff; }
+    [data-theme="batman"] .logo-mark svg { display:none; }
+    [data-theme="batman"] .logo-mark::after { content:'🦇'; font-size:24px; filter:drop-shadow(0 0 6px rgba(245,197,24,.6)); }
+    [data-theme="batman"] #theme-btn, [data-theme="batman"] #confetti-btn, [data-theme="batman"] #som-btn, [data-theme="batman"] #story-btn { background:#161616; color:#ECECEC; border:1px solid #333; }
+    [data-theme="batman"] .input-card, [data-theme="batman"] .plan-card, [data-theme="batman"] .ctl, [data-theme="batman"] .tbl-card,
+    [data-theme="batman"] .bands-card, [data-theme="batman"] details.days, [data-theme="batman"] .plan-info { border:1px solid #2B2B2B; border-radius:16px; background:#141414; }
+    [data-theme="batman"] .plan-info { background:#1B190C; border-left:3px solid #F5C518; }
+    [data-theme="batman"] .input-card::before { border-radius:16px 0 0 16px; }
+    [data-theme="batman"] .status-card { background:#101010; border:1px solid #2B2B2B; border-radius:16px; }
+    [data-theme="batman"] .status-card::after { border-color:rgba(245,197,24,.07); }
+    [data-theme="batman"] #janela-nome, [data-theme="batman"] #bonus-atual, [data-theme="batman"] #faltam-txt strong { color:#fff !important; }
+    [data-theme="batman"] #faltam-txt { color:#9A9A9A; border-top:1px solid #2B2B2B; }
+    [data-theme="batman"] .progress-track { background:#262626; }
+    [data-theme="batman"] .plan-card.hl { background:#1D1B0E; border-color:#4A4010; }
+    [data-theme="batman"] .plan-card.hl .v { color:#F5C518; }
+    [data-theme="batman"] .bands-header { background:#1B1B1B; }
+    [data-theme="batman"] .band-row { border-bottom:1px solid #242424; }
+    [data-theme="batman"] .band-row.done:not(.active) { background:#121212; }
+    [data-theme="batman"] .tag.cur, [data-theme="batman"] .you-badge, [data-theme="batman"] .add-row button { color:#0B0B0B; }
+    [data-theme="batman"] .add-row input { background:#0F0F0F; color:#ECECEC; border-color:#333; }
+    [data-theme="batman"] .day-chip { background:#1C1C1C; }
+    [data-theme="batman"] .section-label { color:#F5C518; }
+
+    /* ── NEO COLORS (neobrutalismo) ── */
+    [data-theme="neo"] { --blue:#7B6CF6; --blue-dark:#5F50E0; --blue-light:#E9E5FF; --black:#0A0A0A; --gray-md:#555; --gray-lt:#0A0A0A; --gray-bg:#FFD21F; --white:#FFFDF8; }
+    [data-theme="neo"] * { font-family:'Space Grotesk',sans-serif !important; }
+    [data-theme="neo"] body { background-color:#FFD21F; background-attachment:fixed; background-image:radial-gradient(circle at 0% 22%,#FF4D7E 0 150px,transparent 151px),linear-gradient(160deg,transparent 78%,#7B6CF6 78.2%); }
+    [data-theme="neo"] header { background:#FFFDF8; border-bottom:4px solid #0A0A0A; }
+    [data-theme="neo"] .header-title { color:#0A0A0A; font-weight:800; }
+    [data-theme="neo"] .logo-mark svg line { stroke:#FF4D7E; }
+    [data-theme="neo"] #ciclo-label { color:#0A0A0A !important; }
+    [data-theme="neo"] #theme-btn, [data-theme="neo"] #confetti-btn, [data-theme="neo"] #som-btn, [data-theme="neo"] #story-btn { background:#FFD21F; color:#0A0A0A; border:3px solid #0A0A0A; box-shadow:3px 3px 0 #0A0A0A; border-radius:12px; }
+    [data-theme="neo"] #theme-btn:hover, [data-theme="neo"] #confetti-btn:hover, [data-theme="neo"] #som-btn:hover, [data-theme="neo"] #story-btn:hover { background:#FF4D7E; color:#0A0A0A; border-color:#0A0A0A; }
+    [data-theme="neo"] .input-card, [data-theme="neo"] .plan-card, [data-theme="neo"] .ctl, [data-theme="neo"] .tbl-card,
+    [data-theme="neo"] .bands-card, [data-theme="neo"] details.days, [data-theme="neo"] .plan-info { border:3px solid #0A0A0A; border-radius:16px; box-shadow:6px 6px 0 #0A0A0A; background:#FFFDF8; }
+    [data-theme="neo"] .plan-info { background:#fff; border-left:3px solid #0A0A0A; }
+    [data-theme="neo"] .input-card::before { left:18px; top:-13px; width:52px; height:13px; border:3px solid #0A0A0A; border-bottom:none; border-radius:8px 8px 0 0; background:#3DBB3D; }
+    [data-theme="neo"] .input-card:nth-child(2)::before { background:#FF4D7E; }
+    [data-theme="neo"] .status-card { background:#0A0A0A; border:3px solid #0A0A0A; border-radius:16px; box-shadow:6px 6px 0 #7B6CF6; }
+    [data-theme="neo"] .status-card::after { border-color:rgba(255,77,126,.25); }
+    [data-theme="neo"] .plan-card.hl { background:#7B6CF6; }
+    [data-theme="neo"] .plan-card.hl .v, [data-theme="neo"] .plan-card.hl .k, [data-theme="neo"] .plan-card.hl .s { color:#fff; }
+    [data-theme="neo"] .bands-header { background:#0A0A0A; color:#FFD21F; }
+    [data-theme="neo"] .band-row { border-bottom:2px solid #0A0A0A; }
+    [data-theme="neo"] .band-row.done:not(.active) { background:#FFF3B8; }
+    [data-theme="neo"] .section-label { display:inline-block; background:#FF4D7E; color:#0A0A0A; border:3px solid #0A0A0A; border-radius:10px; padding:4px 12px; box-shadow:3px 3px 0 #0A0A0A; }
+    [data-theme="neo"] .add-row button { background:#FF4D7E; color:#0A0A0A; border:3px solid #0A0A0A; border-radius:10px; box-shadow:3px 3px 0 #0A0A0A; }
+    [data-theme="neo"] .add-row input { border:2px solid #0A0A0A; border-radius:8px; }
+    [data-theme="neo"] .tag { background:#FFD21F; color:#0A0A0A; border:2px solid #0A0A0A; }
+    [data-theme="neo"] .tag.cur { background:#3DBB3D; color:#0A0A0A; }
+    [data-theme="neo"] .wk-table th { color:#0A0A0A; border-bottom:3px solid #0A0A0A; }
+    [data-theme="neo"] .wk-table tr.cur td { background:#E9E5FF; }
+    [data-theme="neo"] .day-chip { background:#FFF3B8; border:2px solid #0A0A0A; }
+    [data-theme="neo"] footer { color:#0A0A0A; font-weight:700; }
+
+    /* ── Vegan 2: textos maiores (a fonte manuscrita é pequena) ── */
+    [data-theme="vegan2"] .input-label, [data-theme="vegan2"] .plan-card .k, [data-theme="vegan2"] .pct-label,
+    [data-theme="vegan2"] .status-sub, [data-theme="vegan2"] .cal-card h4 { font-size:14px !important; letter-spacing:.06em; }
+    [data-theme="vegan2"] .plan-card .s, [data-theme="vegan2"] .input-hint, [data-theme="vegan2"] .day-chip,
+    [data-theme="vegan2"] .note, [data-theme="vegan2"] .tick-row { font-size:15px !important; }
+    [data-theme="vegan2"] .plan-info, [data-theme="vegan2"] #faltam-txt, [data-theme="vegan2"] .wk-table td,
+    [data-theme="vegan2"] .hol-list, [data-theme="vegan2"] .chk, [data-theme="vegan2"] .add-row input,
+    [data-theme="vegan2"] .add-row button, [data-theme="vegan2"] .band-row, [data-theme="vegan2"] .theme-opt { font-size:17px !important; }
+    [data-theme="vegan2"] .wk-table th, [data-theme="vegan2"] .bands-header, [data-theme="vegan2"] .tag,
+    [data-theme="vegan2"] .you-badge, [data-theme="vegan2"] footer, [data-theme="vegan2"] details.days summary { font-size:14px !important; }
+    [data-theme="vegan2"] .ctl input, [data-theme="vegan2"] .ctl select { font-size:19px !important; }
+    [data-theme="vegan2"] .plan-card .v { font-size:32px; }
+    [data-theme="vegan2"] .day-chip b { font-size:18px; }
+    [data-theme="vegan2"] #theme-btn, [data-theme="vegan2"] #confetti-btn, [data-theme="vegan2"] #som-btn, [data-theme="vegan2"] #story-btn { font-size:15px !important; }
+    [data-theme="vegan2"] #janela-nome { font-size:28px; }
+
+    [data-theme="vegan2"] .status-card::after { right:10px; bottom:8px; width:52px; height:52px; opacity:.95; }
+
+    /* ── CASSIO (minimalista, verde-menta e linhas finas) ── */
+    [data-theme="cassio"] { --blue:#1A1A1A; --blue-dark:#000; --blue-light:#DCE5D2; --black:#1A1A1A; --gray-md:#7C8374; --gray-lt:#A5AE9B; --gray-bg:#E8EFE1; --white:#EEF3E8; }
+    [data-theme="cassio"] * { font-family:'Space Mono',monospace !important; }
+    [data-theme="cassio"] body { background:#E8EFE1; }
+    [data-theme="cassio"] header { background:transparent; border-bottom:1px solid #1A1A1A; height:76px; }
+    [data-theme="cassio"] .header-title { font-family:'Space Grotesk',sans-serif !important; font-size:28px; font-weight:400; text-transform:none; letter-spacing:-.01em; color:#1A1A1A; }
+    [data-theme="cassio"] .header-sub { color:#7C8374; }
+    [data-theme="cassio"] .logo-mark svg line { stroke:#1A1A1A; }
+    [data-theme="cassio"] #ciclo-label { color:#1A1A1A !important; }
+    [data-theme="cassio"] #theme-btn, [data-theme="cassio"] #confetti-btn, [data-theme="cassio"] #som-btn, [data-theme="cassio"] #story-btn { background:transparent; color:#1A1A1A; border:1px solid #1A1A1A; }
+    [data-theme="cassio"] #theme-btn:hover, [data-theme="cassio"] #confetti-btn:hover, [data-theme="cassio"] #som-btn:hover, [data-theme="cassio"] #story-btn:hover { background:#1A1A1A; color:#E8EFE1; border-color:#1A1A1A; }
+    [data-theme="cassio"] .input-card, [data-theme="cassio"] .plan-card, [data-theme="cassio"] .ctl, [data-theme="cassio"] .tbl-card,
+    [data-theme="cassio"] .bands-card, [data-theme="cassio"] details.days, [data-theme="cassio"] .plan-info {
+      background:transparent; border:1px solid #1A1A1A; border-radius:24px; box-shadow:none; }
+    [data-theme="cassio"] .plan-info { border-radius:18px; }
+    [data-theme="cassio"] .input-card::before { display:none; }
+    [data-theme="cassio"] .input-label, [data-theme="cassio"] .plan-card .k, [data-theme="cassio"] .pct-label, [data-theme="cassio"] .status-sub { color:#1A1A1A; font-weight:700; }
+    [data-theme="cassio"] .status-card { background:transparent; border:1px solid #1A1A1A; border-radius:32px; }
+    [data-theme="cassio"] .status-card::after { border:1px solid rgba(26,26,26,.12); }
+    [data-theme="cassio"] #janela-nome, [data-theme="cassio"] #bonus-atual, [data-theme="cassio"] #faltam-txt, [data-theme="cassio"] #faltam-txt strong, [data-theme="cassio"] #pct-display { color:#1A1A1A !important; }
+    [data-theme="cassio"] #faltam-txt { border-top:1px solid #1A1A1A; }
+    [data-theme="cassio"] .tick-row { color:#7C8374; }
+    [data-theme="cassio"] .progress-track { background:#D3DCC8; height:6px; border-radius:99px; }
+    [data-theme="cassio"] .progress-fill { border-radius:99px; }
+    [data-theme="cassio"] .plan-card.hl { background:#1A1A1A; border-radius:24px; }
+    [data-theme="cassio"] .bands-header { background:#1A1A1A; color:#C9D1BE; }
+    [data-theme="cassio"] .band-row { border-bottom:1px solid #A5AE9B; }
+    [data-theme="cassio"] .band-row.done:not(.active) { background:transparent; }
+    [data-theme="cassio"] .section-label { color:#1A1A1A; font-size:12px; }
+    [data-theme="cassio"] .section-label::before { content:'+'; margin-right:4px; }
+    [data-theme="cassio"] .wk-table th { color:#7C8374; border-bottom:1px solid #1A1A1A; }
+    [data-theme="cassio"] .wk-table td { border-bottom:1px solid #1A1A1A; }
+    [data-theme="cassio"] .wk-table tr.cur td { background:transparent; font-weight:700; }
+    [data-theme="cassio"] .tag { background:transparent; color:#7C8374; border:1px solid #A5AE9B; border-radius:99px; padding:3px 10px; }
+    [data-theme="cassio"] .tag.cur { background:#1A1A1A; color:#E8EFE1; border-color:#1A1A1A; }
+    [data-theme="cassio"] .add-row button { background:#1A1A1A; color:#E8EFE1; border-radius:99px; }
+    [data-theme="cassio"] .add-row input { background:transparent; border:1px solid #1A1A1A; border-radius:99px; padding:9px 14px; }
+    [data-theme="cassio"] .day-chip { background:transparent; border:1px solid #A5AE9B; border-radius:14px; }
+    [data-theme="cassio"] .day-chip.today { outline:none; border-color:#1A1A1A; background:#DCE5D2; }
+    [data-theme="cassio"] footer { color:#7C8374; }
+
+    /* ── STATUS (estilo MSN) ── */
+    :root { --hdr-fg:#FFFFFF; }
+    [data-theme="rosa"] { --hdr-fg:#8A3552; } [data-theme="vegan"] { --hdr-fg:#FCF6E2; } [data-theme="vegan2"] { --hdr-fg:#2F4A1F; }
+    [data-theme="batman"] { --hdr-fg:#ECECEC; } [data-theme="neo"] { --hdr-fg:#0A0A0A; } [data-theme="cassio"] { --hdr-fg:#1A1A1A; }
+    .msn-status { flex:1; min-width:0; max-width:480px; margin:0 28px; display:flex; align-items:center; gap:10px; color:var(--hdr-fg); }
+    #msn-dot { width:14px; height:14px; border-radius:50%; border:2px solid var(--hdr-fg); background:#3DBB3D; cursor:pointer; padding:0; flex:none; box-shadow:0 0 0 3px rgba(128,128,128,.2); }
+    #msn-text { flex:1; min-width:0; background:transparent; color:var(--hdr-fg); border:1px solid transparent; border-radius:999px; padding:7px 12px; font:italic 500 13px 'Sora',sans-serif; outline:none; text-overflow:ellipsis; }
+    #msn-text::placeholder { color:var(--hdr-fg); opacity:.5; }
+    #msn-text:hover { border-color:rgba(128,128,128,.45); }
+    #msn-text:focus { border-color:var(--hdr-fg); background:rgba(128,128,128,.12); }
+    @media (max-width:760px) { header { height:auto !important; min-height:64px; flex-wrap:wrap; padding-top:10px !important; padding-bottom:10px !important; } .msn-status { order:3; flex-basis:100%; max-width:none; margin:4px 0 0; } }
+
+    /* ── HOJE / CONTAGEM / SELOS / STORY ── */
+    .cd-pill { font-size:11px; font-weight:700; letter-spacing:.04em; color:var(--hdr-fg); white-space:nowrap; border:1px dashed rgba(128,128,128,.6); border-radius:999px; padding:7px 12px; }
+    #hoje-card { margin-bottom:22px; padding:22px 26px; }
+    #hoje-card .v { font-size:76px; }
+    #hoje-card.ok .v { font-size:60px; }
+    #hoje-card .s { font-size:12px; }
+    .estante { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px 12px; }
+    .selo { background:var(--white); border:1px solid var(--gray-lt); border-bottom:6px solid var(--gray-lt); border-radius:12px; padding:14px 12px 12px; text-align:center; }
+    .selo .i { font-size:34px; line-height:1; }
+    .selo b { display:block; font-size:12px; margin-top:8px; }
+    .selo span { display:block; font-size:10px; color:var(--gray-md); margin-top:3px; line-height:1.4; }
+    .selo.on { border-bottom-color:var(--blue); }
+    .selo.lock { opacity:.45; filter:grayscale(1); }
+    #toast { position:fixed; left:50%; bottom:28px; transform:translate(-50%,30px); background:#111; color:#fff; padding:12px 22px; border-radius:99px; font-size:13px; font-weight:600; opacity:0; pointer-events:none; transition:.35s; z-index:10001; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+    #toast.show { opacity:1; transform:translate(-50%,0); }
+    #story-ov { position:fixed; inset:0; background:rgba(0,0,0,.78); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:16px; }
+    #story-ov img { max-height:74vh; max-width:92vw; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+    #story-ov .row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    #story-ov button { font:700 13px 'Sora',sans-serif; padding:11px 22px; border-radius:99px; border:none; cursor:pointer; background:#fff; color:#111; }
+    #story-ov button.pri { background:#FFD21F; }
+    [data-theme="vegan2"] #hoje-card .s, [data-theme="vegan2"] .selo span { font-size:15px !important; }
+    [data-theme="vegan2"] .selo b { font-size:17px !important; }
+    [data-theme="vegan2"] #hoje-card .v { font-size:84px; }
+    [data-theme="rosa"] .selo { border:2px solid var(--gray-lt); border-radius:14px; box-shadow:3px 3px 0 var(--gray-lt); }
+    [data-theme="neo"] .selo { border:3px solid #0A0A0A; border-radius:14px; box-shadow:4px 4px 0 #0A0A0A; background:#FFFDF8; }
+    [data-theme="cassio"] .selo { background:transparent; border:1px solid #1A1A1A; border-radius:20px; }
+    [data-theme="vegan2"] .selo { border:3px solid #4F6B3A; border-radius:16px; background:#FFF8E6; }
+    @media (max-width:1180px) { #ciclo-label { display:none; } #confetti-btn .lbl, #story-btn .lbl { display:none; } }
+
+    /* ── PERFIL NO CABEÇALHO ── */
+    :root { --hl-fg:var(--white); }
+    [data-theme="rosa"] { --hl-fg:var(--black); } [data-theme="vegan2"] { --hl-fg:#2F4A1F; }
+    [data-theme="batman"] { --hl-fg:var(--black); } [data-theme="neo"] { --hl-fg:#FFFFFF; }
+    .perfil { display:flex; align-items:center; gap:12px; min-width:0; flex:1; }
+    .avatar { width:46px; height:46px; border-radius:50%; border:2px solid var(--hdr-fg); overflow:hidden; display:flex; align-items:center; justify-content:center; cursor:pointer; flex:none; background:rgba(128,128,128,.2); font-size:20px; }
+    .avatar img { width:100%; height:100%; object-fit:cover; }
+    .avatar img[hidden], .avatar .ph[hidden] { display:none; }
+    .pf-txt { display:flex; flex-direction:column; gap:1px; min-width:0; }
+    .pf-nome { background:transparent; border:1px solid transparent; color:var(--hdr-fg); font:700 15px 'Sora',sans-serif; padding:2px 8px; border-radius:8px; outline:none; width:210px; max-width:100%; }
+    .pf-nome::placeholder { color:var(--hdr-fg); opacity:.55; }
+    .pf-nome:hover { border-color:rgba(128,128,128,.45); }
+    .pf-nome:focus { border-color:var(--hdr-fg); background:rgba(128,128,128,.12); }
+    .perfil .msn-status { flex:none; max-width:none; margin:0; width:min(380px,42vw); gap:6px; }
+    .perfil #msn-text { padding:2px 8px; font-size:12px; }
+    .perfil #msn-dot { width:11px; height:11px; border-width:1.5px; box-shadow:0 0 0 2px rgba(128,128,128,.2); margin-left:8px; }
+    @media (max-width:760px) { .perfil { flex-basis:100%; } .perfil .msn-status { width:100%; order:0; flex-basis:auto; margin:0; } }
+
+    /* ── Card "hoje" mais leve ── */
+    #hoje-card .hello { font-size:14px; font-weight:600; color:var(--hl-fg); margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+    #hello-nome { background:transparent; border:none; border-bottom:1px dashed currentColor; color:var(--hl-fg); font:inherit; font-weight:700; padding:0 2px; width:150px; outline:none; }
+    #hello-nome::placeholder { color:var(--hl-fg); opacity:.5; }
+    #hoje-card .v { font-size:44px; font-weight:600; letter-spacing:-.01em; }
+    #hoje-card.ok .v { font-size:22px; font-weight:600; }
+    #hoje-card .s { font-size:12px; font-weight:400; }
+    [data-theme="vegan2"] #hoje-card .v { font-size:50px; font-weight:400 !important; }
+    [data-theme="vegan2"] #hoje-card.ok .v { font-size:28px; }
+    [data-theme="vegan2"] #hello-nome, [data-theme="vegan2"] #hoje-card .hello { font-size:19px !important; }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&family=Gaegu:wght@400;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script>try { document.documentElement.dataset.theme = localStorage.getItem('calc_tema') || 'skyline'; } catch (e) { }</script>
 </head>
 
 <body>
 
   <header>
-    <div class="header-logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <line x1="12" y1="2" x2="12" y2="22" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
-          <line x1="2" y1="12" x2="22" y2="12" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
-          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
-          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" stroke="#0560E1" stroke-width="2.2" stroke-linecap="round" />
-        </svg>
-      </div>
-      <div>
-        <div class="header-title">Calculadora de Jobs</div>
-        <div class="header-sub">Score & Metas</div>
+    <div class="perfil">
+      <label class="avatar" id="pf-avatar" title="Trocar foto de perfil"><span class="ph">📷</span><img id="pf-img" alt="" hidden><input type="file" id="pf-file" accept="image/*" hidden></label>
+      <div class="pf-txt">
+        <input type="text" id="pf-nome" class="pf-nome" maxlength="24" placeholder="Seu nome" autocomplete="off" spellcheck="false">
+        <div class="msn-status">
+          <button type="button" id="msn-dot" title="Disponível (clique para mudar)" aria-label="Mudar status"></button>
+          <input type="text" id="msn-text" maxlength="90" placeholder="‹ escreva seu status ›" autocomplete="off" spellcheck="false">
+        </div>
       </div>
     </div>
     <div class="hdr-right">
       <div style="font-size:11px;font-weight:600;color:var(--gray-md);letter-spacing:0.08em;text-transform:uppercase;"
       id="ciclo-label">Ciclo Ativo</div>
+      <div class="cd-pill" id="cd-pill"></div>
+      <button type="button" id="story-btn" onclick="gerarStory()" title="Gerar card para story">📸 <span class="lbl">Card</span></button>
+      <button type="button" id="som-btn" title="Som ligado/desligado">🔔</button>
+      <button type="button" id="confetti-btn" onclick="soltarConfete()">🎉 <span class="lbl">Soltar confete</span></button>
       <div class="theme-wrap" id="theme-wrap">
         <button type="button" id="theme-btn" aria-haspopup="true">🎨 <span class="lbl">Tema</span></button>
         <div id="theme-menu">
           <button type="button" class="theme-opt" data-t="skyline"><span class="sw" style="background:#0560E1"></span>Azul Skyline</button>
           <button type="button" class="theme-opt" data-t="rosa"><span class="sw" style="background:#F6A9BC"></span>Rosa Gamer Fofo</button>
           <button type="button" class="theme-opt" data-t="vegan"><span class="sw" style="background:#5F8F2A"></span>Vegan Green</button>
+          <button type="button" class="theme-opt" data-t="vegan2"><span class="sw" style="background:#D4604A"></span>Vegan 2 (maçã)</button>
+          <button type="button" class="theme-opt" data-t="batman"><span class="sw" style="background:#0B0B0B;box-shadow:0 0 0 2px #F5C518"></span>Batman</button>
+          <button type="button" class="theme-opt" data-t="neo"><span class="sw" style="background:#FFD21F;box-shadow:0 0 0 2px #0A0A0A"></span>Neo Colors</button>
+          <button type="button" class="theme-opt" data-t="cassio"><span class="sw" style="background:#E8EFE1;box-shadow:0 0 0 2px #1A1A1A"></span>Cassio</button>
         </div>
       </div>
     </div>
   </header>
 
   <main>
+
+    <div class="plan-card hl" id="hoje-card">
+      <div class="hello">Olá, <input type="text" id="hello-nome" maxlength="24" placeholder="seu nome" autocomplete="off" spellcheck="false"> 👋</div>
+      <div id="hoje-body"></div>
+    </div>
 
     <div class="section-label" style="margin-bottom:14px;">01 — Entradas</div>
 
@@ -724,6 +971,9 @@
       <p class="note">Feriados nacionais são calculados automaticamente para qualquer ano (inclui os móveis, a partir da Páscoa). Sábados e domingos nunca contam. Se o dia 27 não for útil, o ciclo fecha no dia útil anterior, e o ciclo seguinte começa no dia depois desse fechamento.</p>
     </div>
 
+
+    <div class="section-label" style="margin:36px 0 14px;">06 — Conquistas</div>
+    <div class="estante" id="estante"></div>
   </main>
 
   <footer>Calculadora de Jobs &nbsp;·&nbsp; Score do Ciclo</footer>
@@ -1069,6 +1319,11 @@
       const falta = Math.max(0, alvoPts - state.pontos);
       const ideal = total ? Math.round(alvoPts * done / total) : 0;
       const diff = state.pontos - ideal;
+      const doneIncl = days.filter(d => d <= T).length;
+      const metaHoje = Math.round(alvoPts * doneIncl / (total || 1));
+      const okHoje = doneIncl > 0 && alvoPts > 0 && state.pontos > 0 && state.pontos >= metaHoje;
+      if (window.__okHoje === false && okHoje) setTimeout(() => { soltarConfete(); tocarPlim(); }, 150);
+      window.__okHoje = okHoje;
 
       document.getElementById('plan-info').innerHTML =
         `<b>Janela:</b> ${fmtLong(days[0])} → ${fmtLong(cyc.end)} &nbsp;·&nbsp; <b>${total} dias úteis</b> (${rem} restantes)<br>` +
@@ -1135,6 +1390,12 @@
       document.getElementById('hol-extras').innerHTML = PREFS.extras.length
         ? PREFS.extras.map((e, i) => `<li>${e.date.split('-').reverse().join('/')} — ${e.name || 'Folga'}<button class="x" onclick="removeExtra(${i})" title="Remover">✕</button></li>`).join('')
         : '<li><span>Nenhum feriado extra cadastrado.</span></li>';
+
+      const pctN = state.meta > 0 ? state.pontos / state.meta * 100 : 0;
+      const bnd = bands.find(b => pctN >= b.minPct && pctN < b.maxPct) || bands[bands.length - 1];
+      PLAN = { days, end: cyc.end };
+      LAST = { ciclo: `${fmtD(cyc.start)} → ${fmtD(cyc.end)}`, pct: pctN, band: bnd, pontos: state.pontos, meta: state.meta, alvoPts, alvo: PREFS.alvo, falta, perDay, rem, total, okHoje, metaHoje, doneIncl, diff };
+      renderHoje(); renderCountdown(); renderSelos();
     }
 
     function addExtra() {
@@ -1167,8 +1428,50 @@
       });
     })();
 
+    // ─── Confete ──────────────────────────────────────────────────────────────────
+    const CONFETTI_COLORS = {
+      skyline: ['#0560E1', '#7FB0FF', '#FFFFFF', '#FFD21F', '#1D9E75'],
+      rosa: ['#EE8FA5', '#F9C5D1', '#FFFFFF', '#D96F89', '#FFD6E0'],
+      vegan: ['#5F8F2A', '#9BC25A', '#D9A441', '#1F5C69', '#FCF6E2'],
+      vegan2: ['#D4604A', '#7FA650', '#F3EAA6', '#6E8B3D', '#E5586B'],
+      batman: ['#F5C518', '#FFFFFF', '#8C8C8C', '#3A3A3A', '#D9AB0A'],
+      neo: ['#FF4D7E', '#7B6CF6', '#3DBB3D', '#FFD21F', '#0A0A0A'],
+      cassio: ['#1A1A1A', '#7C8374', '#A5AE9B', '#C9D9B8', '#FFFFFF']
+    };
+    let confettiRaf = null;
+    function soltarConfete() {
+      const cols = CONFETTI_COLORS[document.documentElement.dataset.theme] || CONFETTI_COLORS.skyline;
+      let cv = document.getElementById('confetti-cv');
+      if (!cv) {
+        cv = document.createElement('canvas'); cv.id = 'confetti-cv';
+        cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+        document.body.appendChild(cv);
+      }
+      cv.width = innerWidth; cv.height = innerHeight;
+      const ctx = cv.getContext('2d');
+      const ps = Array.from({ length: 180 }, () => ({
+        x: Math.random() * cv.width, y: -Math.random() * cv.height * 0.8 - 10,
+        w: 6 + Math.random() * 8, h: 4 + Math.random() * 6, c: cols[(Math.random() * cols.length) | 0],
+        vy: 2 + Math.random() * 3.5, vx: -1 + Math.random() * 2, a: Math.random() * 6.28, va: -0.2 + Math.random() * 0.4,
+        sw: Math.random() * 6.28, round: Math.random() < 0.25
+      }));
+      cancelAnimationFrame(confettiRaf);
+      (function frame() {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        let alive = 0;
+        ps.forEach(p => {
+          p.y += p.vy; p.sw += 0.05; p.x += p.vx + Math.sin(p.sw) * 1.2; p.a += p.va;
+          if (p.y < cv.height + 20) alive++;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c;
+          if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 6.28); ctx.fill(); } else ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        if (alive) confettiRaf = requestAnimationFrame(frame); else cv.remove();
+      })();
+    }
+
     // ─── Temas ────────────────────────────────────────────────────────────────────
-    const THEMES = { skyline: 'Azul Skyline', rosa: 'Rosa Gamer', vegan: 'Vegan Green' };
+    const THEMES = { skyline: 'Azul Skyline', rosa: 'Rosa Gamer', vegan: 'Vegan Green', vegan2: 'Vegan 2', batman: 'Batman', neo: 'Neo Colors', cassio: 'Cassio' };
     function setTheme(t) {
       if (!THEMES[t]) t = 'skyline';
       document.documentElement.dataset.theme = t;
@@ -1182,6 +1485,220 @@
       document.querySelectorAll('.theme-opt').forEach(b => b.addEventListener('click', () => { setTheme(b.dataset.t); wrap.classList.remove('open'); }));
       document.addEventListener('click', () => wrap.classList.remove('open'));
       setTheme(document.documentElement.dataset.theme);
+    })();
+
+    // ─── Status estilo MSN ────────────────────────────────────────────────────────
+    (function wireStatus() {
+      const STS = [['#3DBB3D', 'Disponível'], ['#E5484D', 'Ocupado'], ['#F5B50A', 'Ausente'], ['#9AA0A6', 'Invisível']];
+      let st = { text: '', i: 0 };
+      try { const r = JSON.parse(localStorage.getItem('calc_status') || 'null'); if (r) st = { ...st, ...r }; } catch { }
+      const dot = document.getElementById('msn-dot'), txt = document.getElementById('msn-text');
+      const save = () => { try { localStorage.setItem('calc_status', JSON.stringify(st)); } catch { } };
+      const paint = () => { dot.style.background = STS[st.i][0]; dot.title = STS[st.i][1] + ' (clique para mudar)'; };
+      txt.value = st.text; paint();
+      dot.addEventListener('click', () => { st.i = (st.i + 1) % STS.length; paint(); save(); });
+      txt.addEventListener('input', () => { st.text = txt.value; save(); });
+      txt.addEventListener('keydown', e => { if (e.key === 'Enter') txt.blur(); });
+    })();
+
+    // ─── Hoje, contagem, som, selos e story ───────────────────────────────────────
+    let PLAN = null, LAST = null;
+
+    function renderHoje() {
+      const card = document.getElementById('hoje-card'), el = document.getElementById('hoje-body'), L = LAST; if (!el || !L) return;
+      let big, sub;
+      if (L.doneIncl === 0) { big = '—'; sub = 'O ciclo ainda não começou.'; }
+      else if (L.okHoje) { big = '✓ Meta do dia batida'; sub = `Você está ${fmt(L.pontos - L.metaHoje)} pts à frente do plano de hoje.`; }
+      else { big = fmt(L.metaHoje - L.pontos); sub = `pts para bater a meta de hoje · plano acumulado ${fmt(L.metaHoje)} · você ${fmt(L.pontos)}`; }
+      card.classList.toggle('ok', !!L.okHoje);
+      el.innerHTML = `<div class="k">Quanto preciso hoje?</div><div class="v">${big}</div><div class="s">${sub}</div>`;
+    }
+
+    function renderCountdown() {
+      const el = document.getElementById('cd-pill'); if (!el || !PLAN) return;
+      const n = new Date(), t0 = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+      const after = PLAN.days.filter(d => d > t0).length;
+      const todayBiz = PLAN.days.some(d => dkey(d) === dkey(t0));
+      const h = 24 - n.getHours();
+      let t;
+      if (t0 > PLAN.end) t = 'ciclo encerrado';
+      else if (after === 0 && todayBiz) t = `fecha hoje · ${h} h`;
+      else t = `faltam ${after} ${after === 1 ? 'dia útil' : 'dias úteis'}${todayBiz ? ` e ${h} h` : ''}`;
+      el.textContent = '⏳ ' + t;
+    }
+    setInterval(renderCountdown, 60000);
+
+    let SOM = true; try { SOM = localStorage.getItem('calc_som') !== '0'; } catch { }
+    function tocarPlim() {
+      if (!SOM) return;
+      try {
+        const ac = new (window.AudioContext || window.webkitAudioContext)();
+        [[880, 0], [1318.5, 0.13]].forEach(([f, t]) => {
+          const o = ac.createOscillator(), g = ac.createGain(), a = ac.currentTime + t;
+          o.type = 'sine'; o.frequency.value = f;
+          g.gain.setValueAtTime(0.0001, a); g.gain.exponentialRampToValueAtTime(0.25, a + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, a + 0.7);
+          o.connect(g); g.connect(ac.destination); o.start(a); o.stop(a + 0.75);
+        });
+        setTimeout(() => ac.close(), 1600);
+      } catch { }
+    }
+    (function wireSom() {
+      const b = document.getElementById('som-btn');
+      const paint = () => { b.textContent = SOM ? '🔔' : '🔕'; b.title = SOM ? 'Som ligado (clique para silenciar)' : 'Som desligado (clique para ligar)'; };
+      paint();
+      b.addEventListener('click', () => { SOM = !SOM; try { localStorage.setItem('calc_som', SOM ? '1' : '0'); } catch { } paint(); tocarPlim(); });
+    })();
+
+    function toast(msg) {
+      let t = document.getElementById('toast');
+      if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+      t.textContent = msg; void t.offsetWidth; t.classList.add('show');
+      clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    const SELOS = [
+      { id: 'start', i: '🌱', n: 'Primeiro passo', d: 'Lançou os primeiros pontos', ok: L => L.pontos > 0 },
+      { id: 'dia', i: '☀️', n: 'Meta do dia', d: 'Bateu a meta de hoje', ok: L => L.okHoje },
+      { id: 'verde', i: '🍀', n: 'Primeira semana no verde', d: 'Em dia com o plano após 5 dias úteis', ok: L => L.pontos > 0 && L.diff >= 0 && L.doneIncl >= 5 },
+      { id: 'frente', i: '🚀', n: 'Na frente', d: 'Um dia inteiro à frente do plano', ok: L => L.pontos > 0 && L.total > 0 && L.diff >= Math.ceil(L.alvoPts / L.total) },
+      { id: 'metade', i: '🧭', n: 'Metade do caminho', d: '50% da meta', ok: L => L.pct >= 50 },
+      { id: 'p91', i: '⭐', n: '91% atingido', d: 'Entrou na faixa de 90% de bônus', ok: L => L.pct >= 91 },
+      { id: 'p100', i: '🎯', n: 'Meta batida', d: '100% da meta', ok: L => L.pct >= 100 },
+      { id: 'p120', i: '🔥', n: '120% atingido', d: 'Faixa de 120% de bônus', ok: L => L.pct >= 120 },
+      { id: 'p160', i: '👑', n: 'Lenda', d: '160% ou mais', ok: L => L.pct >= 160 },
+      { id: 'alvo', i: '🏆', n: 'Alvo do ciclo', d: 'Chegou na faixa que escolheu', ok: L => L.alvoPts > 0 && L.pontos >= L.alvoPts }
+    ];
+    let SELOS_GANHOS = [];
+    function renderSelos() {
+      const L = LAST, el = document.getElementById('estante'); if (!L || !el) return;
+      const key = 'calc_selos:' + L.ciclo;
+      let saved = []; try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch { }
+      const now = SELOS.filter(x => x.ok(L)).map(x => x.id);
+      const all = [...new Set([...saved, ...now])];
+      const novos = now.filter(id => !saved.includes(id));
+      try { localStorage.setItem(key, JSON.stringify(all)); } catch { }
+      if (window.__selosInit && novos.length) {
+        const x = SELOS.find(s => s.id === novos[0]);
+        toast(`🏆 Nova conquista: ${x.i} ${x.n}`);
+        if (!window.__okHojeAcabou) tocarPlim();
+      }
+      window.__selosInit = true;
+      SELOS_GANHOS = SELOS.filter(x => all.includes(x.id));
+      el.innerHTML = SELOS.map(x => {
+        const on = all.includes(x.id);
+        return `<div class="selo ${on ? 'on' : 'lock'}"><div class="i">${on ? x.i : '🔒'}</div><b>${x.n}</b><span>${x.d}</span></div>`;
+      }).join('');
+    }
+
+    // ─── Card para story ──────────────────────────────────────────────────────────
+    const STORY = {
+      skyline: { bg: ['#0560E1', '#050E21'], fg: '#FFFFFF', ac: '#FFD21F', card: 'rgba(255,255,255,.12)', line: null, sh: null, f: 'Sora' },
+      rosa: { bg: ['#FFE9EF', '#FFB8CB'], fg: '#8A3552', ac: '#D9567A', card: 'rgba(255,255,255,.8)', line: '#F3BCCB', sh: '#F3BCCB', f: 'Quicksand' },
+      vegan: { bg: ['#1F5C69', '#5F8F2A'], fg: '#FCF6E2', ac: '#F2C25B', card: 'rgba(252,246,226,.14)', line: null, sh: null, f: 'Nunito' },
+      vegan2: { bg: ['#DDEBC0', '#94B26B'], fg: '#2F4A1F', ac: '#C4513F', card: '#FFF8E6', line: '#4F6B3A', sh: '#4F6B3A', f: 'Gaegu' },
+      batman: { bg: ['#262210', '#0B0B0B'], fg: '#FFFFFF', ac: '#F5C518', card: '#161616', line: '#2B2B2B', sh: null, f: 'Sora' },
+      neo: { bg: ['#FFD21F', '#FFD21F'], fg: '#0A0A0A', ac: '#FF4D7E', card: '#FFFDF8', line: '#0A0A0A', sh: '#0A0A0A', f: 'Space Grotesk' },
+      cassio: { bg: ['#E8EFE1', '#E8EFE1'], fg: '#1A1A1A', ac: '#1A1A1A', card: 'rgba(0,0,0,0)', line: '#1A1A1A', sh: null, f: 'Space Mono' }
+    };
+    function rr(c, x, y, w, h, r) {
+      c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r);
+      c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+    }
+    async function gerarStory() {
+      const L = LAST; if (!L) return;
+      const th = document.documentElement.dataset.theme || 'skyline', P = STORY[th] || STORY.skyline;
+      try { await Promise.all([500, 700, 800].map(w => document.fonts.load(`${w} 60px "${P.f}"`))); } catch { }
+      const foto = PERFIL.foto ? await new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = PERFIL.foto; }) : null;
+      const W = 1080, H = 1920, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+      const c = cv.getContext('2d'), F = (w, sz) => `${w} ${sz}px "${P.f}", Sora, sans-serif`;
+      const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, P.bg[0]); g.addColorStop(1, P.bg[1]);
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+      c.globalAlpha = .16; c.fillStyle = P.ac;
+      [[960, 120, 360], [40, 1500, 300]].forEach(([x, y, r]) => { c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); });
+      c.globalAlpha = 1;
+      const T = (t, x, y, font, col, al = 'left') => { c.font = font; c.fillStyle = col; c.textAlign = al; c.fillText(t, x, y); };
+      const stroke = (fn, w = 5) => { if (P.line) { c.lineWidth = w; c.strokeStyle = P.line; fn(); c.stroke(); } };
+      // perfil
+      const cx = 150, cy = 190, R = 72;
+      c.save(); c.beginPath(); c.arc(cx, cy, R, 0, 7); c.clip();
+      if (foto) { const sz = Math.min(foto.width, foto.height); c.drawImage(foto, (foto.width - sz) / 2, (foto.height - sz) / 2, sz, sz, cx - R, cy - R, R * 2, R * 2); }
+      else { c.fillStyle = P.ac; c.fillRect(cx - R, cy - R, R * 2, R * 2); T((PERFIL.nome || '🙂').trim().charAt(0).toUpperCase(), cx, cy + 28, F(800, 80), P.bg[0] === P.ac ? '#fff' : (th === 'cassio' ? '#E8EFE1' : '#0A0A0A'), 'center'); }
+      c.restore();
+      c.lineWidth = 6; c.strokeStyle = P.line || P.fg; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.stroke();
+      const nome = PERFIL.nome || 'Meu ciclo';
+      T(nome, 250, 185, F(800, 54), P.fg);
+      const fr = (document.getElementById('msn-text') || {}).value || '';
+      if (fr) T(fr.length > 38 ? fr.slice(0, 36) + '…' : fr, 250, 238, F(500, 34), P.fg);
+      T('CICLO ' + L.ciclo, W - 80, 90, F(700, 28), P.fg, 'right');
+      // herói
+      T('Você está em', 80, 470, F(600, 52), P.fg);
+      const pct = L.pct.toFixed(1).replace('.', ',') + '%';
+      let fs = 340; c.font = F(800, fs); while (c.measureText(pct).width > W - 160) { fs -= 10; c.font = F(800, fs); }
+      const by = 470 + fs * 0.9;
+      T(pct, 80, by, F(800, fs), P.ac);
+      T('da meta do ciclo', 80, by + 78, F(600, 48), P.fg);
+      const bl = L.pct > 0 ? `${L.band.label} · bônus ${L.band.bonus}` : 'Bora começar!';
+      c.font = F(700, 38); const pw = c.measureText(bl).width + 72, py = by + 130;
+      c.fillStyle = L.pct > 0 ? L.band.color : P.card; rr(c, 80, py, pw, 80, 40); c.fill(); stroke(() => rr(c, 80, py, pw, 80, 40));
+      T(bl, 116, py + 54, F(700, 38), L.pct > 0 ? '#0A0A0A' : P.fg);
+      // barra
+      const bY = py + 150;
+      c.fillStyle = 'rgba(128,128,128,.3)'; rr(c, 80, bY, 920, 38, 19); c.fill();
+      c.fillStyle = L.pct > 0 ? L.band.color : 'rgba(128,128,128,.5)'; rr(c, 80, bY, Math.max(38, Math.min(L.pct / 160, 1) * 920), 38, 19); c.fill();
+      stroke(() => rr(c, 80, bY, 920, 38, 19));
+      // resumo (um único cartão)
+      const sY = bY + 100, cols3 = [['Pontos feitos', fmt(L.pontos), P.fg], ['Faltam', fmt(L.falta), P.ac], ['Por dia útil', L.perDay == null ? '—' : fmt(L.perDay), P.fg]];
+      if (P.sh) { c.fillStyle = P.sh; rr(c, 90, sY + 10, 920, 250, 44); c.fill(); }
+      c.fillStyle = P.card; rr(c, 80, sY, 920, 250, 44); c.fill(); stroke(() => rr(c, 80, sY, 920, 250, 44));
+      cols3.forEach((it, i) => {
+        const x = 80 + 153 + i * 307;
+        T(it[0], x, sY + 90, F(600, 30), P.fg, 'center');
+        c.font = F(800, 84); let sz = 84; while (c.measureText(it[1]).width > 270 && sz > 40) { sz -= 6; c.font = F(800, sz); }
+        T(it[1], x, sY + 190, F(800, sz), it[2], 'center');
+      });
+      // extras discretos
+      let y = sY + 330;
+      if (L.okHoje) { T('Meta do dia batida 🎉', W / 2, y, F(700, 42), P.ac, 'center'); y += 90; }
+      if (SELOS_GANHOS.length) T(SELOS_GANHOS.slice(0, 8).map(x => x.i).join('  '), W / 2, y + 40, F(600, 64), P.fg, 'center');
+      T(new Date().toLocaleDateString('pt-BR'), 80, H - 80, F(600, 30), P.fg);
+      T('Calculadora de Jobs', W - 80, H - 80, F(600, 30), P.fg, 'right');
+      mostrarStory(cv);
+    }
+    function mostrarStory(cv) {
+      const old = document.getElementById('story-ov'); if (old) old.remove();
+      const ov = document.createElement('div'); ov.id = 'story-ov';
+      const url = cv.toDataURL('image/png');
+      ov.innerHTML = `<img src="${url}" alt="Card do ciclo"><div class="row"><button class="pri" id="st-dl">⬇ Baixar PNG</button><button id="st-sh">↗ Compartilhar</button><button id="st-x">Fechar</button></div>`;
+      document.body.appendChild(ov);
+      ov.addEventListener('click', e => { if (e.target === ov) ov.remove(); });
+      ov.querySelector('#st-x').onclick = () => ov.remove();
+      ov.querySelector('#st-dl').onclick = () => { const a = document.createElement('a'); a.href = url; a.download = 'meu-ciclo-story.png'; a.click(); };
+      ov.querySelector('#st-sh').onclick = () => cv.toBlob(async b => {
+        const f = new File([b], 'meu-ciclo-story.png', { type: 'image/png' });
+        try { if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f], title: 'Meu ciclo' }); else toast('Seu navegador não compartilha imagem — use Baixar PNG'); } catch { }
+      });
+    }
+
+    // ─── Perfil (foto, nome) ──────────────────────────────────────────────────────
+    let PERFIL = { nome: '', foto: '' };
+    try { const r = JSON.parse(localStorage.getItem('calc_perfil') || 'null'); if (r) PERFIL = { ...PERFIL, ...r }; } catch { }
+    (function wirePerfil() {
+      const save = () => { try { localStorage.setItem('calc_perfil', JSON.stringify(PERFIL)); } catch { } };
+      const ins = ['pf-nome', 'hello-nome'].map(id => document.getElementById(id));
+      ins.forEach(el => { el.value = PERFIL.nome; el.addEventListener('input', () => { PERFIL.nome = el.value; ins.forEach(o => { if (o !== el) o.value = el.value; }); save(); }); el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); }); });
+      const img = document.getElementById('pf-img'), ph = document.querySelector('#pf-avatar .ph');
+      const paint = () => { img.hidden = !PERFIL.foto; ph.hidden = !!PERFIL.foto; if (PERFIL.foto) img.src = PERFIL.foto; };
+      paint();
+      document.getElementById('pf-file').addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = () => { const im = new Image(); im.onload = () => {
+          const sz = Math.min(im.width, im.height), cv = document.createElement('canvas'); cv.width = cv.height = 256;
+          cv.getContext('2d').drawImage(im, (im.width - sz) / 2, (im.height - sz) / 2, sz, sz, 0, 0, 256, 256);
+          PERFIL.foto = cv.toDataURL('image/jpeg', 0.85); save(); paint();
+        }; im.src = r.result; };
+        r.readAsDataURL(f); e.target.value = '';
+      });
     })();
 
     // ─── Render inicial ───────────────────────────────────────────────────────────
