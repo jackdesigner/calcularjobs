@@ -135,10 +135,12 @@ h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;
 .goal{position:absolute;top:-6px;bottom:-6px;width:2px;margin-left:-1px;background:var(--ink);border-radius:2px}
 .pin{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:var(--solid);border:5px solid var(--brand);transform:translate(-50%,-50%);transition:left .6s cubic-bezier(.2,.8,.2,1)}
 .marker{position:absolute;top:-36px;transform:translateX(-50%);font-size:12px;font-weight:700;background:var(--ink);color:var(--solid);padding:3px 10px;border-radius:999px;white-space:nowrap;transition:left .6s cubic-bezier(.2,.8,.2,1)}
-.ticks{position:relative;height:18px;margin-top:12px;font-size:11.5px;color:var(--muted);font-weight:600}
-.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ticks{position:relative;height:32px;margin-top:12px;font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.25}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap;text-align:center}
 .ticks span.first{transform:none}
 .ticks span.goal-t{color:var(--ink);font-weight:800}
+.ticks span.goal-t small{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:900px){.ticks span.near{display:none}}
 .fx-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .fx{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
 .fx small{font-size:12px;color:var(--muted);font-weight:600}
@@ -805,7 +807,7 @@ function renderCycle(L){
   $('goal').style.left=pos(PREFS.alvo)+'%';
   $('pin').style.left=pos(L.pct)+'%';
   const m=$('marker');m.style.left=Math.max(8,Math.min(92,pos(L.pct)))+'%';m.textContent='Você · '+fpct(L.pct);
-  $('ticks').innerHTML=BANDS.map((b,i)=>{const g=b.pct===PREFS.alvo,minor=i>=2&&i<=5&&!g;return `<span class="${minor?'minor':''} ${g?'goal-t':''} ${i===0?'first':''}" style="left:${pos(b.pct)}%">${i===BANDS.length-1?'160%+':b.pct+'%'}${g?' · alvo':''}</span>`}).join('');
+  $('ticks').innerHTML=BANDS.map((b,i)=>{const g=b.pct===PREFS.alvo,minor=i>=2&&i<=5&&!g,near=!g&&(Math.abs(b.pct-PREFS.alvo)<12||b.pct===91);return `<span class="${minor?'minor':''} ${near?'near':''} ${g?'goal-t':''} ${i===0?'first':''}" style="left:${pos(b.pct)}%">${i===BANDS.length-1?'160%+':b.pct+'%'}${g?'<small>alvo</small>':''}</span>`}).join('');
   const cb=BANDS[L.cur];
   $('fx-row').innerHTML=`<div class="fx"><small>Faixa atual</small><strong>${cb.label}</strong><span>bônus ${cb.bonus}</span></div>`+(L.next!=null?`<div class="fx next"><small>Próxima faixa</small><strong>${BANDS[L.next].label}</strong><span>bônus ${BANDS[L.next].bonus} · faltam <b class="num sens">${fmt(L.mins[L.next]-L.pontos)} pts</b></span></div>`:`<div class="fx next"><small>Próxima faixa</small><strong>Você está no topo</strong><span>bônus máximo de ${cb.bonus}</span></div>`);
   const pd=L.total?fmt1(L.alvoPts/L.total):'—';
