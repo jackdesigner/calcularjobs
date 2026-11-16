@@ -7,7 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&family=Gaegu:wght@400;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script>try{document.documentElement.dataset.theme=localStorage.getItem('calc_tema')||'skyline';if(localStorage.getItem('calc_ocultar')==='1')document.documentElement.classList.add('masked');}catch(e){}</script>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('calc_tema')||'skyline';if(localStorage.getItem('calc_ocultar')==='1')document.documentElement.classList.add('masked');}catch(e){}
+var __p='side';try{__p=localStorage.getItem('calc_conquistas_pos')||'side'}catch(e){}if(['top','side','off'].indexOf(__p)<0)__p='side';document.documentElement.classList.add('ach-'+__p);</script>
 <style>
 /* Layout: coluna principal (hoje → faixas → semana → detalhes). Conquistas: faixa compacta no topo; lateral fixa a partir de 1120px. Ajustes numa gaveta. */
 :root{
@@ -16,7 +17,7 @@
   --brand:#0560E1; --brand-deep:#03338A; --brand-soft:#E8F0FD; --on-brand:#FFFFFF;
   --hero-bg:#050E21; --hero-ink:#F3F6FF; --hero-muted:#9EA6B2; --hero-field:#111C36; --hero-line:#263352; --hero-track:#1B2846; --hero-accent:#4D8DFF; --hero-border:0 solid transparent; --hero-shadow:none;
   --warn:#C2410C; --warn-soft:#FDEEE4; --good:#0E8A5C; --good-soft:#E2F5EC;
-  --gold:#D9A936; --gold-deep:#8A5F0B; --medal-ink:#FFFFFF; --track:#E4E9F1;
+  --gold:#D9A936; --gold-deep:#8A5F0B; --medal-ink:#FFFFFF; --medal-bg:#FFFFFF; --track:#E4E9F1;
   --scrim:rgba(5,14,33,.45); --shadow:0 18px 50px -20px rgba(5,14,33,.35);
   --r:16px; --r-hero:20px; --bw:1px; --bs:solid; --card-shadow:none;
 }
@@ -37,7 +38,7 @@
 [data-theme="batman"]{ color-scheme:dark; --surface:#141414; --solid:#141414; --surface-2:#1C1C1C; --ink:#ECECEC; --muted:#9A9A9A; --line:#2B2B2B;
   --brand:#F5C518; --brand-deep:#8A6D00; --brand-soft:#2A2610; --on-brand:#0B0B0B;
   --hero-bg:#101010; --hero-ink:#FFFFFF; --hero-muted:#9A9A9A; --hero-field:#1A1A1A; --hero-line:#2B2B2B; --hero-track:#262626; --hero-accent:#F5C518; --hero-border:1px solid #2B2B2B;
-  --warn:#FF8A50; --warn-soft:#3A1E0F; --good:#43CF95; --good-soft:#0F2D22; --gold:#F5C518; --gold-deep:#8A6D00; --track:#262626; --scrim:rgba(0,0,0,.65); }
+  --warn:#FF8A50; --warn-soft:#3A1E0F; --good:#43CF95; --good-soft:#0F2D22; --gold:#F5C518; --gold-deep:#8A6D00; --track:#262626; --scrim:rgba(0,0,0,.65); --medal-bg:#EDEDED; }
 [data-theme="neo"]{ --font:'Space Grotesk',sans-serif; --surface:#FFFDF8; --solid:#FFFDF8; --surface-2:#FFF3B8; --ink:#0A0A0A; --muted:#3F3F3F; --line:#0A0A0A;
   --brand:#7B6CF6; --brand-deep:#3A2BB8; --brand-soft:#E9E5FF; --on-brand:#FFFFFF;
   --hero-bg:#0A0A0A; --hero-ink:#FFFDF8; --hero-muted:#BDBDBD; --hero-field:#1C1C1C; --hero-line:#3A3A3A; --hero-track:#2A2A2A; --hero-accent:#FF4D7E; --hero-border:3px solid #0A0A0A; --hero-shadow:6px 6px 0 #7B6CF6;
@@ -45,7 +46,7 @@
 [data-theme="cassio"]{ --font:'Space Mono',monospace; --font-h:'Space Grotesk',sans-serif; --bg:#E8EFE1; --surface:transparent; --solid:#E8EFE1; --surface-2:#DCE5D2; --ink:#1A1A1A; --muted:#5F6758; --line:#1A1A1A;
   --brand:#1A1A1A; --brand-deep:#000000; --brand-soft:#DCE5D2; --on-brand:#E8EFE1;
   --hero-bg:transparent; --hero-ink:#1A1A1A; --hero-muted:#5F6758; --hero-field:transparent; --hero-line:#1A1A1A; --hero-track:#D3DCC8; --hero-accent:#1A1A1A; --hero-border:1px solid #1A1A1A;
-  --track:#D3DCC8; --gold:#A88B3A; --gold-deep:#5E4C17; --r:24px; --r-hero:32px; }
+  --track:#D3DCC8; --gold:#A88B3A; --gold-deep:#5E4C17; --r:24px; --r-hero:32px; --medal-bg:#F4F8EF; }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg)}
@@ -217,32 +218,33 @@ tr.past td{color:var(--muted)}
 .r-fg{stroke:var(--brand);stroke-linecap:round}
 .medal.gold .r-fg{stroke:var(--gold)}
 .medal .core{position:absolute;inset:14%;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
-.medal .core svg{width:48%;height:48%}
-.medal.on .core{background:linear-gradient(150deg,var(--brand),var(--brand-deep));color:var(--medal-ink);border:0;box-shadow:0 5px 14px -6px var(--brand)}
-.medal.on.gold .core{background:linear-gradient(150deg,var(--gold),var(--gold-deep));box-shadow:0 5px 14px -6px var(--gold)}
-.medal.on .core::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,#fff 0%,transparent 42%);opacity:.22}
+.medal .core img{width:74%;height:74%;object-fit:contain;filter:grayscale(1);opacity:.4;transition:filter .3s,opacity .3s}
+.medal.on .core{background:var(--medal-bg);border-color:transparent;box-shadow:0 4px 12px -6px var(--brand)}
+.medal.on.gold .core{box-shadow:0 4px 12px -6px var(--gold)}
+.medal.on .core img{filter:none;opacity:1}
 .lock{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:15px;min-height:15px;border-radius:50%;background:var(--solid);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
 .lock svg{width:60%;height:60%}
 .medal.pop{animation:pop .7s cubic-bezier(.2,1.6,.4,1)}
 @keyframes pop{from{transform:scale(.6)}to{transform:scale(1)}}
 .sub-h{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--muted)}
 @media (min-width:640px){.badges{justify-content:space-between}}
+.ach-off .ach{display:none}
 @media (min-width:1120px){
-  .page{max-width:1112px;display:grid;grid-template-columns:minmax(0,1fr) 312px;gap:16px 24px;align-items:start}
-  .top{grid-column:1/-1}
-  .main{grid-column:1;grid-row:2}
-  .ach{grid-column:2;grid-row:2;position:sticky;top:20px;padding:20px;gap:18px}
-  .feat{flex-direction:column;align-items:flex-start;background:var(--surface-2);border-radius:14px;padding:16px}
-  .feat-t{width:100%;gap:6px}
-  .feat-t p{display:block}
-  .medal.lg{width:68px;height:68px}
-  .quests{display:grid;gap:12px}
-  .q{display:flex;gap:12px;align-items:center;background:none;border:0;padding:0;cursor:pointer;text-align:left;width:100%}
-  .q-t{min-width:0;flex:1;display:grid;gap:4px}
-  .q-t strong{font-size:13.5px}
-  .q-t span{font-size:12px;color:var(--muted);font-weight:600}
-  .q .bar{height:6px}
-  .badges{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;overflow:visible;justify-items:center}
+  .ach-side .page{max-width:1112px;display:grid;grid-template-columns:minmax(0,1fr) 312px;gap:16px 24px;align-items:start}
+  .ach-side .top{grid-column:1/-1}
+  .ach-side .main{grid-column:1;grid-row:2}
+  .ach-side .ach{grid-column:2;grid-row:2;position:sticky;top:20px;padding:20px;gap:18px}
+  .ach-side .feat{flex-direction:column;align-items:flex-start;background:var(--surface-2);border-radius:14px;padding:16px}
+  .ach-side .feat-t{width:100%;gap:6px}
+  .ach-side .feat-t p{display:block}
+  .ach-side .medal.lg{width:68px;height:68px}
+  .ach-side .quests{display:grid;gap:12px}
+  .ach-side .q{display:flex;gap:12px;align-items:center;background:none;border:0;padding:0;cursor:pointer;text-align:left;width:100%}
+  .ach-side .q-t{min-width:0;flex:1;display:grid;gap:4px}
+  .ach-side .q-t strong{font-size:13.5px}
+  .ach-side .q-t span{font-size:12px;color:var(--muted);font-weight:600}
+  .ach-side .q .bar{height:6px}
+  .ach-side .badges{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;overflow:visible;justify-items:center}
 }
 
 footer{font-size:12.5px;color:var(--muted);text-align:center;padding:8px}
@@ -251,17 +253,29 @@ footer a{color:inherit}
 /* gaveta */
 .scrim{position:fixed;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 .scrim.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--solid);color:var(--ink);border-left:var(--bw) var(--bs) var(--line);box-shadow:var(--shadow);transform:translateX(100%);visibility:hidden;transition:transform .25s cubic-bezier(.2,.8,.2,1),visibility 0s .25s;z-index:30;overflow:auto;display:flex;flex-direction:column;gap:22px;padding:20px 20px 32px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--solid);color:var(--ink);border-left:var(--bw) var(--bs) var(--line);box-shadow:var(--shadow);transform:translateX(100%);visibility:hidden;transition:transform .25s cubic-bezier(.2,.8,.2,1),visibility 0s .25s;z-index:30;overflow:auto;display:flex;flex-direction:column;gap:26px;padding:0 20px 32px}
 .drawer.open{transform:none;visibility:visible;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
-.dr-h{display:flex;justify-content:space-between;align-items:center}
+.dr-h{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;background:var(--solid);padding:18px 0 14px;margin:0 -20px -10px;padding-inline:20px;border-bottom:1px solid var(--line)}
 .dr-h strong{font-size:18px}
 .x{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--solid);cursor:pointer;display:grid;place-items:center}
-.dr-sec{display:grid;gap:14px;padding-top:18px;border-top:1px solid var(--line)}
-.dr-sec h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.field{display:grid;gap:6px}
-.field>label,.field .lbl{font-size:13px;font-weight:700}
-.field small,.dr-sec .note2{font-size:12.5px;color:var(--muted)}
-.field input,.field select,.add-row input{height:44px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:0 12px;font-size:15px;width:100%}
+.grp{display:grid;gap:8px}
+.grp>h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;padding-left:4px}
+.panel{display:grid;gap:14px;background:var(--surface-2);border-radius:14px;padding:16px}
+.panel .sep{height:1px;background:var(--line);margin:0 -16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--solid);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.seg span{display:block;text-align:center;padding:8px 4px;border-radius:7px;font-size:13px;font-weight:600}
+.seg input:checked+span{background:var(--brand);color:var(--on-brand)}
+.seg input:focus-visible+span{outline:2px solid var(--brand);outline-offset:1px}
+.field{display:grid;gap:6px;min-width:0}
+.field>label,.field .lbl,.sw .lbl{font-size:13.5px;font-weight:700}
+.field small,.sw small,.help{font-size:12.5px;color:var(--muted);line-height:1.45}
+.sw small{display:block;margin-top:2px}
+.help{padding-left:4px}
+.field input,.field select,.add-row input{height:44px;border-radius:10px;border:1px solid var(--line);background:var(--solid);color:var(--ink);padding:0 12px;font-size:15px;width:100%}
+.field input:focus,.field select:focus,.add-row input:focus{outline:none;border-color:var(--brand)}
 .field .hint{font-size:12.5px;font-weight:700;color:var(--brand);min-height:16px}
 .field .hint.err{color:var(--warn)}
 .sw{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -269,7 +283,7 @@ footer a{color:inherit}
 .sw input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--solid);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
 .sw input:checked{background:var(--brand)}
 .sw input:checked::after{transform:translateX(18px)}
-.info{font-size:13.5px;line-height:1.7;background:var(--surface-2);border-radius:12px;padding:12px 14px}
+.info{font-size:13px;line-height:1.7;background:var(--solid);border-radius:10px;padding:10px 12px}
 .info .warn{color:var(--warn);font-weight:600}
 .hol-list{list-style:none;font-size:13.5px;display:grid;gap:4px}
 .hol-list li{display:flex;justify-content:space-between;gap:8px;align-items:center}
@@ -286,6 +300,39 @@ footer a{color:inherit}
 .theme-opt .swc{width:20px;height:20px;border-radius:50%;flex:none;border:2px solid #fff;box-shadow:0 0 0 1px #CBD0D8}
 .chk{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer}
 
+/* onboarding */
+.ob{position:fixed;inset:0;z-index:9000;background:var(--scrim);display:grid;place-items:center;padding:16px;overflow:auto;animation:obIn .25s ease}
+@keyframes obIn{from{opacity:0}to{opacity:1}}
+.ob-card{width:min(540px,100%);background:var(--solid);color:var(--ink);border:var(--bw) var(--bs) var(--line);box-shadow:var(--shadow);border-radius:24px;padding:22px 26px 24px;display:grid;gap:18px;animation:obUp .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes obUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.ob-top{display:flex;justify-content:space-between;align-items:center}
+.ob-dots{display:flex;gap:6px}
+.ob-dots i{width:8px;height:8px;border-radius:99px;background:var(--track);transition:width .25s,background .25s}
+.ob-dots i.on{width:24px;background:var(--brand)}
+.ob-top .link{color:var(--muted);font-weight:600}
+.ob-step{display:grid;gap:12px;animation:obUp .3s cubic-bezier(.2,.8,.2,1)}
+.ob-hero{display:flex;justify-content:center;gap:4px;margin-bottom:2px}
+.ob-hero img{width:76px;height:76px;object-fit:contain}
+.ob-hero img:nth-child(2){width:92px;height:92px;margin-top:-10px}
+.ob-h{font-family:var(--font-h);font-size:clamp(22px,5vw,28px);line-height:1.15;letter-spacing:-.02em;text-align:center;text-wrap:balance;text-transform:none;color:var(--ink)}
+.ob-p{text-align:center;color:var(--muted);font-size:15px;text-wrap:pretty}
+.ob-feats{list-style:none;display:grid;gap:10px;margin-top:6px}
+.ob-feats li{display:flex;gap:14px;align-items:center;background:var(--surface-2);border-radius:14px;padding:10px 14px}
+.ob-feats img{width:42px;height:42px;object-fit:contain;flex:none}
+.ob-feats span{font-size:13.5px;color:var(--muted);display:grid}
+.ob-feats b{font-size:15px;color:var(--ink)}
+.ob-prof{display:flex;gap:20px;align-items:center;margin-top:6px}
+.ob-ava{position:relative;width:104px;height:104px;border-radius:50%;flex:none;cursor:pointer;background:var(--surface-2);border:2px dashed var(--line);display:grid;place-items:center;overflow:hidden;color:var(--muted);font-size:34px;font-weight:800}
+.ob-ava img{width:100%;height:100%;object-fit:cover}
+.ob-ava em{position:absolute;left:0;right:0;bottom:0;font-style:normal;font-size:11px;font-weight:700;background:rgba(0,0,0,.55);color:#fff;text-align:center;padding:4px 0 6px}
+.ob-ava .ico{width:30px;height:30px}
+.ob-fields{flex:1;display:grid;gap:12px;min-width:0}
+.ob-themes{margin-top:6px}
+.ob-themes .theme-opt{padding:12px;font-size:14px}
+.ob-nav{display:flex;justify-content:space-between;gap:10px;margin-top:4px}
+.ob-nav .btn-brand{height:46px;min-width:140px}
+.ob-nav .btn-line{height:46px}
+@media (max-width:520px){.ob-card{padding:18px 18px 20px;border-radius:20px}.ob-prof{flex-direction:column}.ob-feats li{padding:9px 12px}}
 #toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#111;color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:10001;max-width:calc(100% - 32px)}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 #story-ov{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px}
@@ -424,50 +471,127 @@ footer a{color:inherit}
     <button class="x" id="close-set" type="button" aria-label="Fechar ajustes"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
 
-  <div class="field"><label for="meta">Meta do ciclo (pts)</label><input type="text" id="meta" inputmode="decimal" autocomplete="off"><span class="hint" id="meta-hint"></span></div>
-  <div class="field"><label for="pontos">Pontos feitos no ciclo</label><input type="text" id="pontos" inputmode="decimal" autocomplete="off"><small>Total do ciclo. Aceita contas: "+100", "920-500".</small><span class="hint" id="pontos-hint"></span></div>
-  <div class="field"><label for="alvo-pct">Faixa a atingir</label><select id="alvo-pct"></select></div>
-  <div class="field sw"><span class="lbl" id="conta-l">Hoje ainda conta</span><input type="checkbox" id="conta-hoje" role="switch" aria-labelledby="conta-l"></div>
-
-  <div class="dr-sec">
-    <h3>Ciclo</h3>
-    <div class="field"><label for="ciclo-mes">Fechamento (mês)</label><input type="month" id="ciclo-mes"></div>
-    <div class="info" id="plan-info"></div>
-  </div>
-
-  <div class="dr-sec">
-    <h3>Calendário</h3>
-    <div class="field"><span class="lbl">Feriados em dia útil neste ciclo</span><ul class="hol-list" id="hol-cycle"></ul></div>
-    <div class="field"><span class="lbl">Ponto facultativo (marque se sua empresa dá folga)</span>
-      <label class="chk"><input type="checkbox" id="opt-carnaval"> Carnaval (segunda e terça)</label>
-      <label class="chk"><input type="checkbox" id="opt-corpus"> Corpus Christi</label>
+  <section class="grp" aria-labelledby="g-meta">
+    <h3 id="g-meta">Meta e pontos</h3>
+    <div class="panel">
+      <div class="row2">
+        <div class="field"><label for="meta">Meta do ciclo</label><input type="text" id="meta" inputmode="decimal" autocomplete="off"><span class="hint" id="meta-hint"></span></div>
+        <div class="field"><label for="pontos">Pontos feitos</label><input type="text" id="pontos" inputmode="decimal" autocomplete="off"><span class="hint" id="pontos-hint"></span></div>
+      </div>
+      <small class="help" style="margin-top:-12px">Os dois aceitam contas, como "+100" ou "920-500".</small>
+      <div class="sep"></div>
+      <div class="field"><label for="alvo-pct">Faixa a atingir</label><select id="alvo-pct"></select><small>A meta do dia é calculada para chegar ao início desta faixa.</small></div>
+      <div class="sep"></div>
+      <div class="sw"><div><span class="lbl" id="conta-l">Hoje ainda conta</span><small>Desligue no fim do expediente: a meta passa a contar a partir do próximo dia útil.</small></div><input type="checkbox" id="conta-hoje" role="switch" aria-labelledby="conta-l"></div>
     </div>
-    <div class="field"><span class="lbl">Feriado estadual, municipal ou folga extra</span>
-      <div class="add-row"><input type="date" id="hol-date" aria-label="Data"><input type="text" id="hol-name" placeholder="Nome (opcional)" aria-label="Nome"><button type="button" class="btn-line" id="hol-add">Adicionar</button></div>
-      <ul class="hol-list" id="hol-extras"></ul>
+  </section>
+
+  <section class="grp" aria-labelledby="g-ciclo">
+    <h3 id="g-ciclo">Ciclo</h3>
+    <div class="panel">
+      <div class="field"><label for="ciclo-mes">Mês de fechamento</label><input type="month" id="ciclo-mes"></div>
+      <div class="info" id="plan-info"></div>
     </div>
-    <p class="note2">Feriados nacionais são calculados para qualquer ano. Sábados e domingos nunca contam. Se o dia 27 não for útil, o ciclo fecha no dia útil anterior.</p>
-  </div>
+  </section>
 
-  <div class="dr-sec">
-    <h3>Aparência</h3>
-    <div class="themes" id="themes"></div>
-    <div class="field sw"><span class="lbl" id="som-l">Som ao bater a meta</span><input type="checkbox" id="som" role="switch" aria-labelledby="som-l"></div>
-    <button class="btn-line" type="button" id="btn-conf">Soltar confete</button>
-  </div>
+  <section class="grp" aria-labelledby="g-fer">
+    <h3 id="g-fer">Feriados e folgas</h3>
+    <div class="panel">
+      <div class="field"><span class="lbl">Feriados em dia útil neste ciclo</span><ul class="hol-list" id="hol-cycle"></ul></div>
+      <div class="sep"></div>
+      <div class="field"><span class="lbl">Pontos facultativos</span><small>Marque se a sua empresa dá folga.</small>
+        <label class="chk"><input type="checkbox" id="opt-carnaval"> Carnaval (segunda e terça)</label>
+        <label class="chk"><input type="checkbox" id="opt-corpus"> Corpus Christi</label>
+      </div>
+      <div class="sep"></div>
+      <div class="field"><span class="lbl">Adicionar feriado local ou folga</span>
+        <div class="add-row"><input type="date" id="hol-date" aria-label="Data"><input type="text" id="hol-name" placeholder="Nome (opcional)" aria-label="Nome"><button type="button" class="btn-line" id="hol-add">Adicionar</button></div>
+        <ul class="hol-list" id="hol-extras"></ul>
+      </div>
+    </div>
+    <p class="help">Feriados nacionais são calculados sozinhos. Sábado e domingo nunca contam. Se o dia 27 não for útil, o ciclo fecha no dia útil anterior.</p>
+  </section>
 
-  <div class="dr-sec">
-    <h3>Versão</h3>
-    <a class="btn-line" href="classico.html">Usar a versão clássica</a>
-    <p class="note2">As duas versões usam os mesmos dados salvos neste navegador.</p>
-  </div>
+  <section class="grp" aria-labelledby="g-ap">
+    <h3 id="g-ap">Aparência</h3>
+    <div class="panel">
+      <div class="field"><span class="lbl">Tema</span><div class="themes" id="themes"></div></div>
+      <div class="sep"></div>
+      <div class="field"><span class="lbl" id="pos-l">Conquistas</span>
+        <div class="seg" role="radiogroup" aria-labelledby="pos-l">
+          <label><input type="radio" name="achpos" value="top"><span>No topo</span></label>
+          <label><input type="radio" name="achpos" value="side"><span>Na lateral</span></label>
+          <label><input type="radio" name="achpos" value="off"><span>Ocultar</span></label>
+        </div>
+        <small>A lateral aparece em telas largas. Em telas menores, as conquistas ficam no topo.</small>
+      </div>
+      <div class="sep"></div>
+      <div class="sw"><div><span class="lbl" id="som-l">Som ao bater a meta</span></div><input type="checkbox" id="som" role="switch" aria-labelledby="som-l"></div>
+      <button class="btn-line" type="button" id="btn-conf">Soltar confete</button>
+    </div>
+  </section>
 
-  <div class="dr-sec">
-    <h3>Dados salvos</h3>
-    <p class="note2">Meta, pontos, perfil, tema, calendário e conquistas ficam neste navegador, nas duas versões. Apagar não tem volta.</p>
-    <button class="btn-line danger" type="button" id="btn-reset">Apagar dados salvos</button>
-  </div>
+  <section class="grp" aria-labelledby="g-ver">
+    <h3 id="g-ver">Versão e dados</h3>
+    <div class="panel">
+      <button class="btn-line" type="button" id="btn-tour">Ver a apresentação de novo</button>
+      <a class="btn-line" href="classico.html">Usar a versão clássica</a>
+      <small>As duas versões usam os mesmos dados salvos neste navegador.</small>
+      <div class="sep"></div>
+      <button class="btn-line danger" type="button" id="btn-reset">Apagar dados salvos</button>
+      <small>Apaga meta, pontos, perfil, tema, calendário e conquistas deste navegador, nas duas versões. Não tem volta.</small>
+    </div>
+  </section>
 </aside>
+
+<div class="ob" id="ob" role="dialog" aria-modal="true" aria-labelledby="ob-title" hidden>
+  <div class="ob-card">
+    <div class="ob-top"><div class="ob-dots" id="ob-dots" aria-hidden="true"></div><button type="button" class="link" id="ob-skip">Pular</button></div>
+
+    <section class="ob-step" data-step="0">
+      <div class="ob-hero"><img src="conquistas/p100.png" alt=""><img src="conquistas/dia.png" alt=""><img src="conquistas/p160.png" alt=""></div>
+      <h2 class="ob-h" id="ob-title">A Calculadora de Jobs está de cara nova</h2>
+      <p class="ob-p">Tudo o que você já usava continua aqui: sua meta, seus pontos, seu tema e suas conquistas. Só ficou mais fácil de ver o que importa.</p>
+      <ul class="ob-feats">
+        <li><img src="conquistas/dia.png" alt=""><span><b>Meta de hoje</b>Quantos pontos fazer hoje para fechar a meta no prazo.</span></li>
+        <li><img src="conquistas/start.png" alt=""><span><b>Registro do dia</b>Lance os pontos de hoje e acompanhe o dia e a semana.</span></li>
+        <li><img src="conquistas/p91.png" alt=""><span><b>Faixas e bônus</b>Uma barra mostra onde você está e quanto falta para a próxima faixa.</span></li>
+        <li><img src="conquistas/alvo.png" alt=""><span><b>Conquistas</b>Dez medalhas para ganhar a cada ciclo, com o progresso de cada uma.</span></li>
+      </ul>
+    </section>
+
+    <section class="ob-step" data-step="1" hidden>
+      <h2 class="ob-h">Como quer aparecer?</h2>
+      <p class="ob-p">Seu nome, sua foto e sua frase aparecem no topo e no card de story.</p>
+      <div class="ob-prof">
+        <label class="ob-ava" id="ob-ava" title="Escolher foto"><span id="ob-ph"></span><img id="ob-img" alt="" hidden><input type="file" id="ob-file" accept="image/*" hidden><em>Trocar foto</em></label>
+        <div class="ob-fields">
+          <div class="field"><label for="ob-nome">Seu nome</label><input type="text" id="ob-nome" maxlength="24" placeholder="Como você quer ser chamado" autocomplete="off"></div>
+          <div class="field"><label for="ob-frase">Sua frase</label><input type="text" id="ob-frase" maxlength="90" placeholder="Ex.: bora bater a meta" autocomplete="off"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ob-step" data-step="2" hidden>
+      <h2 class="ob-h">Escolha o seu tema</h2>
+      <p class="ob-p">A tela muda na hora. Dá para trocar quando quiser em Ajustes.</p>
+      <div class="themes ob-themes" id="ob-themes"></div>
+    </section>
+
+    <section class="ob-step" data-step="3" hidden>
+      <div class="ob-hero"><img src="conquistas/alvo.png" alt=""></div>
+      <h2 class="ob-h" id="ob-done-h">Tudo pronto!</h2>
+      <p class="ob-p">Três dicas para começar:</p>
+      <ul class="ob-feats">
+        <li><img src="conquistas/frente.png" alt=""><span><b>Registre todo dia</b>Digite os pontos no campo do topo. Aceita contas, como 30+50.</span></li>
+        <li><img src="conquistas/metade.png" alt=""><span><b>Esconda os números</b>O olho no canto do quadro escuro desfoca seus números.</span></li>
+        <li><img src="conquistas/verde.png" alt=""><span><b>Ajustes</b>Meta, feriados, tema, conquistas e a versão clássica ficam no botão Ajustes.</span></li>
+      </ul>
+    </section>
+
+    <div class="ob-nav"><button type="button" class="btn-line" id="ob-back">Voltar</button><button type="button" class="btn-brand" id="ob-next">Começar</button></div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -626,7 +750,7 @@ let SELOS_GANHOS=[],SEL=null;
 
 function medal(a,cls,pop){
   const r=29,C=2*Math.PI*r,p=a.ok?1:a.p,off=C*(1-p);
-  return `<span class="medal ${cls||''} ${a.ok?'on':''} ${a.gold?'gold':''} ${pop?'pop':''}"><svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle class="r-bg" cx="32" cy="32" r="${r}"/>${p>0?`<circle class="r-fg" cx="32" cy="32" r="${r}" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}" transform="rotate(-90 32 32)"/>`:''}</svg><span class="core">${icon(a.icon)}</span>${a.ok?'':`<span class="lock">${icon('lock')}</span>`}</span>`;
+  return `<span class="medal ${cls||''} ${a.ok?'on':''} ${a.gold?'gold':''} ${pop?'pop':''}"><svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle class="r-bg" cx="32" cy="32" r="${r}"/>${p>0?`<circle class="r-fg" cx="32" cy="32" r="${r}" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}" transform="rotate(-90 32 32)"/>`:''}</svg><span class="core"><img src="conquistas/${a.id}.png" alt=""></span>${a.ok?'':`<span class="lock">${icon('lock')}</span>`}</span>`;
 }
 
 function renderAch(L){
@@ -773,7 +897,8 @@ function paintAvatar(){const img=$('pf-img'),ph=$('pf-ph');img.hidden=!PERFIL.fo
 const nomeIn=$('pf-nome');nomeIn.value=PERFIL.nome||'';
 nomeIn.addEventListener('input',()=>{PERFIL.nome=nomeIn.value;savePerfil();paintAvatar()});
 nomeIn.addEventListener('keydown',e=>{if(e.key==='Enter')nomeIn.blur()});
-$('pf-file').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const sz=Math.min(im.width,im.height),cv=document.createElement('canvas');cv.width=cv.height=256;cv.getContext('2d').drawImage(im,(im.width-sz)/2,(im.height-sz)/2,sz,sz,0,0,256,256);PERFIL.foto=cv.toDataURL('image/jpeg',.85);savePerfil();paintAvatar()};im.src=r.result};r.readAsDataURL(f);e.target.value=''});
+function setFoto(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const sz=Math.min(im.width,im.height),cv=document.createElement('canvas');cv.width=cv.height=256;cv.getContext('2d').drawImage(im,(im.width-sz)/2,(im.height-sz)/2,sz,sz,0,0,256,256);PERFIL.foto=cv.toDataURL('image/jpeg',.85);savePerfil();paintAvatar();paintOb()};im.src=r.result};r.readAsDataURL(f);e.target.value=''}
+$('pf-file').addEventListener('change',setFoto);
 paintAvatar();
 (function(){const STS=[['#3DBB3D','Disponível'],['#E5484D','Ocupado'],['#F5B50A','Ausente'],['#9AA0A6','Invisível']];let st={text:'',i:0,...jGet('calc_status',{})};if(!(st.i>=0&&st.i<STS.length))st.i=0;const dot=$('msn-dot'),txt=$('msn-text');const save=()=>jSet('calc_status',st);const paint=()=>{dot.style.background=STS[st.i][0];dot.title=STS[st.i][1]+' (clique para mudar)'};txt.value=st.text||'';paint();dot.addEventListener('click',()=>{st.i=(st.i+1)%STS.length;paint();save()});txt.addEventListener('input',()=>{st.text=txt.value;save()});txt.addEventListener('keydown',e=>{if(e.key==='Enter')txt.blur()})})();
 
@@ -826,6 +951,10 @@ $('hol-extras').addEventListener('click',e=>{const b=e.target.closest('[data-rm]
 const som=$('som');som.checked=SOM;som.addEventListener('change',()=>{SOM=som.checked;lsSet('calc_som',SOM?'1':'0');tocarPlim()});
 $('btn-conf').addEventListener('click',()=>{closeSet();soltarConfete()});
 $('eye').addEventListener('click',()=>{MASK=!MASK;lsSet('calc_ocultar',MASK?'1':'0');render()});
+const POS=['top','side','off'];
+function setPos(v){if(!POS.includes(v))v='side';POS.forEach(p=>document.documentElement.classList.toggle('ach-'+p,p===v));lsSet('calc_conquistas_pos',v);document.querySelectorAll('input[name="achpos"]').forEach(r=>{r.checked=r.value===v})}
+setPos(lsGet('calc_conquistas_pos')||'side');
+document.querySelectorAll('input[name="achpos"]').forEach(r=>r.addEventListener('change',()=>setPos(r.value)));
 document.querySelector('.ach').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b){SEL=b.dataset.id;render()}});
 
 /* seções abertas/fechadas */
@@ -852,7 +981,6 @@ $('btn-reset').addEventListener('click',()=>{
 /* ── card para story (igual à clássica, com os ícones novos) ── */
 const STORY={skyline:{bg:['#0560E1','#050E21'],fg:'#FFFFFF',ac:'#FFD21F',card:'rgba(255,255,255,.12)',line:null,sh:null,f:'Sora'},rosa:{bg:['#FFE9EF','#FFB8CB'],fg:'#8A3552',ac:'#D9567A',card:'rgba(255,255,255,.8)',line:'#F3BCCB',sh:'#F3BCCB',f:'Quicksand'},vegan:{bg:['#1F5C69','#5F8F2A'],fg:'#FCF6E2',ac:'#F2C25B',card:'rgba(252,246,226,.14)',line:null,sh:null,f:'Nunito'},vegan2:{bg:['#DDEBC0','#94B26B'],fg:'#2F4A1F',ac:'#C4513F',card:'#FFF8E6',line:'#4F6B3A',sh:'#4F6B3A',f:'Gaegu'},batman:{bg:['#262210','#0B0B0B'],fg:'#FFFFFF',ac:'#F5C518',card:'#161616',line:'#2B2B2B',sh:null,f:'Sora'},neo:{bg:['#FFD21F','#FFD21F'],fg:'#0A0A0A',ac:'#FF4D7E',card:'#FFFDF8',line:'#0A0A0A',sh:'#0A0A0A',f:'Space Grotesk'},cassio:{bg:['#E8EFE1','#E8EFE1'],fg:'#1A1A1A',ac:'#1A1A1A',card:'rgba(0,0,0,0)',line:'#1A1A1A',sh:null,f:'Space Mono'}};
 function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
-function drawIcon(c,name,cx,cy,size,col){c.save();c.translate(cx-size/2,cy-size/2);c.scale(size/24,size/24);c.lineWidth=1.8;c.lineCap='round';c.lineJoin='round';c.strokeStyle=col;c.fillStyle=col;IC[name].forEach(p=>{const path=new Path2D(p[0]);p[1]?c.fill(path):c.stroke(path)});c.restore()}
 async function gerarStory(){
   const L=LAST;if(!L)return;
   const th=document.documentElement.dataset.theme||'skyline',P=STORY[th]||STORY.skyline;
@@ -889,7 +1017,11 @@ async function gerarStory(){
   let y=sY+330;
   if(L.okHoje){T('Meta do dia batida',W/2,y,F(700,42),P.ac,'center');y+=90}
   const gan=SELOS_GANHOS.slice(0,8);
-  if(gan.length){const r=44,gap=112,x0=W/2-(gan.length-1)*gap/2;gan.forEach((s,i)=>{const x=x0+i*gap,yy=y+30;c.beginPath();c.arc(x,yy,r,0,7);c.fillStyle=P.card;c.fill();c.lineWidth=5;c.strokeStyle=s.gold?'#E7BC52':P.ac;c.stroke();drawIcon(c,s.icon,x,yy,44,P.fg)})}
+  if(gan.length){
+    const ims=await Promise.all(gan.map(s=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src='conquistas/'+s.id+'.png'})));
+    const r=50,gap=118,x0=W/2-(gan.length-1)*gap/2;
+    gan.forEach((s,i)=>{const x=x0+i*gap,yy=y+40;c.beginPath();c.arc(x,yy,r,0,7);c.fillStyle='#FFFFFF';c.fill();c.lineWidth=5;c.strokeStyle=s.gold?'#E7BC52':P.ac;c.stroke();if(ims[i])c.drawImage(ims[i],x-36,yy-36,72,72)});
+  }
   T(new Date().toLocaleDateString('pt-BR'),80,H-80,F(600,30),P.fg);T('Calculadora de Jobs',W-80,H-80,F(600,30),P.fg,'right');
   mostrarStory(cv);
 }
@@ -909,7 +1041,38 @@ $('story-btn').addEventListener('click',gerarStory);
 let dia=dkey(hoje0());
 setInterval(()=>{const k=dkey(hoje0());if(k!==dia){dia=k;cicloSel=defaultCiclo();mes.value=cicloSel;render()}},60000);
 
+/* ── apresentação: aparece uma vez para cada pessoa; não apaga nenhum dado ── */
+const OB_KEY='calc_onboarding_v1',ob=$('ob'),steps=[...ob.querySelectorAll('.ob-step')];let obI=0;
+$('ob-themes').innerHTML=$('themes').innerHTML;
+function paintOb(){
+  const img=$('ob-img'),ph=$('ob-ph');img.hidden=!PERFIL.foto;ph.hidden=!!PERFIL.foto;if(PERFIL.foto)img.src=PERFIL.foto;
+  ph.innerHTML=(PERFIL.nome||'').trim()?esc(PERFIL.nome.trim().charAt(0).toUpperCase()):icon('camera','ico');
+  document.querySelectorAll('#ob-themes .theme-opt').forEach(b=>b.classList.toggle('on',b.dataset.t===document.documentElement.dataset.theme));
+}
+function obGo(i){
+  obI=Math.max(0,Math.min(steps.length-1,i));
+  steps.forEach((s,k)=>{s.hidden=k!==obI});
+  $('ob-dots').innerHTML=steps.map((_,k)=>`<i class="${k===obI?'on':''}"></i>`).join('');
+  $('ob-back').style.visibility=obI===0?'hidden':'visible';
+  $('ob-next').textContent=obI===0?'Começar':obI===steps.length-1?'Ir para a calculadora':'Continuar';
+  $('ob-skip').hidden=obI===steps.length-1;
+  if(obI===steps.length-1){const n=(PERFIL.nome||'').trim();$('ob-done-h').textContent=n?`Tudo pronto, ${n}!`:'Tudo pronto!'}
+  paintOb();
+}
+function obOpen(){closeSet();$('ob-nome').value=PERFIL.nome||'';$('ob-frase').value=$('msn-text').value;ob.hidden=false;obGo(0);setTimeout(()=>$('ob-next').focus(),50)}
+function obClose(){ob.hidden=true;lsSet(OB_KEY,'1')}
+$('ob-next').addEventListener('click',()=>{if(obI===steps.length-1){obClose();soltarConfete();return}obGo(obI+1);if(obI===1)setTimeout(()=>$('ob-nome').focus(),50)});
+$('ob-back').addEventListener('click',()=>obGo(obI-1));
+$('ob-skip').addEventListener('click',obClose);
+ob.addEventListener('keydown',e=>{if(e.key==='Escape')obClose()});
+$('ob-nome').addEventListener('input',e=>{nomeIn.value=e.target.value;nomeIn.dispatchEvent(new Event('input'));paintOb()});
+$('ob-frase').addEventListener('input',e=>{const t=$('msn-text');t.value=e.target.value;t.dispatchEvent(new Event('input'))});
+$('ob-file').addEventListener('change',setFoto);
+$('ob-themes').addEventListener('click',e=>{const b=e.target.closest('.theme-opt');if(b){setTheme(b.dataset.t);paintOb()}});
+$('btn-tour').addEventListener('click',obOpen);
+
 render();
+if(lsGet(OB_KEY)!=='1')obOpen();
 })();
 </script>
 </body>
