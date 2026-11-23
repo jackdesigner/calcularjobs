@@ -95,7 +95,17 @@ button,input,select{font:inherit;color:inherit}
 .hs{display:grid;gap:6px;align-content:start;min-width:0}
 .hs:first-child{padding-right:24px}
 .hs+.hs{border-left:1px solid var(--hero-line);padding-left:24px}
-.hs-l{font-size:13px;font-weight:700;color:var(--hero-muted)}
+.hs-l{font-size:13px;font-weight:700;color:var(--hero-muted);display:flex;align-items:center;gap:8px;min-height:26px}
+.edit-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--hero-line);background:var(--hero-field);color:var(--hero-ink);display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
+.edit-btn:hover{border-color:var(--hero-accent)}
+.edit-btn svg{width:13px;height:13px}
+.edit-row{display:grid;gap:6px}
+.edit-row>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.edit-row input{width:min(160px,100%);height:46px;border-radius:12px;border:1px solid var(--hero-accent);background:var(--hero-field);color:var(--hero-ink);padding:0 12px;font-size:22px;font-weight:800;outline:none}
+.edit-row .btn-brand{height:46px;padding:0 16px}
+.edit-row .hint{font-size:12.5px;font-weight:700;color:var(--hero-accent);min-height:16px}
+.edit-row .hint.err{color:var(--warn)}
+.btn-x{background:none;border:0;padding:0;cursor:pointer;color:var(--hero-muted);text-decoration:underline;text-underline-offset:3px;font-size:13.5px}
 .big{font-family:var(--font-h);font-size:clamp(38px,8.5vw,64px);font-weight:800;line-height:1;letter-spacing:-.03em}
 .big small{font-size:18px;font-weight:600;letter-spacing:0;color:var(--hero-muted);margin-left:6px}
 .big.word{font-size:clamp(28px,5.5vw,40px);letter-spacing:-.02em}
@@ -401,7 +411,15 @@ footer a{color:inherit}
       </div>
       <div class="hero-stats">
         <div class="hs"><p class="hs-l" id="h-l1">Meta de hoje</p><p class="big num sens" id="h-big"></p><p class="hs-sub sens" id="h-sub"></p></div>
-        <div class="hs"><p class="hs-l">Feito no ciclo</p><p class="big num sens" id="h-feitos"></p><p class="hs-sub sens" id="h-sub2"></p></div>
+        <div class="hs">
+          <p class="hs-l">Feito no ciclo <button class="edit-btn" id="edit-feitos" type="button" aria-label="Editar o total feito no ciclo" title="Editar o total"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg></button></p>
+          <p class="big num sens" id="h-feitos"></p>
+          <form class="edit-row" id="edit-form" novalidate hidden>
+            <div><input id="edit-in" type="text" inputmode="decimal" autocomplete="off" aria-label="Total feito no ciclo"><button type="submit" class="btn-brand">Salvar</button><button type="button" class="btn-x" id="edit-cancel">Cancelar</button></div>
+            <span class="hint" id="edit-hint"></span>
+          </form>
+          <p class="hs-sub sens" id="h-sub2"></p>
+        </div>
       </div>
       <div class="today" id="h-today">
         <div class="today-top"><span>Feito hoje</span><strong class="num sens" id="t-val"></strong></div>
@@ -953,6 +971,26 @@ $('hol-extras').addEventListener('click',e=>{const b=e.target.closest('[data-rm]
 const som=$('som');som.checked=SOM;som.addEventListener('change',()=>{SOM=som.checked;lsSet('calc_som',SOM?'1':'0');tocarPlim()});
 $('btn-conf').addEventListener('click',()=>{closeSet();soltarConfete()});
 $('eye').addEventListener('click',()=>{MASK=!MASK;lsSet('calc_ocultar',MASK?'1':'0');render()});
+
+/* editar o total feito no ciclo direto no quadro (aceita contas, como "+100") */
+const editForm=$('edit-form'),editIn=$('edit-in'),editHint=$('edit-hint');
+function closeEdit(){editForm.hidden=true;$('h-feitos').hidden=false;editHint.textContent='';$('edit-feitos').focus()}
+$('edit-feitos').addEventListener('click',()=>{
+  if(!editForm.hidden){closeEdit();return}
+  editIn.value=String(state.pontos);$('h-feitos').hidden=true;editForm.hidden=false;editIn.focus();editIn.select();
+});
+$('edit-cancel').addEventListener('click',closeEdit);
+editIn.addEventListener('keydown',e=>{if(e.key==='Escape')closeEdit()});
+editIn.addEventListener('input',()=>{if(!isExpression(editIn.value)){editHint.textContent='';editHint.className='hint';return}const r=evalExpr(editIn.value,state.pontos);editHint.className=r.ok?'hint':'hint err';editHint.textContent=r.ok?'= '+fmt(Math.round(r.value))+' pts':r.msg});
+editForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const raw=editIn.value.trim(),r=raw===''?{ok:true,value:0}:evalExpr(raw,state.pontos);
+  if(!r.ok){editHint.className='hint err';editHint.textContent=r.msg||'Digite um número.';editIn.focus();return}
+  const v=Math.round(r.value);
+  state.pontos=v;saveNum('pontos');$('pontos').value=v?String(v):'';
+  const tk=dkey(hoje0());if(regDia(tk)>v){REG.log[tk]=v;REG.hist={date:tk,list:[]};saveReg()}
+  closeEdit();render();toast(`Total do ciclo ajustado para ${fmt(v)} pts`);
+});
 const POS=['top','side','off'];
 function setPos(v){if(!POS.includes(v))v='side';POS.forEach(p=>document.documentElement.classList.toggle('ach-'+p,p===v));lsSet('calc_conquistas_pos',v);document.querySelectorAll('input[name="achpos"]').forEach(r=>{r.checked=r.value===v})}
 setPos(lsGet('calc_conquistas_pos')||'side');
