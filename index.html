@@ -145,11 +145,12 @@ h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;
 .goal{position:absolute;top:-6px;bottom:-6px;width:2px;margin-left:-1px;background:var(--ink);border-radius:2px}
 .pin{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:var(--solid);border:5px solid var(--brand);transform:translate(-50%,-50%);transition:left .6s cubic-bezier(.2,.8,.2,1)}
 .marker{position:absolute;top:-36px;transform:translateX(-50%);font-size:12px;font-weight:700;background:var(--ink);color:var(--solid);padding:3px 10px;border-radius:999px;white-space:nowrap;transition:left .6s cubic-bezier(.2,.8,.2,1)}
-.ticks{position:relative;height:32px;margin-top:12px;font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.25}
-.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap;text-align:center}
+.bar-zone{padding-bottom:4px}
+.ticks{position:relative;height:18px;margin-top:12px;font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.25}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap;text-align:center;opacity:0;transition:opacity .3s}
 .ticks span.first{transform:none}
-.ticks span.goal-t{color:var(--ink);font-weight:800}
-.ticks span.goal-t small{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ticks span.goal-t{color:var(--ink);font-weight:800;opacity:1}
+.bar-zone.show .ticks span{opacity:1}
 @media (max-width:900px){.ticks span.near{display:none}}
 .fx-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .fx{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
@@ -437,10 +438,12 @@ footer a{color:inherit}
 
     <section class="card" aria-labelledby="c-h">
       <div class="card-h"><h2 id="c-h">Faixas do ciclo</h2><span class="meta-r" id="c-dias"></span></div>
-      <div class="tw" aria-hidden="true">
-        <div class="track" id="track"></div><div class="goal" id="goal"></div><div class="pin" id="pin"></div><div class="marker num sens" id="marker"></div>
+      <div class="bar-zone" id="bar-zone" title="Passe o mouse para ver todas as faixas">
+        <div class="tw" aria-hidden="true">
+          <div class="track" id="track"></div><div class="goal" id="goal"></div><div class="pin" id="pin"></div><div class="marker num sens" id="marker"></div>
+        </div>
+        <div class="ticks num" id="ticks" aria-hidden="true"></div>
       </div>
-      <div class="ticks num" id="ticks" aria-hidden="true"></div>
       <div class="fx-row" id="fx-row"></div>
       <p class="note" id="c-note"></p>
     </section>
@@ -824,8 +827,8 @@ function renderCycle(L){
   $('track').innerHTML=`<div class="band" style="left:${pos(lo)}%;width:${pos(hi)-pos(lo)}%"></div><div class="fill" style="width:${pos(L.pct)}%"></div>`+BANDS.slice(1).map(b=>`<div class="div" style="left:${pos(b.pct)}%"></div>`).join('');
   $('goal').style.left=pos(PREFS.alvo)+'%';
   $('pin').style.left=pos(L.pct)+'%';
-  const m=$('marker');m.style.left=Math.max(8,Math.min(92,pos(L.pct)))+'%';m.textContent='Você · '+fpct(L.pct);
-  $('ticks').innerHTML=BANDS.map((b,i)=>{const g=b.pct===PREFS.alvo,minor=i>=2&&i<=5&&!g,near=!g&&(Math.abs(b.pct-PREFS.alvo)<12||b.pct===91);return `<span class="${minor?'minor':''} ${near?'near':''} ${g?'goal-t':''} ${i===0?'first':''}" style="left:${pos(b.pct)}%">${i===BANDS.length-1?'160%+':b.pct+'%'}${g?'<small>alvo</small>':''}</span>`}).join('');
+  const m=$('marker');m.style.left=Math.max(8,Math.min(92,pos(L.pct)))+'%';m.textContent='Atual · '+fpct(L.pct);
+  $('ticks').innerHTML=BANDS.map((b,i)=>{const g=b.pct===PREFS.alvo,minor=i>=2&&i<=5&&!g,near=!g&&(Math.abs(b.pct-PREFS.alvo)<12||b.pct===91);return `<span class="${minor?'minor':''} ${near?'near':''} ${g?'goal-t':''} ${i===0?'first':''}" style="left:${pos(b.pct)}%">${i===BANDS.length-1?'160%+':b.pct+'%'}</span>`}).join('');
   const cb=BANDS[L.cur];
   $('fx-row').innerHTML=`<div class="fx"><small>Faixa atual</small><strong>${cb.label}</strong><span>bônus ${cb.bonus}</span></div>`+(L.next!=null?`<div class="fx next"><small>Próxima faixa</small><strong>${BANDS[L.next].label}</strong><span>bônus ${BANDS[L.next].bonus} · faltam <b class="num sens">${fmt(L.mins[L.next]-L.pontos)} pts</b></span></div>`:`<div class="fx next"><small>Próxima faixa</small><strong>Você está no topo</strong><span>bônus máximo de ${cb.bonus}</span></div>`);
   const pd=L.total?fmt1(L.alvoPts/L.total):'—';
@@ -971,6 +974,16 @@ $('hol-extras').addEventListener('click',e=>{const b=e.target.closest('[data-rm]
 const som=$('som');som.checked=SOM;som.addEventListener('change',()=>{SOM=som.checked;lsSet('calc_som',SOM?'1':'0');tocarPlim()});
 $('btn-conf').addEventListener('click',()=>{closeSet();soltarConfete()});
 $('eye').addEventListener('click',()=>{MASK=!MASK;lsSet('calc_ocultar',MASK?'1':'0');render()});
+
+/* barra de faixas: só o % do alvo fica visível; os outros aparecem no hover (ou toque) e somem 5 s depois */
+(function(){
+  const zone=$('bar-zone');let t=null;
+  const show=()=>{clearTimeout(t);zone.classList.add('show')};
+  const hideLater=()=>{clearTimeout(t);t=setTimeout(()=>zone.classList.remove('show'),5000)};
+  zone.addEventListener('mouseenter',show);
+  zone.addEventListener('mouseleave',hideLater);
+  zone.addEventListener('touchstart',()=>{show();hideLater()},{passive:true});
+})();
 
 /* editar o total feito no ciclo direto no quadro (aceita contas, como "+100") */
 const editForm=$('edit-form'),editIn=$('edit-in'),editHint=$('edit-hint');
