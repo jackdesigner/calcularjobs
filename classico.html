@@ -1679,6 +1679,10 @@
         add(addDays(p, -47), 'Carnaval (terça)', 'carnaval');
         add(addDays(p, 60), 'Corpus Christi', 'corpus');
       });
+      // férias coletivas (valem para todos; mesma regra da versão nova)
+      [{ ini: '2026-12-21', fim: '2027-01-01', name: 'Férias coletivas' }].forEach(f => {
+        for (let d = new Date(f.ini + 'T00:00:00'); dkey(d) <= f.fim; d = addDays(d, 1)) { const k = dkey(d); if (!m[k]) m[k] = { name: f.name }; }
+      });
       PREFS.extras.forEach(e => { m[e.date] = { name: e.name || 'Folga', extra: true }; });
       return m;
     }

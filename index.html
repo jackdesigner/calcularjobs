@@ -663,6 +663,8 @@ let PREFS={opc:{carnaval:false,corpus:false},extras:[],alvo:100,hoje:true};
 (()=>{const r=jGet('calc_plano',null);if(r&&typeof r==='object')PREFS={...PREFS,...r,opc:{...PREFS.opc,...(r.opc||{})}};if(!Array.isArray(PREFS.extras))PREFS.extras=[];})();
 const savePrefs=()=>jSet('calc_plano',PREFS);
 
+/* férias coletivas (valem para todos; não aparecem como dia útil) */
+const FERIAS=[{ini:'2026-12-21',fim:'2027-01-01',name:'Férias coletivas'}];
 function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),t=h+l-7*m+114;return new Date(y,Math.floor(t/31)-1,(t%31)+1)}
 function holidayMap(year){
   const m={};
@@ -673,10 +675,13 @@ function holidayMap(year){
     add(new Date(y,10,15),'Proclamação da República');if(y>=2024)add(new Date(y,10,20),'Consciência Negra');add(new Date(y,11,25),'Natal');
     const p=easter(y);add(addDays(p,-2),'Sexta-feira Santa');add(addDays(p,-48),'Carnaval (segunda)','carnaval');add(addDays(p,-47),'Carnaval (terça)','carnaval');add(addDays(p,60),'Corpus Christi','corpus');
   });
+  FERIAS.forEach(f=>{for(let d=new Date(f.ini+'T00:00:00');dkey(d)<=f.fim;d=addDays(d,1)){const k=dkey(d);if(!m[k])m[k]={name:f.name,ferias:true}}});
   PREFS.extras.forEach(e=>{m[e.date]={name:e.name||'Folga',extra:true}});
   return m;
 }
 const isBusiness=(d,hm)=>d.getDay()!==0&&d.getDay()!==6&&!hm[dkey(d)];
+const feriasNoCiclo=c=>FERIAS.filter(f=>f.ini<=dkey(c.raw>c.end?c.raw:c.end)&&f.fim>=dkey(c.start));
+const fmtISO=s=>s.slice(8,10)+'/'+s.slice(5,7);
 function closeDate(y,m,hm){let d=new Date(y,m,27);while(!isBusiness(d,hm))d=addDays(d,-1);return d}
 function getCycle(sel){const[y,mo]=sel.split('-').map(Number);const hm=holidayMap(y);const end=closeDate(y,mo-1,hm),prev=closeDate(y,mo-2,hm);return {hm,end,prev,start:addDays(prev,1),raw:new Date(y,mo-1,27),rawPrev:new Date(y,mo-2,27)}}
 function defaultCiclo(){const t=hoje0(),hm=holidayMap(t.getFullYear());for(let o=0;o<=1;o++){const d=new Date(t.getFullYear(),t.getMonth()+o,1);if(closeDate(d.getFullYear(),d.getMonth(),hm)>=t)return `${d.getFullYear()}-${pad(d.getMonth()+1)}`}return `${t.getFullYear()}-${pad(t.getMonth()+1)}`}
@@ -822,7 +827,8 @@ function renderHero(L){
 }
 function renderCycle(L){
   const pos=p=>Math.min(p,SCALE)/SCALE*100;
-  $('c-dias').textContent=L.T>L.cyc.end?'ciclo encerrado':`${L.rem} ${L.rem===1?'dia útil restante':'dias úteis restantes'}`;
+  const fer=feriasNoCiclo(L.cyc).map(f=>`férias coletivas ${fmtISO(f.ini)} a ${fmtISO(f.fim)} já descontadas`).join(' · ');
+  $('c-dias').textContent=(L.T>L.cyc.end?'ciclo encerrado':`${L.rem} ${L.rem===1?'dia útil restante':'dias úteis restantes'}`)+(fer?' · '+fer:'');
   const lo=BANDS[L.cur].pct,hi=L.next!=null?BANDS[L.next].pct:SCALE;
   $('track').innerHTML=`<div class="band" style="left:${pos(lo)}%;width:${pos(hi)-pos(lo)}%"></div><div class="fill" style="width:${pos(L.pct)}%"></div>`+BANDS.slice(1).map(b=>`<div class="div" style="left:${pos(b.pct)}%"></div>`).join('');
   $('goal').style.left=pos(PREFS.alvo)+'%';
@@ -837,12 +843,13 @@ function renderCycle(L){
 function renderWeek(L){
   const w0=L.week[0].d,w4=L.week[4].d;
   $('w-title').textContent=`${L.week.some(w=>w.today)?'Esta semana':'Próxima semana'} · ${fmtD(w0)} a ${fmtD(w4)}`;
-  $('days').innerHTML=L.week.map(w=>{const tag=w.hol?(w.hol.extra?'folga':'feriado'):!w.biz?'fora do ciclo':w.today?(PREFS.hoje?'hoje':'não conta'):'';return `<div class="day ${w.today?'today':''} ${!w.biz?'off':''} ${w.past&&!w.today?'past':''}" title="${w.hol?esc(w.hol.name):''}"><small>${cap(DIAS[w.d.getDay()])}</small><strong class="num">${pad(w.d.getDate())}</strong><em>${tag||'&nbsp;'}</em></div>`}).join('');
+  $('days').innerHTML=L.week.map(w=>{const tag=w.hol?(w.hol.extra?'folga':w.hol.ferias?'férias':'feriado'):!w.biz?'fora do ciclo':w.today?(PREFS.hoje?'hoje':'não conta'):'';return `<div class="day ${w.today?'today':''} ${!w.biz?'off':''} ${w.past&&!w.today?'past':''}" title="${w.hol?esc(w.hol.name):''}"><small>${cap(DIAS[w.d.getDay()])}</small><strong class="num">${pad(w.d.getDate())}</strong><em>${tag||'&nbsp;'}</em></div>`}).join('');
   if(!L.weekBiz.length){$('w-sum').textContent='Sem dias úteis do ciclo nesta semana';$('w-mini').style.width='0';$('w-txt').textContent='';return}
   const p=L.weekTarget>0?Math.min(1,L.weekDone/L.weekTarget):1;
   $('w-sum').textContent=`${fmt(L.weekDone)} de ${fmt(L.weekTarget)} pts · ${L.weekBiz.length} dias úteis`;
   $('w-mini').style.width=p*100+'%';
-  const hols=L.week.filter(w=>w.hol).map(w=>`${DIAS[w.d.getDay()]} ${fmtD(w.d)} é ${w.hol.extra?'folga':'feriado'} (${w.hol.name})`);
+  const hols=L.week.filter(w=>w.hol&&!w.hol.ferias).map(w=>`${DIAS[w.d.getDay()]} ${fmtD(w.d)} é ${w.hol.extra?'folga':'feriado'} (${w.hol.name})`);
+  if(L.week.some(w=>w.hol&&w.hol.ferias))hols.push('Os dias marcados como férias não contam');
   $('w-txt').textContent=(L.needDay?`Meta da semana no novo ritmo: ${fmt(L.needDay)} pts por dia nos ${L.remWeek} dias úteis que restam. `:'')+`O "feito na semana" soma os pontos registrados aqui em cada dia.`+(hols.length?' '+hols.join('; ')+'.':'');
 }
 function renderTables(L){
@@ -871,7 +878,8 @@ function renderTables(L){
 function renderDrawer(L){
   const c=L.cyc;
   $('plan-info').innerHTML=L.total?`<b>Janela:</b> ${fmtLong(L.days[0])} → ${fmtLong(c.end)} · <b>${L.total} dias úteis</b> (${L.rem} restantes)<br>Fechamento anterior: <b>${fmtLong(c.prev)}</b>${shiftNote(c.rawPrev,c.prev,L.hm)}<br>Fechamento deste ciclo: <b>${fmtLong(c.end)}</b>${shiftNote(c.raw,c.end,L.hm)}`:'Sem dias úteis neste ciclo.';
-  const hl=[];for(let d=c.start;d<=c.end;d=addDays(d,1)){const h=L.hm[dkey(d)];if(h&&d.getDay()!==0&&d.getDay()!==6)hl.push(`<li><span><b>${fmtLong(d)}</b> — ${esc(h.name)}</span><span>${h.extra?'adicionado por você':h.opt?'facultativo':''}</span></li>`)}
+  const hl=[];for(let d=c.start;d<=c.end;d=addDays(d,1)){const h=L.hm[dkey(d)];if(h&&!h.ferias&&d.getDay()!==0&&d.getDay()!==6)hl.push(`<li><span><b>${fmtLong(d)}</b> — ${esc(h.name)}</span><span>${h.extra?'adicionado por você':h.opt?'facultativo':''}</span></li>`)}
+  feriasNoCiclo(c).forEach(f=>hl.unshift(`<li><span><b>${fmtISO(f.ini)} a ${fmtISO(f.fim)}</b> — ${esc(f.name)}</span><span>para todos</span></li>`));
   $('hol-cycle').innerHTML=hl.length?hl.join(''):'<li><span>Nenhum feriado em dia útil neste ciclo.</span></li>';
   $('hol-extras').innerHTML=PREFS.extras.length?PREFS.extras.map((e,i)=>`<li><span>${e.date.split('-').reverse().join('/')} — ${esc(e.name||'Folga')}</span><button type="button" data-rm="${i}" aria-label="Remover">Remover</button></li>`).join(''):'<li><span>Nenhum feriado extra cadastrado.</span></li>';
 }
